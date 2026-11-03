@@ -154,6 +154,24 @@ h1 .ln>span{display:inline-block;transform:translateY(110%) rotate(6deg);animati
 @keyframes eq{50%{transform:scaleY(.3)}}.eq i{transform-origin:bottom}
 .sbtn.off .eq i{animation:none;height:3px!important;background:#8d89a3}
 @media(max-width:940px){.sbtn{margin-left:auto}.menu{margin-left:8px}}
+.card .q span{display:grid;line-height:1.2}.card .q small{font:500 12.5px var(--T);color:var(--mut)}
+.qm{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;background:rgba(4,3,8,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
+.qm.on{opacity:1;pointer-events:auto}
+.qm-in{width:min(680px,100%);max-height:calc(100svh - 32px);overflow:auto;padding:22px;border-radius:28px;background:linear-gradient(150deg,rgba(40,32,64,.94),rgba(14,12,22,.96));transform:translateY(30px) scale(.96) rotateX(8deg);transition:transform .45s cubic-bezier(.2,1,.3,1);overscroll-behavior:contain}
+.qm.on .qm-in{transform:none}
+.qm-h{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.1)}
+.qm-h .mono{background:linear-gradient(90deg,var(--c1),var(--c2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.qm-h h3{font:800 clamp(20px,3vw,26px)/1.15 var(--D);margin:6px 0 0;letter-spacing:-.02em}
+.qm-x{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:16px;flex:none}
+.qm-f{display:grid;gap:14px;padding:0}
+.qf[hidden]{display:none!important}
+.ql{display:block;font:600 11px var(--M);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
+.qchips{display:flex;flex-wrap:wrap;gap:8px}
+.qchips button{padding:9px 14px;border-radius:99px;border:0;cursor:pointer;color:#d9d6ea;font:600 14px var(--T);background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);transition:all .2s}
+.qchips button.on{color:#fff;background:linear-gradient(135deg,var(--c1),var(--c2));box-shadow:0 8px 20px -8px var(--c1)}
+.qm-go{width:100%}
+.qm-n{margin:0;text-align:center;color:var(--mut);font-size:13.5px}
+.qm-lock,.qm-lock body{overflow:hidden}
 /* clients */
 .who{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
 .who span{padding:13px 22px;border-radius:99px;font:600 clamp(15px,1.7vw,19px) var(--T);background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:all .3s}
@@ -425,7 +443,7 @@ if (LITE) document.documentElement.classList.add("lite");
 const FINE = matchMedia("(pointer:fine)").matches;
 $("#yr").textContent = new Date().getFullYear();
 /* content */
-$("#grid").innerHTML = SERVICES.map(([cat, name, ic, d, price], i) => `<article class="card gl glare rv" data-cat="${cat}" style="--c1:${CAT[cat][1]};--c2:${CAT[cat][2]}"><div class="tp"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICON[ic]}</svg></div><span class="cat">${CAT[cat][0]}</span></div><span class="no">CLIP ${String(i + 1).padStart(2, "0")}</span><h3>${esc(name)}</h3><p>${esc(d)}</p><a class="q" href="#" data-wa="Hello Flow Studio, I'm interested in your &quot;${esc(name)}&quot; service. Here are my project details:">${esc(price)}<b>→</b></a></article>`).join("");
+$("#grid").innerHTML = SERVICES.map(([cat, name, ic, d, price], i) => `<article class="card gl glare rv" data-cat="${cat}" style="--c1:${CAT[cat][1]};--c2:${CAT[cat][2]}"><div class="tp"><div class="orb"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">${ICON[ic]}</svg></div><span class="cat">${CAT[cat][0]}</span></div><span class="no">CLIP ${String(i + 1).padStart(2, "0")}</span><h3>${esc(name)}</h3><p>${esc(d)}</p><a class="q" href="#" data-quote="${i}"><span>Get quotation<small>${esc(price)}</small></span><b>→</b></a></article>`).join("");
 $("#bS").innerHTML = SERVICES.map(s => `<option>${esc(s[1])}</option>`).join("") + "<option>Not sure, need advice</option>";
 $$("#chips button").forEach(b => b.onclick = () => { $$("#chips button").forEach(x => x.classList.toggle("on", x === b)); const f = b.dataset.f; $$("#grid .card").forEach(c => c.hidden = f !== "all" && c.dataset.cat !== f); });
 const cols = ["#ffd43b", "#ff3d9a", "#3b82ff", "#22d37f", "#ff8a1f", "#9b5cff"];
@@ -434,6 +452,66 @@ const mw = ["Reels", "Shorts", "Ads", "Logos", "Brand kits", "Podcasts", "Produc
 $("#mq").innerHTML = [...mw, ...mw].map(w => `<span>${w}</span>`).join("");
 $("#screen").insertAdjacentHTML("beforeend", STEPS.map((s, i) => `<div class="scn" style="background:${s[3]}"><div><b>0${i + 1}</b><small>${esc(s[0]).toUpperCase()}</small></div></div>`).join(""));
 $("#marks").innerHTML = STEPS.map((s, i) => `<button type="button" data-st="${i}" style="--c:${s[2]}"><small>0${i + 1} · ${["00:00", "00:15", "00:30", "00:45"][i]}</small><b>${esc(s[0])}</b></button>`).join("");
+/* ---------- Quotation: every service card opens a short brief that is sent to us on WhatsApp ---------- */
+const BUDGETS = ["Not sure yet", "Under ₹5,000", "₹5,000 – ₹15,000", "₹15,000 – ₹50,000", "₹50,000 – ₹1,00,000", "₹1,00,000+", "Monthly plan"];
+const WHEN = ["Flexible", "Urgent (2–3 days)", "This week", "Within 2 weeks", "This month"];
+const REEL = ["30 seconds", "90 seconds", "120 seconds", "3 minutes"];
+const RAW = ["Under 10 minutes", "10–30 minutes", "30–60 minutes", "1–2 hours", "2–4 hours", "4 hours +"];
+const FINAL = ["1–3 minutes", "3–5 minutes", "5–10 minutes", "10–20 minutes", "20–40 minutes", "40 minutes +"];
+const COUNT = ["1", "2–3", "4–6", "7–10", "10–20", "20 +"];
+/* extra questions per service (index matches SERVICES) */
+const QX = [
+  [["fmt", "What do you need?", ["Reels / Shorts", "Long video", "Both"], "chips"], ["reel", "Reel length", REEL, "chips", "reel"], ["final", "Final long video length", FINAL, "select", "long"], ["shoot", "Shoot time", ["2–3 hours", "Half day (4–5 h)", "Full day (8–10 h)", "2 days +"], "select"], ["count", "How many videos?", COUNT, "select"], ["city", "Shoot city / location", "", "text"]],
+  [["fmt", "What do you need?", ["Reels / Shorts", "Long video", "Both"], "chips"], ["reel", "Reel length", REEL, "chips", "reel"], ["raw", "Raw footage length (what you send us)", RAW, "select"], ["final", "Final long video length", FINAL, "select", "long"], ["count", "How many videos?", COUNT, "select"]],
+  [["fmt", "Ad format", ["Reels / Shorts ad", "Long ad / film", "Both"], "chips"], ["reel", "Reel ad length", REEL, "chips", "reel"], ["raw", "Raw footage length", RAW, "select"], ["final", "Final film length", ["15–30 seconds", "30–60 seconds", "1–2 minutes", "2–5 minutes", "5 minutes +"], "select", "long"], ["count", "How many versions / cuts?", COUNT, "select"]],
+  [["type", "What should we design?", ["Thumbnails", "Posters", "Carousels", "Logo", "Brand kit", "Other"], "multi"], ["count", "How many designs?", ["1–5", "6–15", "16–30", "30 +", "Monthly"], "select"]],
+  [["type", "What should we design?", ["Packaging", "Labels", "Product posters", "Menu", "Ad creatives", "Banners / hoardings"], "multi"], ["count", "How many designs?", ["1–5", "6–15", "16–30", "30 +"], "select"], ["print", "Print or digital?", ["Print", "Digital", "Both"], "chips"]],
+  [["plat", "Platforms", ["Instagram", "Facebook", "YouTube", "LinkedIn", "WhatsApp"], "multi"], ["posts", "Posts per month", ["8", "12", "20", "30", "Daily"], "chips"], ["reels", "Reels per month", ["0", "4", "8", "12", "20 +"], "chips"], ["reel", "Reel length", REEL, "chips"]],
+  [["plat", "Platforms", ["Instagram", "Facebook", "YouTube", "LinkedIn", "Google"], "multi"], ["goal", "Main goal", ["Followers", "Leads / enquiries", "Online sales", "Brand awareness"], "chips"], ["ads", "Ad budget per month (paid to Meta / Google)", ["No ads", "Under ₹10,000", "₹10,000 – ₹50,000", "₹50,000 +"], "select"]],
+  [["goal", "Page goal", ["Get enquiries", "Sell a product", "Event / launch", "Personal profile"], "chips"], ["feat", "Features", ["WhatsApp button", "Payments", "Booking form", "Gallery / videos", "Multi-language"], "multi"]],
+  [["kind", "Website type", ["Business website", "Portfolio", "Online store", "Booking / service site", "Other"], "chips"], ["pages", "Number of pages", ["1–5", "6–10", "11–20", "20 +"], "select"], ["feat", "Features", ["Payments", "Product catalogue", "Booking", "Blog", "Multi-language", "Login"], "multi"]]
+];
+const qmHTML = i => {
+  const s = SERVICES[i], c = CAT[s[0]], opt = a => a.map(v => `<option>${esc(v)}</option>`).join("");
+  const field = ([k, label, vals, kind, show]) => {
+    const w = show ? ` data-show="${show}"` : "";
+    if (kind === "chips" || kind === "multi") return `<div class="qf"${w}><span class="ql">${esc(label)}</span><div class="qchips" data-k="${k}" data-multi="${kind === "multi" ? 1 : 0}">${vals.map((v, j) => `<button type="button"${kind === "chips" && j === 0 ? ' class="on"' : ""}>${esc(v)}</button>`).join("")}</div></div>`;
+    if (kind === "select") return `<label class="qf"${w}>${esc(label)}<select data-k="${k}">${opt(vals)}</select></label>`;
+    return `<label class="qf"${w}>${esc(label)}<input data-k="${k}" placeholder="e.g. Mumbai"></label>`;
+  };
+  return `<div class="qm-in gl" role="dialog" aria-modal="true" aria-label="Get a quotation" style="--c1:${c[1]};--c2:${c[2]}">
+    <div class="qm-h"><div><span class="mono">QUOTATION · CLIP ${String(i + 1).padStart(2, "0")}</span><h3>${esc(s[1])}</h3></div><button type="button" class="qm-x" aria-label="Close">✕</button></div>
+    <form class="qm-f" novalidate>
+      <div class="r2"><label>Your name *<input name="n" autocomplete="name" placeholder="Your full name"></label><label>Company / brand<input name="b" autocomplete="organization" placeholder="e.g. Sunrise Cafe"></label></div>
+      <div class="r2"><label>Your WhatsApp number<input name="p" type="tel" inputmode="tel" autocomplete="tel" placeholder="+91 98765 43210"></label><label>Your city<input name="c" autocomplete="address-level2" placeholder="e.g. Pune"></label></div>
+      ${QX[i].map(field).join("")}
+      <div class="r2"><label>Budget<select name="m">${opt(BUDGETS)}</select></label><label>When do you need it?<select name="t">${opt(WHEN)}</select></label></div>
+      <label>Your requirement<textarea name="d" placeholder="Tell us about the project, style, reference links…"></textarea></label>
+      <button class="btn wa qm-go" type="submit"><span class="shine"></span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>Send quotation request on WhatsApp</button>
+      <p class="qm-n">Your details open in WhatsApp, already written. Just press send.</p>
+    </form></div>`;
+};
+function openQuote(i) {
+  let m = $("#qm"); if (!m) { m = document.createElement("div"); m.id = "qm"; m.className = "qm"; document.body.appendChild(m); }
+  m.innerHTML = qmHTML(i); m.classList.add("on"); document.documentElement.classList.add("qm-lock");
+  const f = m.querySelector("form"), close = () => { m.classList.remove("on"); document.documentElement.classList.remove("qm-lock"); };
+  const vis = () => { const fmt = (m.querySelector('[data-k="fmt"] .on') || {}).textContent || ""; m.querySelectorAll("[data-show]").forEach(x => { const s = x.dataset.show; x.hidden = !(s === "reel" ? /Reel|Both/.test(fmt) : /Long|film|Both/.test(fmt)); }); };
+  m.querySelectorAll(".qchips").forEach(g => g.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; if (g.dataset.multi === "1") b.classList.toggle("on"); else g.querySelectorAll("button").forEach(x => x.classList.toggle("on", x === b)); vis(); try { SFX.play("tick"); } catch (er) {} }));
+  vis();
+  m.querySelector(".qm-x").onclick = close; m.onclick = e => { if (e.target === m) close(); };
+  addEventListener("keydown", function k(e) { if (e.key === "Escape") { close(); removeEventListener("keydown", k); } });
+  f.onsubmit = e => {
+    e.preventDefault(); const v = n => (f.elements[n].value || "").trim();
+    if (!v("n")) { toast("Please write your name"); f.elements.n.focus(); return; }
+    const L = [`Hello Flow Studio, I want a quotation.`, ``, `*Service:* ${SERVICES[i][1]}`, `*Name:* ${v("n")}`, `*Company / brand:* ${v("b") || "-"}`, `*City:* ${v("c") || "-"}`, `*My WhatsApp:* ${v("p") || "-"}`];
+    QX[i].forEach(([k, label]) => { const el = m.querySelector(`[data-k="${k}"]`); if (!el || el.closest("[hidden]")) return; const val = el.classList.contains("qchips") ? [...el.querySelectorAll(".on")].map(x => x.textContent).join(", ") : el.value.trim(); if (val) L.push(`*${label}:* ${val}`); });
+    L.push(`*Budget:* ${v("m")}`, `*Timeline:* ${v("t")}`, ``, `*Requirement:* ${v("d") || "-"}`);
+    window.open(waUrl(L.join("\n")), "_blank", "noopener"); try { SFX.play("success"); } catch (er) {} close();
+  };
+  setTimeout(() => f.elements.n.focus({ preventScroll: true }), 300);
+}
+document.addEventListener("click", e => { const q = e.target.closest("[data-quote]"); if (!q) return; e.preventDefault(); e.stopImmediatePropagation(); openQuote(+q.dataset.quote); }, true);
+
 /* WhatsApp, form, Instagram, menu */
 document.addEventListener("click", e => { const a = e.target.closest("[data-wa]"); if (!a) return; e.preventDefault(); window.open(waUrl(a.getAttribute("data-wa").replace(/&quot;/g, '"')), "_blank", "noopener"); });
 const briefText = () => `Hello Flow Studio, here is my project brief:\n\nName: ${$("#bN").value.trim()}\nBusiness: ${$("#bB").value.trim() || "-"}\nService: ${$("#bS").value}\nBudget: ${$("#bM").value}\nTimeline: ${$("#bT").value}\nMy WhatsApp: ${$("#bP").value.trim() || "-"}\n\nDetails: ${$("#bD").value.trim() || "-"}`;
