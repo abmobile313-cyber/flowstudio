@@ -294,13 +294,24 @@ footer{padding:80px 0 120px;border-top:1px solid rgba(255,255,255,.08);overflow:
 .lite .grain{display:none}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}h1 .ln>span{transform:none}}
 </style>
+<style id="fs-3d">
+/* 3D depth layer: pressable buttons, lifted glass cards, extruded headings */
+.btn{box-shadow:0 6px 0 rgba(0,0,0,.55),0 22px 34px -14px rgba(0,0,0,.75),inset 0 1px 0 rgba(255,255,255,.35)!important;transition:transform .14s ease,box-shadow .14s ease!important}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(5px)!important;box-shadow:0 1px 0 rgba(0,0,0,.55),0 8px 14px -8px rgba(0,0,0,.7),inset 0 1px 0 rgba(255,255,255,.3)!important}
+h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 rgba(0,0,0,.25),0 14px 28px rgba(0,0,0,.55)}
+.gl{box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 2px 0 rgba(0,0,0,.4),0 30px 60px -30px rgba(0,0,0,.85)}
+:root{--shp-accent:#ff3d9a;--shp-accent-ink:#fff;--shp-bg:#0b0912;--shp-ink:#f4f2ff;--shp-card:#15121f;--shp-line:rgba(255,255,255,.12);--shp-muted:#a7a3bd}
+.shp-btn3d{text-shadow:none}
+</style>
+<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#06050a">
 </head>
 <body>
 <div class="stage" aria-hidden="true"><div class="beam l"></div><div class="beam r"></div><div class="haze h1"></div><div class="haze h2"></div><div class="haze h3"></div><div class="grain"></div></div>
 
 <header class="nav"><div class="wrap"><div class="bar gl">
   <a class="brand" href="#top"><img src="logo.webp" alt="Flow Studio logo" width="42" height="42">Flow Studio</a>
-  <nav class="links" id="links"><a href="#services">Services</a><a href="#clients">Clients</a><a href="#reels">Reels</a><a href="#process">Process</a><a href="#work">Work</a><a href="#faq">FAQ</a><a href="#contact">Contact</a></nav>
+  <nav class="links" id="links"><a href="#services">Services</a><a href="#clients">Clients</a><a href="#reels">Reels</a><a href="#process">Process</a><a href="#work">Work</a><a href="#faq">FAQ</a><a href="#pricing">Packages</a><a href="#contact">Contact</a><a href="#" data-shop-orders>My orders</a></nav>
   <a class="btn rb navcta" href="#contact"><span class="shine"></span>Free quote</a>
   <button class="menu" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></div></header>
@@ -396,6 +407,11 @@ footer{padding:80px 0 120px;border-top:1px solid rgba(255,255,255,.08);overflow:
   <div class="gl glare rv"><i>🤝</i><b>One studio</b><p>Shoot, edit, design, social and web in one place, one contact.</p></div>
 </div></div></section>
 
+<section id="pricing" class="sec"><div class="wrap">
+  <div class="sh rv"><div><span class="mono rbt">05½ · Packages</span><h2>Ready packages. <span class="rbt">Pay online.</span></h2></div><p>Fixed-price packages you can order right now. For anything custom, ask for a free quote and pay online once you approve the price.</p></div>
+  <div data-shop-grid></div>
+  <p style="text-align:center;margin-top:28px"><button class="btn rb" type="button" data-shop-quote="Custom project"><span class="shine"></span>Get a custom quote</button> <button class="btn gls" type="button" data-shop-orders>My orders & quotes</button></p>
+</div></section>
 <section class="sec" id="contact"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">06 · Start a project</span><h2>Tell us your idea. <span class="rbt">Get a free quote.</span></h2></div><p>Fill this short brief and it opens WhatsApp with everything already written. We reply fast.</p></div>
   <div class="console">
@@ -465,6 +481,14 @@ const WHO = ["Restaurants & cafes", "Fashion & boutiques", "Real estate", "Docto
 const STEPS = [["Brief", "Send your idea and references on WhatsApp. Tell us your goal and deadline.", "#ff3d9a", "linear-gradient(135deg,#ff3d9a,#9b5cff)"], ["Quote", "We confirm the price, shoot date and delivery time. No hidden charges.", "#9b5cff", "linear-gradient(135deg,#9b5cff,#3b82ff)"], ["Shoot & draft", "We shoot if needed, then share a first draft for your review and changes.", "#3b82ff", "linear-gradient(135deg,#3b82ff,#22d37f)"], ["Delivery", "Final files in every size you need: reels, YouTube, ads, print and web.", "#22d37f", "linear-gradient(135deg,#22d37f,#ffd43b)"]];
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+/* every quotation is also saved in our order system: the customer sees the price and pays online under "My orders" */
+function fsQuote(service, name, phone, brief, budget, deadline, biz) {
+  if (String(phone || "").replace(/\D/g, "").length < 10) return;
+  fetch("https://quranic-science-automation.quranicscience01.workers.dev/shop/quote", { method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ brand: "flowstudio", customer: { name: name + (biz ? " (" + biz + ")" : ""), phone }, service, brief, budget, deadline }) })
+    .then(r => r.json()).then(r => { if (!r.id) return; try { const k = "shp-flowstudio-quotes", q = JSON.parse(localStorage.getItem(k) || "[]"); q.unshift({ id: r.id, key: r.key, ts: Date.now() }); localStorage.setItem(k, JSON.stringify(q.slice(0, 30))); } catch (e) {}
+      toast("Request saved ✓ Track the price under My orders"); }).catch(() => {});
+}
 const waUrl = t => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 const toast = t => { const e = $("#toast"); e.textContent = t; e.classList.add("on"); setTimeout(() => e.classList.remove("on"), 2200); };
 const LITE = (navigator.hardwareConcurrency || 8) <= 4 || matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -535,6 +559,7 @@ function openQuote(i) {
     const L = [`Hello Flow Studio, I want a quotation.`, ``, `*Service:* ${SERVICES[i][1]}`, `*Name:* ${v("n")}`, `*Company / brand:* ${v("b") || "-"}`, `*City:* ${v("c") || "-"}`, `*My WhatsApp:* ${v("p") || "-"}`];
     QX[i].forEach(([k, label]) => { const el = m.querySelector(`[data-k="${k}"]`); if (!el || el.closest("[hidden]")) return; const val = el.classList.contains("qchips") ? [...el.querySelectorAll(".on")].map(x => x.textContent).join(", ") : el.value.trim(); if (val) L.push(`*${label}:* ${val}`); });
     L.push(`*Budget:* ${v("m")}`, `*Timeline:* ${v("t")}`, ``, `*Requirement:* ${v("d") || "-"}`);
+    fsQuote(SERVICES[i][1], v("n"), v("p"), L.slice(2).join("\n").replace(/\*/g, ""), v("m"), v("t"), v("b"));
     window.open(waUrl(L.join("\n")), "_blank", "noopener"); try { SFX.play("success"); } catch (er) {} close();
   };
   setTimeout(() => f.elements.n.focus({ preventScroll: true }), 300);
@@ -544,7 +569,7 @@ document.addEventListener("click", e => { const q = e.target.closest("[data-quot
 /* WhatsApp, form, Instagram, menu */
 document.addEventListener("click", e => { const a = e.target.closest("[data-wa]"); if (!a) return; e.preventDefault(); window.open(waUrl(a.getAttribute("data-wa").replace(/&quot;/g, '"')), "_blank", "noopener"); });
 const briefText = () => `Hello Flow Studio, here is my project brief:\n\nName: ${$("#bN").value.trim()}\nBusiness: ${$("#bB").value.trim() || "-"}\nService: ${$("#bS").value}\nBudget: ${$("#bM").value}\nTimeline: ${$("#bT").value}\nMy WhatsApp: ${$("#bP").value.trim() || "-"}\n\nDetails: ${$("#bD").value.trim() || "-"}`;
-$("#brief").onsubmit = e => { e.preventDefault(); if (!$("#bN").value.trim()) { toast("Please write your name"); $("#bN").focus(); return; } window.open(waUrl(briefText()), "_blank", "noopener"); };
+$("#brief").onsubmit = e => { e.preventDefault(); if (!$("#bN").value.trim()) { toast("Please write your name"); $("#bN").focus(); return; } fsQuote($("#bS").value, $("#bN").value.trim(), $("#bP").value.trim(), briefText(), $("#bM").value, $("#bT").value, $("#bB").value.trim()); window.open(waUrl(briefText()), "_blank", "noopener"); };
 $("#bMail").onclick = e => { e.preventDefault(); if (!$("#bN").value.trim()) { toast("Please write your name"); return; } location.href = `mailto:FlowStudio91@gmail.com?subject=${encodeURIComponent("Project brief: " + $("#bS").value)}&body=${encodeURIComponent(briefText())}`; };
 if (IG) { const l = $("#igLink"); l.hidden = false; l.href = "https://www.instagram.com/" + IG; $("#igName").textContent = "@" + IG; const f = $("#igFoot"); f.href = l.href; f.textContent = "Instagram @" + IG; }
 $("#menuBtn").onclick = () => $("#links").classList.toggle("open");
@@ -678,5 +703,10 @@ const mons = $$(".mon");
 const monTilt = () => mons.forEach(m => { const r = m.getBoundingClientRect(), c = (r.top + r.height / 2) / innerHeight - .5; m.style.transform = `rotateX(${c * -10}deg) translateZ(${-Math.abs(c) * 40}px)`; });
 if (!LITE) addEventListener("scroll", () => requestAnimationFrame(monTilt), { passive: true });
 </script>
+<script src="https://quranicscience.info/shop-engine.js"></script>
+<script>Shop.init({brand:"flowstudio",name:"Flow Studio",whatsapp:WA,logo:"https://pixelflowstudio.agency/logo.webp",color:"#ff3d9a",quoteServices:SERVICES.map(x=>x[1]).concat(["Custom project"]),
+  placeholder:it=>{const c=CAT[{Video:"Video",Design:"Design",Social:"Social",Website:"Web",Web:"Web"}[it.cat]]||CAT.Video;return `<div style="height:100%;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,${c[1]}66,transparent 60%),radial-gradient(circle at 75% 80%,${c[2]}55,transparent 60%),#0b0912"><span style="font:800 1.6rem/1.1 var(--T);text-align:center;padding:12px;text-shadow:0 3px 0 rgba(0,0,0,.4),0 12px 24px rgba(0,0,0,.5)">${it.cat||"Flow"}</span></div>`},
+  fallbackItems:[{id:"demo1",name:"Starter reel pack",desc:"3 edited reels with captions and music",kind:"quote",cat:"Video"},{id:"demo2",name:"Logo & brand kit",desc:"Logo, colours, fonts and social templates",kind:"quote",cat:"Design"},{id:"demo3",name:"Social media monthly",desc:"Posting calendar, captions and community replies",kind:"quote",cat:"Social"}]});
+if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 </body>
 </html>
