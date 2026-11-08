@@ -92,7 +92,7 @@ h1 .ln>span{display:inline-block;transform:translateY(110%) rotate(6deg);animati
 .meta div{padding:12px 16px;border-radius:18px;background:rgba(255,255,255,.05);box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
 .meta b{display:block;font:800 19px var(--D)}.meta small{color:var(--mut);font-size:13px}
 /* the lens */
-.lensbox{position:relative;aspect-ratio:1;width:min(520px,100%);margin:auto;perspective:1200px}
+.lensbox.shut::after{content:"TAP TO OPEN";position:absolute;left:50%;bottom:-34px;transform:translateX(-50%);font:600 11px var(--M);letter-spacing:.2em;opacity:.7}.lensbox{position:relative;aspect-ratio:1;width:min(520px,100%);margin:auto;perspective:1200px}
 .lens3d{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .25s ease-out;will-change:transform}
 .lyr{position:absolute;border-radius:50%;transform-style:preserve-3d}
 .barrel{inset:4%;background:radial-gradient(circle at 30% 25%,#3a3550,#14111d 60%,#07060b);box-shadow:0 60px 120px -30px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08),inset 0 2px 2px rgba(255,255,255,.25);transform:translateZ(0)}
@@ -325,6 +325,31 @@ footer{padding:80px 0 120px;border-top:1px solid rgba(255,255,255,.08);overflow:
 .lite .gl{background:linear-gradient(140deg,rgba(40,34,60,.92),rgba(20,17,31,.92))}
 .lite .grain{display:none}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none;filter:none}h1 .ln>span{transform:none}}
+
+/* sample folders */
+.fds{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:56px 26px;margin-top:70px}
+.fd{position:relative;aspect-ratio:1.38;border:0;background:none;padding:0;cursor:pointer;perspective:1000px;color:#fff;text-align:left;font:inherit;-webkit-tap-highlight-color:transparent}
+.fd .fbk{position:absolute;inset:9% 0 0 0;border-radius:22px;background:var(--cv) center/cover;filter:saturate(1.35) brightness(.85);box-shadow:0 34px 60px -30px #000,inset 0 0 0 1px rgba(255,255,255,.12)}
+.fd .fbk::before{content:"";position:absolute;left:0;top:-11%;width:44%;height:16%;border-radius:16px 16px 0 0;background:linear-gradient(90deg,var(--t1),var(--t2))}
+.fd .ffs i{position:absolute;left:9%;right:9%;top:15%;height:60%;border-radius:14px;background:#15121f center/cover;box-shadow:0 14px 30px -12px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.2);transform:translateY(calc(var(--k) * 7px));transition:transform .55s cubic-bezier(.2,.9,.2,1.15)}
+.fd .ffs i em{position:absolute;left:10px;top:8px;right:10px;font:600 10px var(--M);font-style:normal;letter-spacing:.06em;text-shadow:0 1px 6px #000;display:flex;justify-content:space-between}
+.fd .ffr{position:absolute;left:0;right:0;bottom:0;height:70%;border-radius:22px;background:linear-gradient(165deg,rgba(255,255,255,.26),rgba(255,255,255,.07) 42%,rgba(24,16,40,.62));-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 0 0 1px rgba(255,255,255,.14),0 26px 44px -24px #000;transform-origin:50% 100%;transition:transform .55s cubic-bezier(.2,.9,.2,1)}
+.fd .ffr::before{content:"";position:absolute;left:0;top:-13%;width:46%;height:15%;border-radius:16px 16px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.3),rgba(255,255,255,.2));box-shadow:inset 0 1px 0 rgba(255,255,255,.55)}
+.fd .fn{position:absolute;left:18px;bottom:16px;display:grid;gap:2px}.fd .fn b{font:600 17px var(--D)}.fd .fn small{font:600 11px var(--M);letter-spacing:.08em;opacity:.75}
+.fd .fgo{position:absolute;right:14px;bottom:14px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:#0b0912;color:#fff;font-size:22px;box-shadow:0 8px 20px -6px rgba(0,0,0,.9),inset 0 0 0 1px rgba(255,255,255,.22);transition:transform .3s}
+.fd .fgo::after{content:"";position:absolute;inset:-3px;border-radius:50%;background:var(--rb);z-index:-1;opacity:0;transition:opacity .3s}
+.fd:hover .ffr,.fd:focus-visible .ffr{transform:rotateX(-20deg)}
+.fd:hover .ffs i,.fd:focus-visible .ffs i{transform:translateY(calc(-16% - var(--k) * 6px)) rotate(calc((var(--k) - 1) * 3deg))}
+.fd:hover .fgo{transform:scale(1.08)}.fd:hover .fgo::after{opacity:1}
+.fd.on .ffr{transform:rotateX(-32deg)}.fd.on .fgo{transform:rotate(45deg)}.fd.on .fgo::after{opacity:1}
+.fd.on .ffs i{transform:translate(calc((var(--k) - 1) * 34%),-64%) rotate(calc((var(--k) - 1) * 11deg))}
+.fd.on .ffs i:nth-child(2){transform:translate(0,-78%)}
+.fhint{text-align:center;opacity:.55;margin:34px 0 0;font-size:11px}
+.fopen{margin-top:30px;padding:22px;border-radius:28px;background:var(--glass);box-shadow:inset 0 1px 0 rgba(255,255,255,.3),0 30px 70px -30px #000;animation:fop .5s cubic-bezier(.2,.9,.2,1)}
+@keyframes fop{from{opacity:0;transform:translateY(20px)}}
+.foh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}.fox{width:40px;height:40px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;font-size:16px;cursor:pointer}
+@media(max-width:560px){.fds{grid-template-columns:1fr 1fr;gap:44px 14px;margin-top:56px}.fd .fn b{font-size:13px}.fd .fn{left:12px;bottom:12px}.fd .fgo{width:36px;height:36px;font-size:18px;right:10px;bottom:10px}.fd .ffs i em{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.fd .ffs i,.fd .ffr{transition:none}}
 </style>
 <style id="fs-3d">
 /* 3D depth layer: pressable buttons, lifted glass cards, extruded headings */
@@ -403,7 +428,7 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
   <div class="rgrid" id="rgrid"></div>
   <p class="rnote rv">All brand names in these sample reels are fictional, created to show our work style.</p>
 </div></section>
-<div class="rbox" id="rbox" role="dialog" aria-modal="true" aria-label="Sample reel"><div class="rbox-in gl"><video id="rvid" playsinline controls preload="none"></video><div class="rbox-cap"><div><span class="mono" id="rsec"></span><b id="rbrand"></b></div><div class="rbox-act"><a class="btn wa" id="rquote" href="#"><span class="shine"></span>I want a reel like this</a><button class="btn gls" id="rclose" type="button">Close</button></div></div></div></div>
+<div class="rbox" id="rbox" role="dialog" aria-modal="true" aria-label="Sample reel"><div class="rbox-in gl"><video id="rvid" playsinline controls preload="none" controlslist="nodownload noplaybackrate" disablepictureinpicture></video><div class="rbox-cap"><div><span class="mono" id="rsec"></span><b id="rbrand"></b></div><div class="rbox-act"><a class="btn wa" id="rquote" href="#"><span class="shine"></span>I want a reel like this</a><button class="btn gls" id="rclose" type="button">Close</button></div></div></div></div>
 <section class="sec" id="process"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">04 · How it works</span><h2>From idea to <span class="rbt">final cut</span></h2></div><p>Scroll and watch your project move through our edit timeline. Four simple steps, always on time.</p></div>
   <div class="edit gl rv" id="edit">
@@ -424,8 +449,9 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 
 <section class="sec" id="samples" style="padding-top:30px"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">★ Real samples</span><h2>See the work <span class="rbt">before you book</span></h2></div><p>Shoots and edits, designs, social media, websites, apps and AI films. Tap any sample to see it full size.</p></div>
-  <div class="chips rv" id="sChips"><button class="on" data-s="all">All</button><button data-s="shoot">Shoot + Edit</button><button data-s="design">Design</button><button data-s="social">Social media</button><button data-s="web">Websites &amp; apps</button><button data-s="ai">AI studio ✦</button></div>
-  <div class="sgrid" id="sgrid"></div>
+  <div class="fds rv" id="fds"></div>
+  <p class="fhint mono">Hover to peek · tap a folder to open · tap a file to view</p>
+  <div class="fopen" id="fopen" hidden><div class="foh"><span class="mono rbt" id="fot"></span><button type="button" class="fox" id="fox" aria-label="Close folder">✕</button></div><div class="sgrid" id="sgrid"></div></div>
   <p class="rnote rv">Brand names in our concept samples are fictional. Websites shown are live projects built by Flow Studio.</p>
 </div></section>
 
@@ -732,12 +758,19 @@ const SVID = new Set(["reel-shoot-edit", "reel-ai-studio"]);
 function drawSamples(f) {
   $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${{shoot:"SHOOT + EDIT",design:"DESIGN",social:"SOCIAL",web:"WEB & APPS",ai:"AI STUDIO"}[x[0]]}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
 }
-drawSamples("all");
-$$("#sChips button").forEach(b => b.onclick = () => { $$("#sChips button").forEach(x => x.classList.toggle("on", x === b)); drawSamples(b.dataset.s); });
+const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["design", "Design", "#ff3d9a", "#9b5cff"], ["ai", "AI studio ✦", "#9b5cff", "#3b82ff"], ["web", "Websites & apps", "#3b82ff", "#22d37f"], ["social", "Social media", "#ffd43b", "#ff8a1f"]];
+$("#fds").innerHTML = FOLD.map(([k, name, t1, t2]) => { const L = SAMPLES.filter(x => x[0] === k); if (!L.length) return "";
+  const files = L.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
+  return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${L[L.length - 1][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${L.length} ${L.length === 1 ? "FILE" : "FILES"}</small></span><span class="fgo">+</span></span></button>`; }).join("");
+const fopen = $("#fopen");
+$$("#fds .fd").forEach(b => b.onclick = () => { const on = !b.classList.contains("on"); $$("#fds .fd").forEach(x => x.classList.remove("on"));
+  if (!on) { fopen.hidden = true; return; } b.classList.add("on"); drawSamples(b.dataset.f); $("#fot").textContent = FOLD.find(f => f[0] === b.dataset.f)[1] + " · " + b.querySelector("small").textContent;
+  fopen.hidden = false; setTimeout(() => fopen.scrollIntoView({ behavior: "smooth", block: "nearest" }), 350); });
+$("#fox").onclick = () => { fopen.hidden = true; $$("#fds .fd").forEach(x => x.classList.remove("on")); };
 const sbox = document.createElement("div"); sbox.className = "sbox"; sbox.hidden = true; sbox.setAttribute("role", "dialog"); sbox.setAttribute("aria-modal", "true"); document.body.appendChild(sbox);
 const closeS = () => { sbox.hidden = true; sbox.innerHTML = ""; document.documentElement.classList.remove("qm-lock"); };
 $("#sgrid").addEventListener("click", e => { const b = e.target.closest("[data-sm]"); if (!b) return; const x = SAMPLES[+b.dataset.sm];
-  sbox.innerHTML = `<button class="x" type="button" aria-label="Close">✕</button><figure>${x[1] === "video" ? `<video src="samples/${x[2]}.mp4" poster="samples/${x[2]}.jpg" controls autoplay playsinline></video>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3])}">`}<figcaption>${esc(x[3])} · ${esc(x[4])}</figcaption></figure>`;
+  sbox.innerHTML = `<button class="x" type="button" aria-label="Close">✕</button><figure>${x[1] === "video" ? `<video src="samples/${x[2]}.mp4" poster="samples/${x[2]}.jpg" controls autoplay playsinline controlslist="nodownload noplaybackrate" disablepictureinpicture></video>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3])}">`}<figcaption>${esc(x[3])} · ${esc(x[4])}</figcaption></figure>`;
   sbox.hidden = false; document.documentElement.classList.add("qm-lock"); sbox.querySelector(".x").focus(); });
 sbox.addEventListener("click", e => { if (e.target === sbox || e.target.closest(".x")) closeS(); });
 addEventListener("keydown", e => { if (e.key === "Escape" && !sbox.hidden) closeS(); });
@@ -777,7 +810,12 @@ function frame() {
 }
 const kick = () => { if (!raf) raf = requestAnimationFrame(frame); };
 setAp(0); setTimeout(kick, 500);
-addEventListener("scroll", () => { const p = Math.min(1, scrollY / (innerHeight * .9)); apT = .64 - p * .58; kick(); tline(); }, { passive: true });
+let shut = false;
+addEventListener("scroll", () => { const p = Math.min(1, scrollY / (innerHeight * .9)); if (!shut) apT = .64 - p * .58; kick(); tline(); }, { passive: true });
+/* tap the lens: the aperture snaps shut with a shutter sound; tap again to open */
+{ const lb = $("#lensbox"); lb.removeAttribute("aria-hidden"); lb.setAttribute("role", "button"); lb.setAttribute("tabindex", "0"); lb.setAttribute("aria-label", "Tap the lens to close or open it"); lb.style.cursor = "pointer";
+  const tog = () => { shut = !shut; apT = shut ? 0 : .64 - Math.min(1, scrollY / (innerHeight * .9)) * .58; try { wake(); SFX.play(shut ? "shutter" : "focus"); } catch (e) {} lb.classList.toggle("shut", shut); try { navigator.vibrate && navigator.vibrate(shut ? [14, 40, 10] : 8); } catch (e) {} kick(); };
+  lb.addEventListener("click", tog); lb.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); tog(); } }); }
 if (FINE) addEventListener("pointermove", e => { mx = e.clientX / innerWidth - .5; my = e.clientY / innerHeight - .5; kick(); }, { passive: true });
 else addEventListener("deviceorientation", e => { if (e.gamma == null) return; mx = Math.max(-.5, Math.min(.5, e.gamma / 50)); my = Math.max(-.5, Math.min(.5, (e.beta - 45) / 50)); kick(); }, { passive: true });
 if (!FINE) { let k = 0; setInterval(() => { if (Math.abs(mx) < .01 && Math.abs(my) < .01) { k += .03; $("#lens").style.transform = `rotateY(${Math.sin(k) * 10}deg) rotateX(${Math.cos(k * .8) * 6}deg)`; } }, 50); }
@@ -805,5 +843,6 @@ if (!LITE) addEventListener("scroll", () => requestAnimationFrame(monTilt), { pa
   placeholder:it=>{const c=CAT[{Video:"Video",Design:"Design",Social:"Social",Website:"Web",Web:"Web",Apps:"Apps",App:"Apps",Software:"Apps"}[it.cat]]||CAT.Video;return `<div style="height:100%;border-radius:18px;display:grid;place-items:center;background:radial-gradient(circle at 30% 25%,${c[1]}66,transparent 60%),radial-gradient(circle at 75% 80%,${c[2]}55,transparent 60%),#0b0912"><span style="font:800 1.6rem/1.1 var(--T);text-align:center;padding:12px;text-shadow:0 3px 0 rgba(0,0,0,.4),0 12px 24px rgba(0,0,0,.5)">${it.cat||"Flow"}</span></div>`},
   fallbackItems:[{id:"demo1",name:"Starter reel pack",desc:"3 edited reels with captions and music",kind:"quote",cat:"Video"},{id:"demo2",name:"Logo & brand kit",desc:"Logo, colours, fonts and social templates",kind:"quote",cat:"Design"},{id:"demo3",name:"Social media monthly",desc:"Posting calendar, captions and community replies",kind:"quote",cat:"Social"}]});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
+<script>/* samples are view-only: no right-click save or drag on images and videos */document.addEventListener("contextmenu",e=>{if(e.target.closest("img,video,.sbox,.fd,#rbox"))e.preventDefault()});document.addEventListener("dragstart",e=>{if(e.target.closest("img,video"))e.preventDefault()});</script>
 </body>
 </html>
