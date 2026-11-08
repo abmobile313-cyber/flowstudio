@@ -691,12 +691,23 @@ const SFX = (() => {
     whoosh() { const t = ctx.currentTime, n = noise(.5), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = .8; f.frequency.setValueAtTime(400, t); f.frequency.exponentialRampToValueAtTime(3800, t + .35); env(g, t, .12, .22, .32); n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + .55); },
     /* success: bright three-note chime */
     success() { const t = ctx.currentTime; [784, 988, 1318].forEach((f, i) => tone(f, t + i * .09, .32, "sine", .13)); tone(2637, t + .27, .5, "sine", .04); },
+    /* folder opens: flap lift, papers sliding out, soft shimmer */
+    fopen() { const t = ctx.currentTime; tone(130, t, .09, "triangle", .16, 210); burst(t + .02, .05, 900, .8, .22);
+      const n = noise(.42), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = 1.1; f.frequency.setValueAtTime(700, t + .06); f.frequency.exponentialRampToValueAtTime(3600, t + .42); env(g, t + .06, .08, .14, .3); n.connect(f).connect(g).connect(master); n.start(t + .06); n.stop(t + .5);
+      [1175, 1568, 2093].forEach((fr, i) => tone(fr, t + .2 + i * .06, .38, "sine", .045)); },
+    /* folder closes: papers slide back in, flap lands with a soft thud */
+    fclose() { const t = ctx.currentTime, n = noise(.32), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = 1.1; f.frequency.setValueAtTime(3200, t); f.frequency.exponentialRampToValueAtTime(600, t + .28); env(g, t, .05, .13, .24); n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + .36);
+      tone(190, t + .26, .12, "triangle", .2, 85); burst(t + .26, .04, 600, .7, .25); },
+    /* sample opens full screen: page lift + bright ping */
+    view() { const t = ctx.currentTime; burst(t, .06, 2400, .9, .16); tone(880, t + .03, .16, "sine", .1, 1320); tone(1760, t + .1, .3, "sine", .04); },
+    /* sample closes */
+    unview() { const t = ctx.currentTime; tone(1100, t, .12, "sine", .08, 560); burst(t + .02, .05, 1200, .9, .12); },
     /* accordion pop */
     pop() { tone(520, ctx.currentTime, .08, "sine", .14, 880); },
     /* lens focus whir on the first touch */
     focus() { const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(240, t + .5); const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 900; env(g, t, .08, .06, .5); o.connect(f).connect(g).connect(master); o.start(t); o.stop(t + .62); burst(t + .52, .02, 4200, 2, .2); }
   };
-  const VIB = { shutter: [14, 40, 18], clap: [22], tick: [4], marker: [10], success: [12, 60, 12, 60, 30], pop: [8], hover: 0, whoosh: [10], rec: [10, 90, 10], focus: [6, 30, 6] };
+  const VIB = { fopen: [10, 30, 16], fclose: [16], view: [8], unview: [6], shutter: [14, 40, 18], clap: [22], tick: [4], marker: [10], success: [12, 60, 12, 60, 30], pop: [8], hover: 0, whoosh: [10], rec: [10, 90, 10], focus: [6, 30, 6] };
   return {
     get on() { return on; },
     play(k, opt = {}) {
@@ -718,10 +729,10 @@ let woke = false;
 const wake = () => { if (woke) return; woke = true; SFX.unlock(); if (SFX.on) { SFX.play("focus", { silent: true }); setTimeout(() => SFX.play("rec", { silent: true }), 650); } };
 ["pointerdown", "keydown", "touchstart"].forEach(ev => addEventListener(ev, wake, { once: true, passive: true }));
 /* which element makes which sound */
-document.addEventListener("pointerover", e => { if (e.pointerType !== "mouse" || !woke) return; const el = e.target.closest(".btn,.card,.ci,.who span,.mon,.marks button,.chips button,.links a,summary,.tag3"); if (el && !el.contains(e.relatedTarget)) SFX.play("hover"); }, { passive: true });
+document.addEventListener("pointerover", e => { if (e.pointerType !== "mouse" || !woke) return; const el = e.target.closest(".fd,.sc,.btn,.card,.ci,.who span,.mon,.marks button,.chips button,.links a,summary,.tag3"); if (el && !el.contains(e.relatedTarget)) SFX.play("hover"); }, { passive: true });
 document.addEventListener("click", e => {
   const t = e.target;
-  if (t.closest("#sndBtn")) return;
+  if (t.closest("#sndBtn,.fd,#fox,.sc,.sbox")) return;
   if (t.closest(".chips button")) return SFX.play("clap");
   if (t.closest(".marks button")) return SFX.play("marker");
   if (t.closest("summary")) return SFX.play("pop");
@@ -793,15 +804,16 @@ $("#fds").innerHTML = FOLD.map(([k, name, t1, t2]) => { const L = SAMPLES.filter
   const files = L.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
   return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${L[L.length - 1][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${L.length} ${L.length === 1 ? "FILE" : "FILES"}</small></span><span class="fgo">+</span></span></button>`; }).join("");
 const fopen = $("#fopen");
-$$("#fds .fd").forEach(b => b.onclick = () => { const on = !b.classList.contains("on"); $$("#fds .fd").forEach(x => x.classList.remove("on"));
+$$("#fds .fd").forEach(b => b.onclick = e => { e.stopPropagation(); try { wake(); } catch (er) {} const on = !b.classList.contains("on"); $$("#fds .fd").forEach(x => x.classList.remove("on"));
+  SFX.play(on ? "fopen" : "fclose");
   if (!on) { fopen.hidden = true; return; } b.classList.add("on"); drawSamples(b.dataset.f); $("#fot").textContent = FOLD.find(f => f[0] === b.dataset.f)[1] + " · " + b.querySelector("small").textContent;
   fopen.hidden = false; setTimeout(() => fopen.scrollIntoView({ behavior: "smooth", block: "nearest" }), 350); });
-$("#fox").onclick = () => { fopen.hidden = true; $$("#fds .fd").forEach(x => x.classList.remove("on")); };
+$("#fox").onclick = e => { e.stopPropagation(); SFX.play("fclose"); fopen.hidden = true; $$("#fds .fd").forEach(x => x.classList.remove("on")); };
 const sbox = document.createElement("div"); sbox.className = "sbox"; sbox.hidden = true; sbox.setAttribute("role", "dialog"); sbox.setAttribute("aria-modal", "true"); document.body.appendChild(sbox);
-const closeS = () => { sbox.hidden = true; sbox.innerHTML = ""; document.documentElement.classList.remove("qm-lock"); };
+const closeS = () => { if (!sbox.hidden) SFX.play("unview"); sbox.hidden = true; sbox.innerHTML = ""; document.documentElement.classList.remove("qm-lock"); };
 $("#sgrid").addEventListener("click", e => { const b = e.target.closest("[data-sm]"); if (!b) return; const x = SAMPLES[+b.dataset.sm];
   sbox.innerHTML = `<button class="x" type="button" aria-label="Close">✕</button><figure>${x[1] === "video" ? `<video src="samples/${x[2]}.mp4" poster="samples/${x[2]}.jpg" controls autoplay playsinline controlslist="nodownload noplaybackrate" disablepictureinpicture></video>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3])}">`}<figcaption>${esc(x[3])} · ${esc(x[4])}</figcaption></figure>`;
-  sbox.hidden = false; document.documentElement.classList.add("qm-lock"); sbox.querySelector(".x").focus(); });
+  SFX.play("view"); sbox.hidden = false; document.documentElement.classList.add("qm-lock"); sbox.querySelector(".x").focus(); });
 sbox.addEventListener("click", e => { if (e.target === sbox || e.target.closest(".x")) closeS(); });
 addEventListener("keydown", e => { if (e.key === "Escape" && !sbox.hidden) closeS(); });
 $("#rgrid").innerHTML = REELS.map((r, i) => `<button class="rc rv" type="button" data-reel="${i}" aria-label="Play sample reel: ${esc(r.s)}"><img src="reels/${r.id}.jpg" alt="" loading="lazy" decoding="async"><span class="rtag">CONCEPT</span><span class="rp"></span><span class="rt"><small>${esc(r.s)}</small><b>${esc(r.b)}</b></span></button>`).join("");
