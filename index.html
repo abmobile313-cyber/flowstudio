@@ -368,7 +368,7 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 
 <header class="nav"><div class="wrap"><div class="bar gl">
   <a class="brand" href="#top"><img src="logo.webp" alt="Flow Studio logo" width="42" height="42">Flow Studio</a>
-  <nav class="links" id="links"><a href="#services">Services</a><a href="#clients">Clients</a><a href="#reels">Reels</a><a href="#process">Process</a><a href="#work">Work</a><a href="#faq">FAQ</a><a href="#pricing">Packages</a><a href="#contact">Contact</a><a href="#" data-shop-orders>My orders &amp; quotes</a><a href="https://instagram.com/flowstudioofficial" target="_blank" rel="noopener">Instagram</a></nav>
+  <nav class="links" id="links"><a href="#services">Services</a><a href="#clients">Clients</a><a href="#reels">Reels</a><a href="#process">Process</a><a href="#work">Work</a><a href="#faq">FAQ</a><a href="#pricing">Packages</a><a href="#contact">Contact</a><a href="#" data-shop-orders>My orders</a></nav>
   <a class="btn rb navcta" href="#contact"><span class="shine"></span>Free quote</a>
   <button class="menu" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></div></header>
@@ -738,6 +738,16 @@ const REELS = [{"id": "cafe", "s": "Restaurants & cafes", "b": "Brew & Bloom"}, 
 
 /* ---------- real samples gallery ---------- */
 const SAMPLES = [
+  ["ugc","video","../ugc/ugc-01","UGC · Perfume review","Selfie spray & smell test"],
+  ["ugc","video","../ugc/ugc-02","UGC · Sneaker unboxing","Bedroom unboxing reel"],
+  ["ugc","video","../ugc/ugc-03","UGC · Food review","Biryani taste test"],
+  ["ugc","video","../ugc/ugc-04","UGC · Skincare routine","Serum in the mirror"],
+  ["ugc","video","../ugc/ugc-05","UGC · Gym testimonial","Post-workout protein review"],
+  ["ugc","video","../ugc/ugc-06","UGC · Home cooking","Masala brand reel"],
+  ["ugc","video","../ugc/ugc-07","UGC · Try-on haul","Boutique trial room"],
+  ["ugc","video","../ugc/ugc-08","UGC · Honey review","Sunnah food testimonial"],
+  ["ugc","video","../ugc/ugc-09","UGC · Gadget review","Smartwatch in the car"],
+  ["ugc","video","../ugc/ugc-10","UGC · Course testimonial","Student explains what she learned"],
   ["shoot","video","reel-shoot-edit","Shoot + Edit","Perfume ad: on set to final cut",1],
   ["ai","video","reel-ai-studio","AI studio reel","Car · food · film · product, no shoot",1],
   ["design","img","design-cafe-poster","Ad poster","Brew & Bloom cafe"],
@@ -754,11 +764,11 @@ const SAMPLES = [
   ["web","img","web-bareerah","Online shop + app","Bareerah Naturals · live",1],
   ["web","img","web-flow","Agency website","Flow Studio · live",1]
 ];
-const SVID = new Set(["reel-shoot-edit", "reel-ai-studio"]);
+const SVID = new Set(["reel-shoot-edit", "reel-ai-studio"].concat(Array.from({length:10},(_,i)=>"../ugc/ugc-"+String(i+1).padStart(2,"0"))));
 function drawSamples(f) {
-  $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${{shoot:"SHOOT + EDIT",design:"DESIGN",social:"SOCIAL",web:"WEB & APPS",ai:"AI STUDIO"}[x[0]]}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
+  $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${{shoot:"SHOOT + EDIT",design:"DESIGN",social:"SOCIAL",web:"WEB & APPS",ai:"AI STUDIO",ugc:"UGC"}[x[0]]}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
 }
-const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["design", "Design", "#ff3d9a", "#9b5cff"], ["ai", "AI studio ✦", "#9b5cff", "#3b82ff"], ["web", "Websites & apps", "#3b82ff", "#22d37f"], ["social", "Social media", "#ffd43b", "#ff8a1f"]];
+const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["design", "Design", "#ff3d9a", "#9b5cff"], ["ai", "AI studio ✦", "#9b5cff", "#3b82ff"], ["web", "Websites & apps", "#3b82ff", "#22d37f"], ["social", "Social media", "#ffd43b", "#ff8a1f"], ["ugc", "UGC videos", "#22d37f", "#ffd43b"]];
 $("#fds").innerHTML = FOLD.map(([k, name, t1, t2]) => { const L = SAMPLES.filter(x => x[0] === k); if (!L.length) return "";
   const files = L.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
   return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${L[L.length - 1][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${L.length} ${L.length === 1 ? "FILE" : "FILES"}</small></span><span class="fgo">+</span></span></button>`; }).join("");
