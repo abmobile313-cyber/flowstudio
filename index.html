@@ -738,6 +738,26 @@ const REELS = [{"id": "cafe", "s": "Restaurants & cafes", "b": "Brew & Bloom"}, 
 
 /* ---------- real samples gallery ---------- */
 const SAMPLES = [
+  ["cards","img","cards-1","Visiting cards","Vardhan & Co. law firm · gold foil"],
+  ["cards","img","cards-2","Letterpress cards","Studio Aranya architects"],
+  ["cards","img","cards-3","Acrylic card","Kavya Lens photography"],
+  ["cards","img","cards-4","Stationery set","Nivaran Dental clinic"],
+  ["edit","img","edit-1","Colour grading","Perfume ad · DaVinci Resolve"],
+  ["edit","img","edit-2","Timeline edit","Multi-layer reel with captions"],
+  ["edit","img","edit-3","LOG to cinematic","Mountain road car film"],
+  ["edit","img","edit-4","Edit suite","Food reel final review"],
+  ["brand","img","brand-1","Brand identity","Lumea skincare"],
+  ["brand","img","brand-2","Logo in space","Nexora tech office"],
+  ["brand","img","brand-3","Brand guidelines","Brewnook café"],
+  ["brand","img","brand-4","Merch branding","Iron Pulse gym"],
+  ["design","img","design-1","Poster design","Kaapi Lane coffee"],
+  ["design","img","design-2","Social ad creative","STRYDE sneakers"],
+  ["design","img","design-3","Festive campaign","Swarnika jewellery Diwali"],
+  ["design","img","design-4","Menu design","Saffron Courtyard"],
+  ["camera","img","camera-1","Product shoot","Luxury watch on slider"],
+  ["camera","img","camera-2","Wedding film","Rajasthan haveli, golden hour"],
+  ["camera","img","camera-3","Fashion shoot","Studio portrait, terracotta set"],
+  ["camera","img","camera-4","Drone shoot","Resort at sunrise"],
   ["ugc","video","../ugc/ugc-01","UGC · Perfume review","Selfie spray & smell test"],
   ["ugc","video","../ugc/ugc-02","UGC · Sneaker unboxing","Bedroom unboxing reel"],
   ["ugc","video","../ugc/ugc-03","UGC · Food review","Biryani taste test"],
@@ -766,9 +786,9 @@ const SAMPLES = [
 ];
 const SVID = new Set(["reel-shoot-edit", "reel-ai-studio"].concat(Array.from({length:10},(_,i)=>"../ugc/ugc-"+String(i+1).padStart(2,"0"))));
 function drawSamples(f) {
-  $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${{shoot:"SHOOT + EDIT",design:"DESIGN",social:"SOCIAL",web:"WEB & APPS",ai:"AI STUDIO",ugc:"UGC"}[x[0]]}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
+  $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${{shoot:"SHOOT + EDIT",design:"DESIGN",social:"SOCIAL",web:"WEB & APPS",ai:"AI STUDIO",ugc:"UGC",camera:"CAMERA",edit:"EDITING",cards:"CARDS",brand:"BRANDING"}[x[0]]}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
 }
-const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["design", "Design", "#ff3d9a", "#9b5cff"], ["ai", "AI studio ✦", "#9b5cff", "#3b82ff"], ["web", "Websites & apps", "#3b82ff", "#22d37f"], ["social", "Social media", "#ffd43b", "#ff8a1f"], ["ugc", "UGC videos", "#22d37f", "#ffd43b"]];
+const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["camera", "Camera shoots", "#ff3d9a", "#ff8a1f"], ["edit", "Video editing", "#3b82ff", "#9b5cff"], ["design", "Design", "#ff3d9a", "#9b5cff"], ["brand", "Brand kits", "#22d37f", "#3b82ff"], ["cards", "Visiting cards", "#ffd43b", "#ff3d9a"], ["ai", "AI studio ✦", "#9b5cff", "#3b82ff"], ["web", "Websites & apps", "#3b82ff", "#22d37f"], ["social", "Social media", "#ffd43b", "#ff8a1f"], ["ugc", "UGC videos", "#22d37f", "#ffd43b"]];
 $("#fds").innerHTML = FOLD.map(([k, name, t1, t2]) => { const L = SAMPLES.filter(x => x[0] === k); if (!L.length) return "";
   const files = L.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
   return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${L[L.length - 1][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${L.length} ${L.length === 1 ? "FILE" : "FILES"}</small></span><span class="fgo">+</span></span></button>`; }).join("");
