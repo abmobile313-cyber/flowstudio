@@ -9,8 +9,8 @@ SITE = "https://pixelflowstudio.agency/"
 WA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>'
 # --- services (same order as SERVICES in base.html) ---
 SV = [
- ("shoot-and-edit","Shoot + Edit","shoot","We come with camera, lights and sound, shoot your content and edit it end to end.",
-  ["Planning call, shot list and location / props checklist","Camera crew with cinema camera, gimbal, LED lights and wireless mics","Reels, ads, interviews, events and product films","Full edit: cuts, colour grading, captions, music and sound design","Delivery in 9:16, 1:1 and 16:9, ready for every platform"],"Restaurants, boutiques, clinics, gyms, real estate, events and brands that need fresh content every month.","2–7 days after the shoot"),
+ ("shoot-and-edit","Shoot + Edit","shoot","We shoot on iPhone or a cinema camera — whatever fits your budget — with lights and sound, and edit it end to end.",
+  ["Planning call, shot list and location / props checklist","iPhone shoots for quick, budget reels — or a full crew with cinema camera, gimbal, LED lights and wireless mics","Reels, ads, interviews, events and product films","Full edit: cuts, colour grading, captions, music and sound design","Delivery in 9:16, 1:1 and 16:9, ready for every platform"],"Restaurants, boutiques, clinics, gyms, real estate, events and brands that need fresh content every month.","2–7 days after the shoot"),
  ("video-editing","Video Editing","edit","Reels, shorts and long-form YouTube with captions, colour grading and sound design.",
   ["Hook-first reel and shorts editing","YouTube long-form and podcast multicam edits","Animated captions and subtitles in any language","Colour grading, sound clean-up, music and SFX","Thumbnails on request"],"Creators, coaches, podcasters and brands who already shoot and want a pro edit.","1–3 days per reel"),
  ("commercial-video-editing","Commercial Video Editing","comm","Brand promos, product films and ad cuts built for Instagram, YouTube and TV screens.",
