@@ -393,7 +393,7 @@ function cheer(kind){if(ME.role!=="staff"&&ME.role!=="owner")return;celebrate();
 let NOTES=[],lastUnread=-1;
 async function pollNotes(){if(!auth.currentUser||!ME)return;try{const r=await call("/fs/notes");NOTES=r.notes||[];const n=r.unread||0;const b=$("bellN");b.hidden=!n;b.textContent=n>99?"99+":n;document.title=(n?`(${n}) `:"")+"Flow Studio Dashboard";
  if(lastUnread>=0&&n>lastUnread){const nw=NOTES.filter(x=>!x.read).slice(0,n-lastUnread);ding();nw.slice(0,3).forEach(x=>{toast(x.text,5000);try{if(Notification.permission==="granted")new Notification("Flow Studio",{body:x.text,icon:"icon-192.png"})}catch(e){}});if(VIEW)load()}lastUnread=n}catch(e){}}
-function ding(){try{const a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.setValueAtTime(880,a.currentTime);o.frequency.setValueAtTime(1320,a.currentTime+.12);g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.25,a.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.45);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.5)}catch(e){}}
+function ding(){SFX.play("bell")}
 $("bell").onclick=async e=>{e.stopPropagation();let p=$("np");if(p){p.remove();return}p=document.createElement("div");p.id="np";p.className="np gl";
  const perm=("Notification" in window)&&Notification.permission==="default"?`<button class="btn sm pri" type="button" id="npAllow" style="width:100%;margin-bottom:8px">🔔 Turn on pop-up alerts</button>`:"";
  p.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin:2px 4px 8px"><b>Notifications</b><button class="btn sm" type="button" id="npAll" style="margin-left:auto">Mark all read</button></div>${perm}${NOTES.length?NOTES.map(n=>`<div class="it ${n.read?"":"un"}" data-np="${H(n.pid||"")}"><span>${n.read?"":"🔵"}</span><div>${H(n.text)}<small>${when(n.ts)}</small></div></div>`).join(""):'<div class="empty">No notifications yet.</div>'}`;
@@ -819,6 +819,85 @@ async function cardPdf(root,fname){if(!window.html2canvas||!window.jspdf){toast(
   const cv=await html2canvas(c,{scale:6,useCORS:true,backgroundColor:null,logging:false});c.style.boxShadow=sh;
   if(i)pdf.addPage([54,85.6],"portrait");pdf.addImage(cv.toDataURL("image/jpeg",.95),"JPEG",0,0,54,85.6,undefined,"FAST")}
  pdf.save(fname);toast("PDF downloaded ✓")}
+
+/* ---------- dashboard sounds (same studio sound engine as the website) ---------- */
+const SFX = (() => {
+  let ctx = null, on = true, master = null, lastHover = 0;
+  try { on = localStorage.getItem("fs-sound") !== "off"; } catch (e) {}
+  const ac = () => { if (!ctx) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ctx = new C(); master = ctx.createGain(); master.gain.value = .55; master.connect(ctx.destination); } if (ctx.state === "suspended") ctx.resume(); return ctx; };
+  const noise = (dur) => { const c = ctx, b = c.createBuffer(1, Math.max(1, c.sampleRate * dur), c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; const s = c.createBufferSource(); s.buffer = b; return s; };
+  const env = (g, t, a, peak, d) => { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + a + d); };
+  const tone = (f, t, d, type = "sine", peak = .2, f2) => { const o = ctx.createOscillator(), g = ctx.createGain(); o.type = type; o.frequency.setValueAtTime(f, t); if (f2) o.frequency.exponentialRampToValueAtTime(f2, t + d); env(g, t, .004, peak, d); o.connect(g).connect(master); o.start(t); o.stop(t + d + .05); };
+  const burst = (t, d, freq, q, peak, type = "bandpass") => { const n = noise(d + .05), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = type; f.frequency.value = freq; f.Q.value = q; env(g, t, .002, peak, d); n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + d + .05); };
+  const P = {
+    /* soft glass tick when the pointer touches a button or card */
+    hover() { tone(2400, ctx.currentTime, .045, "sine", .05, 1800); },
+    /* camera shutter: two mechanical clicks with a quick curtain swish */
+    shutter() { const t = ctx.currentTime; burst(t, .03, 3200, 1.2, .55); burst(t + .012, .09, 1400, .7, .22); tone(180, t, .04, "square", .05, 90); burst(t + .085, .028, 2600, 1.4, .45); tone(140, t + .085, .03, "square", .04, 80); },
+    /* film clapper for the filter chips */
+    clap() { const t = ctx.currentTime; burst(t, .05, 1800, .9, .5); tone(320, t, .06, "triangle", .12, 160); },
+    /* lens aperture ring: tiny ratchet tick */
+    tick() { const t = ctx.currentTime; burst(t, .012, 5200, 3, .18); tone(3800, t, .012, "square", .02); },
+    /* editing timeline marker */
+    marker() { const t = ctx.currentTime; tone(1320, t, .09, "sine", .12); tone(1980, t + .07, .14, "sine", .09); },
+    /* REC beep (camera starts recording) */
+    rec() { const t = ctx.currentTime; tone(1046, t, .08, "sine", .14); tone(1046, t + .14, .08, "sine", .14); },
+    /* page transition whoosh */
+    whoosh() { const t = ctx.currentTime, n = noise(.5), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = .8; f.frequency.setValueAtTime(400, t); f.frequency.exponentialRampToValueAtTime(3800, t + .35); env(g, t, .12, .22, .32); n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + .55); },
+    /* success: bright three-note chime */
+    success() { const t = ctx.currentTime; [784, 988, 1318].forEach((f, i) => tone(f, t + i * .09, .32, "sine", .13)); tone(2637, t + .27, .5, "sine", .04); },
+    /* folder opens: flap lift, papers sliding out, soft shimmer */
+    fopen() { const t = ctx.currentTime; tone(130, t, .09, "triangle", .16, 210); burst(t + .02, .05, 900, .8, .22);
+      const n = noise(.42), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = 1.1; f.frequency.setValueAtTime(700, t + .06); f.frequency.exponentialRampToValueAtTime(3600, t + .42); env(g, t + .06, .08, .14, .3); n.connect(f).connect(g).connect(master); n.start(t + .06); n.stop(t + .5);
+      [1175, 1568, 2093].forEach((fr, i) => tone(fr, t + .2 + i * .06, .38, "sine", .045)); },
+    /* folder closes: papers slide back in, flap lands with a soft thud */
+    fclose() { const t = ctx.currentTime, n = noise(.32), f = ctx.createBiquadFilter(), g = ctx.createGain(); f.type = "bandpass"; f.Q.value = 1.1; f.frequency.setValueAtTime(3200, t); f.frequency.exponentialRampToValueAtTime(600, t + .28); env(g, t, .05, .13, .24); n.connect(f).connect(g).connect(master); n.start(t); n.stop(t + .36);
+      tone(190, t + .26, .12, "triangle", .2, 85); burst(t + .26, .04, 600, .7, .25); },
+    /* sample opens full screen: page lift + bright ping */
+    view() { const t = ctx.currentTime; burst(t, .06, 2400, .9, .16); tone(880, t + .03, .16, "sine", .1, 1320); tone(1760, t + .1, .3, "sine", .04); },
+    /* sample closes */
+    unview() { const t = ctx.currentTime; tone(1100, t, .12, "sine", .08, 560); burst(t + .02, .05, 1200, .9, .12); },
+    /* soft error buzz */
+    err() { const t = ctx.currentTime; tone(220, t, .12, "triangle", .14, 160); tone(196, t + .13, .16, "triangle", .12, 140); },
+    /* payment / money: coin sparkle */
+    coin() { const t = ctx.currentTime; tone(1568, t, .08, "square", .05); tone(2093, t + .07, .28, "sine", .12); tone(3136, t + .12, .3, "sine", .04); },
+    /* notification bell */
+    bell() { const t = ctx.currentTime; [1318, 1760].forEach((f, i) => { tone(f, t + i * .13, .5, "sine", .14); tone(f * 2.01, t + i * .13, .3, "sine", .03); }); },
+    /* accordion pop */
+    pop() { tone(520, ctx.currentTime, .08, "sine", .14, 880); },
+    /* lens focus whir on the first touch */
+    focus() { const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain(); o.type = "sawtooth"; o.frequency.setValueAtTime(90, t); o.frequency.exponentialRampToValueAtTime(240, t + .5); const f = ctx.createBiquadFilter(); f.type = "lowpass"; f.frequency.value = 900; env(g, t, .08, .06, .5); o.connect(f).connect(g).connect(master); o.start(t); o.stop(t + .62); burst(t + .52, .02, 4200, 2, .2); }
+  };
+  const VIB = { fopen: [10, 30, 16], fclose: [16], view: [8], unview: [6], shutter: [14, 40, 18], clap: [22], tick: [4], marker: [10], success: [12, 60, 12, 60, 30], pop: [8], hover: 0, whoosh: [10], rec: [10, 90, 10], focus: [6, 30, 6] };
+  return {
+    get on() { return on; },
+    play(k, opt = {}) {
+      if (k === "hover") { const n = performance.now(); if (n - lastHover < 70) return; lastHover = n; }
+      if (on && ac()) try { P[k](); } catch (e) {}
+      if (!opt.silent && VIB[k] && navigator.vibrate) try { navigator.vibrate(VIB[k]); } catch (e) {}
+    },
+    toggle() { on = !on; try { localStorage.setItem("fs-sound", on ? "on" : "off"); } catch (e) {} if (on) { ac(); P.rec && this.play("rec"); } return on; },
+    unlock() { if (on) ac(); }
+  };
+})();
+(()=>{const tr=document.querySelector(".topr");if(tr){const b=document.createElement("button");b.className="btn sm";b.type="button";b.id="sndB";const s=()=>{b.textContent=SFX.on?"🔊":"🔇";b.title=SFX.on?"Sound on (tap to mute)":"Sound off (tap to turn on)"};s();b.onclick=()=>{SFX.toggle();s()};tr.insertBefore(b,tr.firstChild)}
+ let unl=false;const U=()=>{if(!unl){unl=true;SFX.unlock()}};addEventListener("pointerdown",U,{capture:true});addEventListener("keydown",U,{capture:true});
+ document.addEventListener("pointerover",e=>{if(e.pointerType!=="mouse")return;const t=e.target.closest(".btn,.nav button,.gbtn,.role,.kpi,.row,summary,.seg button");if(t&&!t.contains(e.relatedTarget))SFX.play("hover")},true);
+ document.addEventListener("click",e=>{const t=e.target;if(t.closest("#sndB"))return;
+  if(t.closest(".nav button"))return SFX.play("whoosh");
+  if(t.closest(".gbtn"))return SFX.play("shutter");
+  if(t.closest("[data-punch]"))return SFX.play("clap");
+  if(t.closest("[data-pay],[data-paid]"))return SFX.play("coin");
+  if(t.closest("[data-up],[data-biglink]"))return SFX.play("rec");
+  if(t.closest("#bell"))return SFX.play("pop");
+  if(t.closest(".seg button,[data-st2]"))return SFX.play("tick");
+  if(t.closest("[data-x]"))return SFX.play("unview");
+  if(t.closest(".btn"))SFX.play("pop")},true);
+ document.addEventListener("toggle",e=>{if(e.target.tagName==="DETAILS")SFX.play(e.target.open?"fopen":"fclose")},true);
+ const mo=new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes){if(n.nodeType!==1)continue;if(n.classList.contains("modal")||n.classList.contains("idm"))SFX.play("view",{silent:true})}});mo.observe(document.body,{childList:true});
+ const _c=celebrate;celebrate=function(){SFX.play("success");return _c.apply(this,arguments)};
+ const _t=toast;toast=function(t,ms){if(/fail|error|wrong|could not|couldn|❌|⚠/i.test(String(t)))SFX.play("err",{silent:true});else if(/paid|payment received|✅/i.test(String(t)))SFX.play("coin",{silent:true});return _t.apply(this,arguments)};
+})();
 </script>
 </body>
 </html>
