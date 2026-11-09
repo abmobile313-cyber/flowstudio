@@ -6,7 +6,7 @@
   let LANG = "en";
   try { LANG = localStorage.getItem("fs-lang") || ""; } catch (e) {}
   if (!LG[LANG]) { const n = (navigator.language || "en").toLowerCase(); LANG = n.startsWith("ar") ? "ar" : n.startsWith("hi") ? "hi" : "en"; }
-  const ORIG = new WeakMap(), SKIP = "script,style,textarea,input,select,option,code,pre,svg,.mono,[data-notr],.idc,.oc,.paper,.pvw,#clock,.trp,.brand,.fdr,.bc,.tid,.bct,[contenteditable]";
+  const ORIG = new WeakMap(), SKIP = "script,style,textarea,input,select,option,code,pre,svg,.mono,[data-notr],.idc,.oc,.paper,.pvw,#clock,.trp,.brand,.fdr,.cav,.cmh,.bc,.tid,.bct,[contenteditable]";
   const MSGSEL = ".msg,.cm,.chat,.tk,.np .it,.tcp,.toast";
   let cache = {};
   const ck = () => "fs-tr-" + LANG;
@@ -14,7 +14,7 @@
   let saveT = 0; const saveC = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { const k = Object.keys(cache); if (k.length > 6000) k.slice(0, k.length - 5000).forEach(x => delete cache[x]); localStorage.setItem(ck(), JSON.stringify(cache)); } catch (e) {} }, 800); };
   loadC();
   const worth = s => { const t = s.trim(); if (t.length < 2 || !/\p{L}{2}/u.test(t)) return false; if (/^(FS-|P\d{6}-|T\d{6}-|G\d{6}-)[\w-]*$/i.test(t)) return false; if (/^[\w.+-]+@[\w-]+\.[\w.]+$/.test(t) || /^https?:\/\//.test(t) || /^[\w-]+\.(com|in|agency|app)$/i.test(t)) return false; return true; };
-  const asciiOnly = s => ![...s].some(ch => ch.charCodeAt(0) > 127 && /\p{L}/u.test(ch));
+  const asciiOnly = s => !/[\u0600-\u06FF\u0750-\u077F\u0900-\u0DFF\u0E00-\u0FFF\u3040-\u30FF\u4E00-\u9FFF\uAC00-\uD7AF\u0400-\u04FF]/.test(s);
   function need(node) {
     const p = node.parentElement; if (!p || p.closest(SKIP)) return false;
     const o = ORIG.has(node) ? ORIG.get(node) : node.nodeValue; if (!worth(o)) return false;
