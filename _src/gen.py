@@ -106,7 +106,8 @@ def build(key, show, title, desc, hero, body_attr="", extra_sections=""):
     h = re.sub(r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{E(title)}">', h, count=1)
     h = h.replace('<nav class="links" id="links">' + re.search(r'<nav class="links" id="links">(.*?)</nav>', h).group(1) + '</nav>', f'<nav class="links" id="links">{nav(key if key in PAGES else "services")}</nav>', 1)
     h = h.replace("<body>", f"<body data-pg=\"{key}\"{body_attr}>", 1)
-    h = h.replace("<!--PHERO-->", (hero or "") + extra_sections + (NEXT if key == "index" else ""), 1)
+    h = h.replace("<!--PHERO-->", (hero or "") + extra_sections, 1)
+    if key == "index": h = h.replace('<div class="mq" aria-hidden="true"><div id="mq"></div></div>', '<div class="mq" aria-hidden="true"><div id="mq"></div></div>\n' + NEXT, 1)
     open(os.path.join(R, ("index" if key == "index" else key) + ".html"), "w").write(h)
 for k, p in PAGES.items():
     hero = None
