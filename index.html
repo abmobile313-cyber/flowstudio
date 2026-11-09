@@ -309,16 +309,21 @@ details[open] summary:after{transform:rotate(45deg);background:var(--rb)}
 details p{margin:0;padding:0 22px 20px;color:var(--mut)}
 /* footer */
 .ftop{display:flex;align-items:flex-end;justify-content:space-between;gap:28px 40px;flex-wrap:wrap;margin:0 0 34px}.ftop .fw{margin:0}
-.fnd{position:relative;display:flex;align-items:center;gap:18px;padding:18px 22px 18px 18px;border-radius:28px;background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12);max-width:100%}
+.fnd{position:relative;display:flex;align-items:center;gap:26px;padding:24px 30px 24px 24px;border-radius:28px;background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12);max-width:100%}
 .fnd::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-.fph{position:relative;flex:none;width:112px;height:112px;border-radius:50%;padding:3px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;box-shadow:0 0 34px rgba(155,92,255,.45)}
+.fph{position:relative;flex:none;width:170px;height:170px;cursor:zoom-in;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;border-radius:50%;padding:3px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;box-shadow:0 0 34px rgba(155,92,255,.45)}
 .fph img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 20%;display:block;border:3px solid #0b0912;background:radial-gradient(circle at 25% 20%,#ff3d9a 0,transparent 55%),radial-gradient(circle at 85% 30%,#3b82ff 0,transparent 55%),radial-gradient(circle at 60% 100%,#ff8a1f 0,transparent 60%),linear-gradient(160deg,#9b5cff,#1a0f3d)}
 .fin{min-width:0}.fin small{display:block;font:700 10.5px/1 var(--D,inherit);letter-spacing:.22em;color:var(--mut)}
-.fin b{display:block;font:800 22px/1.15 var(--D,inherit);letter-spacing:-.02em;color:#fff;margin:7px 0 3px}
-.fin>span{display:block;font-weight:700;font-size:14.5px}
+.fin b{display:block;font:800 28px/1.12 var(--D,inherit);letter-spacing:-.02em;color:#fff;margin:7px 0 3px}
+.fin>span{display:block;font-weight:700;font-size:17px}
 .fch{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.fch i{font-style:normal;font-size:11.5px;font-weight:600;color:#e9e6ff;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
 @media(min-width:1000px){.ftop{flex-wrap:nowrap;align-items:center}.ftop .fw{font-size:clamp(56px,8.4vw,170px)}}
-@media(max-width:560px){.fnd{width:100%;padding:16px}.fph{width:88px;height:88px}.fin b{font-size:19px}}
+.fph:hover{transform:scale(1.1) rotate(-2deg);box-shadow:0 0 60px rgba(255,61,154,.6)}.fph::after{content:"⤢";position:absolute;right:6px;bottom:6px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:rgba(10,8,18,.85);color:#fff;font-size:16px;border:1px solid rgba(255,255,255,.25)}
+.fzoom{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;padding:24px;background:rgba(5,4,10,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;pointer-events:none;transition:opacity .35s}.fzoom.on{opacity:1;pointer-events:auto}
+.fzoom figure{margin:0;text-align:center;transform:scale(.8);transition:transform .45s cubic-bezier(.2,.8,.2,1)}.fzoom.on figure{transform:none}.fzoom .zr{width:min(78vw,480px);aspect-ratio:1;border-radius:36px;padding:4px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;box-shadow:0 30px 120px rgba(155,92,255,.55)}
+.fzoom img{width:100%;height:100%;object-fit:cover;border-radius:32px;display:block;background:radial-gradient(circle at 25% 20%,#ff3d9a 0,transparent 55%),radial-gradient(circle at 85% 30%,#3b82ff 0,transparent 55%),radial-gradient(circle at 60% 100%,#ff8a1f 0,transparent 60%),linear-gradient(160deg,#9b5cff,#1a0f3d)}
+.fzoom figcaption{margin-top:18px}.fzoom figcaption b{display:block;font:800 clamp(24px,4vw,34px)/1.1 var(--D,inherit);color:#fff}.fzoom figcaption span{display:block;margin-top:6px;font-weight:700}.fzoom .x{position:absolute;top:max(16px,env(safe-area-inset-top));right:max(16px,env(safe-area-inset-right));width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;font-size:20px;cursor:pointer}
+@media(max-width:560px){.fnd{width:100%;padding:18px;gap:16px;flex-direction:column;text-align:center}.fph{width:150px;height:150px}.fin b{font-size:23px}.fch{justify-content:center}}
 footer{padding:80px 0 120px;border-top:1px solid rgba(255,255,255,.08);overflow:hidden}
 .fw{font:800 clamp(56px,14vw,200px)/.85 var(--D);letter-spacing:-.06em;margin:0 0 34px}
 .fr{display:flex;flex-wrap:wrap;gap:20px 44px;justify-content:space-between;color:var(--mut);font-size:15px}
@@ -535,7 +540,7 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 <footer><div class="wrap">
   <div class="ftop"><p class="fw rbt">Flow Studio</p>
   <div class="fnd" aria-label="Founder">
-    <div class="fph"><img src="founder.webp" alt="Arsalan Ahmed Shaikh, Founder &amp; MD of Flow Studio" width="160" height="160" loading="lazy" decoding="async"></div>
+    <div class="fph" role="button" tabindex="0" aria-label="View founder photo larger"><img src="founder.webp" alt="Arsalan Ahmed Shaikh, Founder &amp; MD of Flow Studio" width="160" height="160" loading="lazy" decoding="async"></div>
     <div class="fin"><small>THE FOUNDER</small><b>Arsalan Ahmed Shaikh</b><span class="rbt">Founder &amp; Managing Director</span>
       <div class="fch"><i>Creative Director</i><i>Lead Video Editor</i><i>AI Film Director</i></div></div>
   </div></div>
@@ -1099,5 +1104,8 @@ if (!LITE) addEventListener("scroll", () => requestAnimationFrame(monTilt), { pa
   fallbackItems:[{id:"demo1",name:"Starter reel pack",desc:"3 edited reels with captions and music",kind:"quote",cat:"Video"},{id:"demo2",name:"Logo & brand kit",desc:"Logo, colours, fonts and social templates",kind:"quote",cat:"Design"},{id:"demo3",name:"Social media monthly",desc:"Posting calendar, captions and community replies",kind:"quote",cat:"Social"}]});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});</script>
 <script>/* samples are view-only: no right-click save or drag on images and videos */document.addEventListener("contextmenu",e=>{if(e.target.closest("img,video,.sbox,.fd,#rbox"))e.preventDefault()});document.addEventListener("dragstart",e=>{if(e.target.closest("img,video"))e.preventDefault()});</script>
+<script>(()=>{const f=document.querySelector(".fph");if(!f)return;const z=document.createElement("div");z.className="fzoom";z.setAttribute("role","dialog");z.setAttribute("aria-modal","true");
+z.innerHTML='<button class="x" type="button" aria-label="Close">✕</button><figure><div class="zr"><img src="founder.webp" alt="Arsalan Ahmed Shaikh"></div><figcaption><b>Arsalan Ahmed Shaikh</b><span class="rbt">Founder &amp; Managing Director · Flow Studio</span></figcaption></figure>';document.body.appendChild(z);
+const op=()=>{z.classList.add("on");try{SFX.play("view")}catch(e){}},cl=()=>z.classList.remove("on");f.onclick=op;f.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();op()}};z.onclick=e=>{if(!e.target.closest("img"))cl()};addEventListener("keydown",e=>{if(e.key==="Escape")cl()})})();</script>
 </body>
 </html>
