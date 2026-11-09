@@ -130,6 +130,7 @@ h2.t{font:800 26px/1.15 var(--H);letter-spacing:-.02em;margin:6px 0 4px}
 .seg{display:inline-flex;padding:4px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);gap:4px}.seg button{border:0;background:none;padding:6px 12px;border-radius:9px;cursor:pointer;color:var(--mut);font-weight:600}.seg button[aria-pressed=true]{background:rgba(79,124,255,.4);color:#fff}
 .spot{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(79,124,255,.10),transparent 65%);transform:translate(-50%,-50%);z-index:0;transition:opacity .4s}
 .fade{animation:fd .45s ease both}@keyframes fd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.np{position:fixed;top:64px;right:max(16px,env(safe-area-inset-right,0px));width:min(380px,calc(100vw - 32px));max-height:70vh;overflow:auto;z-index:50;padding:10px}.np .it{display:flex;gap:10px;padding:10px;border-radius:12px;cursor:pointer;font-size:13.5px}.np .it:hover{background:rgba(255,255,255,.06)}.np .it.un{background:rgba(79,124,255,.16)}.np .it small{display:block;color:var(--mut);font-size:11px}
 .idm{position:fixed;inset:0;z-index:70;background:rgba(2,4,14,.8);display:grid;place-items:center;padding:20px;overflow:auto}.idm .cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;zoom:1.35}.ctl2{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
 .paper{position:fixed;left:-10000px;top:0;width:794px;background:#fff;color:#14172b;font:13px/1.5 Inter,sans-serif;padding:40px}
 .paper h1{font:800 24px Sora,sans-serif;margin:0}.paper h2{font:700 16px Sora,sans-serif;margin:22px 0 8px;color:#2a3a9a}.paper table{width:100%;border-collapse:collapse;font-size:12px}.paper th{background:#eef1ff;text-align:left;padding:7px 8px}.paper td{padding:7px 8px;border-bottom:1px solid #e6e8f2}
@@ -194,7 +195,7 @@ h2.t{font:800 26px/1.15 var(--H);letter-spacing:-.02em;margin:6px 0 4px}
   <header class="top">
    <button class="btn sm ham" id="ham" type="button" aria-label="Menu">☰</button>
    <div class="crumb">Flow Studio / <b id="crumb">Overview</b></div>
-   <div class="topr"><span class="live"><i></i><span id="clock">--:--:--</span></span><button class="btn sm" type="button" id="refresh" title="Refresh">↻</button></div>
+   <div class="topr"><button class="btn sm" type="button" id="bell" title="Notifications" style="position:relative">🔔<b id="bellN" hidden style="position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#ff3d9a;color:#fff;font:700 11px/18px var(--M)"></b></button><span class="live"><i></i><span id="clock">--:--:--</span></span><button class="btn sm" type="button" id="refresh" title="Refresh">↻</button></div>
   </header>
   <div id="view"></div>
  </main>
@@ -266,7 +267,7 @@ function start(){$("app").hidden=false;const R=ME.role;$("roleL").textContent={c
  $("meN").textContent=ME.name||ME.email;$("meC").textContent=R==="client"?ME.code:R==="staff"?ME.tid:"FS-001 · Owner";
  $("meAv").innerHTML=avatar(R==="staff"?(ME.staff||{}).photo:R==="owner"?"founder-card.webp":ME.photo,ME.name);
  const nav=$("nav");nav.querySelectorAll("button").forEach(b=>b.remove());nav.insertAdjacentHTML("beforeend",MENUS[R].map(([k,i,l])=>`<button type="button" data-v="${k}">${ico(i)}<span>${l}</span></button>`).join(""));
- const h=(location.hash||"").slice(1);go(MENUS[R].some(m=>m[0]===h)?h:"home",true)}
+ const h=(location.hash||"").slice(1);go(MENUS[R].some(m=>m[0]===h)?h:"home",true);setTimeout(pollNotes,1500)}
 function avatar(src,name){return src?`<img src="${H(src)}" alt="" referrerpolicy="no-referrer">`:`<span class="av">${H((name||"?").trim()[0]||"?").toUpperCase()}</span>`}
 let pillAt=0;
 function movePill(btn,instant){const p=$("pill"),top=btn.offsetTop,bot=top+btn.offsetHeight,down=top>=pillAt;pillAt=top;
@@ -386,6 +387,20 @@ async function pay(pid,stage){toast("Opening payment…");try{const r=await call
 function cheer(kind){if(ME.role!=="staff"&&ME.role!=="owner")return;celebrate();const n=(D.projects||[]).filter(p=>p.assignee===ME.tid&&p.deliveredAt).length,nm=(ME.name||"").split(" ")[0];
  const T={take:["🚀",`Great choice, ${nm}!`,"This project is yours now. Plan it, make it beautiful, and keep the client updated here."],draft:["🎬",`First draft is out, ${nm}!`,"Brilliant progress. The client can now see a watermarked preview and send changes."],final:["🏆",`Amazing work, ${nm}!`,`Another happy client. You have delivered ${n+1} project${n?"s":""} — keep shining ✨`]}[kind];
  modal(`<div style="text-align:center"><div style="font-size:54px">${T[0]}</div><h2 class="t">${T[1]}</h2><p class="muted" style="max-width:420px;margin:0 auto 14px">${T[2]}</p><button class="btn pri" type="button" data-x>Let's go</button></div>`)}
+
+/* ---------- notifications: bell, sound, pop-up, tab badge ---------- */
+let NOTES=[],lastUnread=-1;
+async function pollNotes(){if(!auth.currentUser||!ME)return;try{const r=await call("/fs/notes");NOTES=r.notes||[];const n=r.unread||0;const b=$("bellN");b.hidden=!n;b.textContent=n>99?"99+":n;document.title=(n?`(${n}) `:"")+"Flow Studio Dashboard";
+ if(lastUnread>=0&&n>lastUnread){const nw=NOTES.filter(x=>!x.read).slice(0,n-lastUnread);ding();nw.slice(0,3).forEach(x=>{toast(x.text,5000);try{if(Notification.permission==="granted")new Notification("Flow Studio",{body:x.text,icon:"icon-192.png"})}catch(e){}});if(VIEW)load()}lastUnread=n}catch(e){}}
+function ding(){try{const a=new (window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.type="sine";o.frequency.setValueAtTime(880,a.currentTime);o.frequency.setValueAtTime(1320,a.currentTime+.12);g.gain.setValueAtTime(.0001,a.currentTime);g.gain.exponentialRampToValueAtTime(.25,a.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,a.currentTime+.45);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.5)}catch(e){}}
+$("bell").onclick=async e=>{e.stopPropagation();let p=$("np");if(p){p.remove();return}p=document.createElement("div");p.id="np";p.className="np gl";
+ const perm=("Notification" in window)&&Notification.permission==="default"?`<button class="btn sm pri" type="button" id="npAllow" style="width:100%;margin-bottom:8px">🔔 Turn on pop-up alerts</button>`:"";
+ p.innerHTML=`<div style="display:flex;align-items:center;gap:8px;margin:2px 4px 8px"><b>Notifications</b><button class="btn sm" type="button" id="npAll" style="margin-left:auto">Mark all read</button></div>${perm}${NOTES.length?NOTES.map(n=>`<div class="it ${n.read?"":"un"}" data-np="${H(n.pid||"")}"><span>${n.read?"":"🔵"}</span><div>${H(n.text)}<small>${when(n.ts)}</small></div></div>`).join(""):'<div class="empty">No notifications yet.</div>'}`;
+ document.body.appendChild(p);if($("npAllow"))$("npAllow").onclick=()=>Notification.requestPermission().then(()=>p.remove());
+ $("npAll").onclick=async()=>{await call("/fs/notes",{all:true}).catch(()=>{});p.remove();lastUnread=0;pollNotes()};
+ p.onclick=ev=>{const it=ev.target.closest("[data-np]");if(!it)return;p.remove();call("/fs/notes",{all:true}).then(pollNotes).catch(()=>{});const pid=it.dataset.np;if(pid){go(ME.role==="client"?"projects":"work").then(()=>setTimeout(()=>{const d=document.getElementById("files-"+pid);if(d)d.closest(".card").scrollIntoView({behavior:"smooth"})},700))}}};
+document.addEventListener("click",e=>{const p=$("np");if(p&&!p.contains(e.target)&&e.target.id!=="bell")p.remove()});
+setInterval(pollNotes,45000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)pollNotes()});
 /* ---------- celebrate ---------- */
 function celebrate(){const c=document.createElement("canvas");c.style.cssText="position:fixed;inset:0;z-index:99;pointer-events:none";c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const x=c.getContext("2d"),P=[...Array(140)].map(()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-4,c:["#4f7cff","#9b5cff","#ff3d9a","#f3c14b","#22d37f"][Math.random()*5|0],r:Math.random()*6+3,a:Math.random()*6}));let t=0;
  (function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore()});if(++t<140)requestAnimationFrame(f);else c.remove()})()}
