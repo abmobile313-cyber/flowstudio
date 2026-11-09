@@ -68,7 +68,7 @@ PAGES = {
 NAV = [("index","Home"),("services","Services"),("work","Work"),("reels","Reels"),("packages","Packages"),("about","About"),("contact","Contact")]
 def href(k): return "./" if k == "index" else f"{k}"
 def nav(cur):
-    return "".join(f'<a href="{href(k)}"{" aria-current=\"page\"" if k==cur else ""}>{n}</a>' for k,n in NAV) + '<a href="#" data-shop-orders>My orders</a>'
+    return "".join(f'<a href="{href(k)}"{" aria-current=\"page\"" if k==cur else ""}>{n}</a>' for k,n in NAV) + '<a href="portal.html">Dashboard</a>'
 def phero(kicker, h1, lead, crumbs, extra=""):
     bc = " / ".join(f'<a href="{href(k)}">{E(n)}</a>' if k else E(n) for k,n in crumbs)
     return f'''<section class="phero" data-p="ALL"><div class="wrap"><nav class="crumb mono" aria-label="Breadcrumb">{bc}</nav>

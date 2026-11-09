@@ -393,6 +393,9 @@ body[data-fold] .ssrch,body[data-fold] #fds,body[data-fold] .fhint,body[data-fol
 
 .ssrch{display:grid;gap:12px;margin:0 0 26px}.sbx{display:flex;align-items:center;gap:10px;padding:14px 18px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);color:var(--mut)}.sbx input{flex:1;min-width:0;background:none;border:0;outline:0;color:#fff;font:500 16px/1.2 inherit}
 .ich{display:flex;gap:8px;flex-wrap:wrap}.ich button{font:600 13px/1 inherit;color:#fff;padding:9px 14px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);cursor:pointer}.ich button.on{background:var(--rb);background-size:200%;color:#120a20;border:0}
+@media(min-width:601px){.trp.inmenu{display:none}}@media(min-width:1381px){.links a[href="portal.html"]{display:none}}.links .trp.inmenu .trb b{display:inline!important}.links .trp.inmenu .trb{width:auto!important;padding:0 14px!important}
+@media(max-width:600px){.nav .bar{gap:6px;padding:0 8px 0 10px}.bar>.trp.site{display:none}.trp.inmenu{display:block;padding:6px 4px 2px}.trp.inmenu .trb{width:auto;padding:0 14px}.trp.inmenu .trb b{display:inline}.trp.inmenu .trm{left:0;right:auto;top:auto;bottom:calc(100% + 8px)}.sbtn,.nsb,.nlog{width:38px!important;height:38px!important}.menu{width:40px;height:40px;margin-left:4px}}
+@media(max-width:370px){.sbtn{display:none!important}.nav .brand{font-size:15px;gap:8px}.nav .brand img{width:36px;height:36px}.nsb{margin-left:auto}}
 </style>
 <style id="fs-3d">
 /* 3D depth layer: pressable buttons, lifted glass cards, extruded headings */
@@ -426,7 +429,7 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 
 <header class="nav"><div class="wrap"><div class="bar gl">
   <a class="brand" href="./"><img src="logo.webp" alt="Flow Studio logo" width="42" height="42">Flow Studio</a>
-  <nav class="links" id="links"><a href="./">Home</a><a href="services">Services</a><a href="work">Work</a><a href="reels">Reels</a><a href="packages">Packages</a><a href="about">About</a><a href="contact" aria-current="page">Contact</a><a href="#" data-shop-orders>My orders</a></nav>
+  <nav class="links" id="links"><a href="./">Home</a><a href="services">Services</a><a href="work">Work</a><a href="reels">Reels</a><a href="packages">Packages</a><a href="about">About</a><a href="contact" aria-current="page">Contact</a><a href="portal.html">Dashboard</a></nav>
   <a class="btn rb navcta" href="contact"><span class="shine"></span>Free quote</a>
   <button class="menu" id="menuBtn" aria-label="Open menu"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
 </div></div></header>
@@ -476,7 +479,7 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 
 <section class="sec" id="services" data-p="services"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">01 · What we make</span><h2>Everything your brand needs to <span class="rbt">look world class</span></h2></div><p>Choose one service or hand us everything. Every project starts with a free quote on WhatsApp.</p></div>
-  <div class="payplan rv" role="note"><span class="pp"><b>40%</b> advance to start</span><span class="pa">→</span><span class="pp"><b>60%</b> on final delivery</span><small>Pay online or on WhatsApp · every payment gets a receipt and tracking under My orders</small></div>
+  <div class="payplan rv" role="note"><span class="pp"><b>40%</b> advance to start</span><span class="pa">→</span><span class="pp"><b>60%</b> on final delivery</span><small>Pay online or on WhatsApp · every payment gets a receipt and tracking in your dashboard</small></div>
   <div class="chips rv" id="chips"><button class="on" data-f="all">All</button><button data-f="Video">Video</button><button data-f="Design">Design</button><button data-f="Social">Social media</button><button data-f="Web">Websites</button><button data-f="Apps">Apps &amp; software</button><button data-f="AI">AI studio ✦</button></div>
   <div class="grid" id="grid"></div>
 </div></section>
@@ -548,11 +551,11 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 <section id="pricing" class="sec" data-p="pricing"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">05½ · Packages</span><h2>Ready packages. <span class="rbt">Pay online.</span></h2></div><p>Fixed-price packages you can order right now. For anything custom, ask for a free quote and pay online once you approve the price.</p></div>
   <div data-shop-grid></div>
-  <p style="text-align:center;margin-top:28px"><button class="btn rb" type="button" data-shop-quote="Custom project"><span class="shine"></span>Get a custom quote</button> <button class="btn gls" type="button" data-shop-orders>My orders & quotes</button></p>
+  <p style="text-align:center;margin-top:28px"><button class="btn rb" type="button" data-shop-quote="Custom project"><span class="shine"></span>Get a custom quote</button> <a class="btn gls" href="portal.html">📋 My dashboard · orders &amp; quotes</a></p>
 </div></section>
 <section class="sec" id="contact" data-p="contact"><div class="wrap">
   <div class="sh rv"><div><span class="mono rbt">06 · Start a project</span><h2>Tell us your idea. <span class="rbt">Get a free quote.</span></h2></div><p>Fill this short brief and it opens WhatsApp with everything already written. We reply fast.</p></div>
-  <div class="payplan rv sm" role="note"><span class="pp"><b>40%</b> advance to start</span><span class="pa">→</span><span class="pp"><b>60%</b> on final delivery</span><small>Pay online or on WhatsApp · every payment gets a receipt and tracking under My orders</small></div>
+  <div class="payplan rv sm" role="note"><span class="pp"><b>40%</b> advance to start</span><span class="pa">→</span><span class="pp"><b>60%</b> on final delivery</span><small>Pay online or on WhatsApp · every payment gets a receipt and tracking in your dashboard</small></div>
   <div class="console">
     <div class="cl">
       <a class="ci gl glare rv" data-wa="Hello Flow Studio, I want to start a project." href="#" style="--c:#1fbd64"><span class="d"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg></span><span><small>WhatsApp · fastest reply</small><b>+91 93704 17863</b></span></a>
@@ -648,13 +651,13 @@ const WHO = ["Restaurants & cafes", "Fashion & boutiques", "Real estate", "Docto
 const STEPS = [["Brief", "Send your idea and references on WhatsApp. Tell us your goal and deadline.", "#ff3d9a", "linear-gradient(135deg,#ff3d9a,#9b5cff)"], ["Quote", "We confirm the price, shoot date and delivery time. No hidden charges.", "#9b5cff", "linear-gradient(135deg,#9b5cff,#3b82ff)"], ["Shoot & draft", "We shoot if needed, then share a first draft for your review and changes.", "#3b82ff", "linear-gradient(135deg,#3b82ff,#22d37f)"], ["Delivery", "Final files in every size you need: reels, YouTube, ads, print and web.", "#22d37f", "linear-gradient(135deg,#22d37f,#ffd43b)"]];
 const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
-/* every quotation is also saved in our order system: the customer sees the price and pays online under "My orders" */
+/* every quotation is also saved in our order system: the customer sees the price and pays online in the dashboard */
 function fsQuote(service, name, phone, brief, budget, deadline, biz) {
   if (String(phone || "").replace(/\D/g, "").length < 10) return;
   fetch("https://quranic-science-automation.quranicscience01.workers.dev/shop/quote", { method: "POST", headers: { "content-type": "application/json" },
     body: JSON.stringify({ brand: "flowstudio", customer: { name: name + (biz ? " (" + biz + ")" : ""), phone }, service, brief, budget, deadline }) })
     .then(r => r.json()).then(r => { if (!r.id) return; try { const k = "shp-flowstudio-quotes", q = JSON.parse(localStorage.getItem(k) || "[]"); q.unshift({ id: r.id, key: r.key, ts: Date.now() }); localStorage.setItem(k, JSON.stringify(q.slice(0, 30))); } catch (e) {}
-      toast("Request saved ✓ Track the price under My orders"); }).catch(() => {});
+      toast("Request saved ✓ Track it in your dashboard"); }).catch(() => {});
 }
 const waUrl = t => `https://wa.me/${WA}?text=${encodeURIComponent(t)}`;
 const toast = t => { const e = $("#toast"); e.textContent = t; e.classList.add("on"); setTimeout(() => e.classList.remove("on"), 2200); };
@@ -1446,11 +1449,23 @@ let t;sq.oninput=()=>{clearTimeout(t);t=setTimeout(()=>{const q=sq.value.trim().
 <script>(()=>{const bar=document.querySelector(".nav .bar"),cta=document.querySelector(".navcta");if(!bar)return;
 const sb=document.createElement("button");sb.className="nsb";sb.type="button";sb.setAttribute("aria-label","Search the website");sb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
 const lg=document.createElement("a");lg.className="nlog";lg.href="portal.html";lg.setAttribute("aria-label","Login to your dashboard");lg.title="Login · My dashboard";lg.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Dashboard</span>';
-bar.insertBefore(sb,cta||null);bar.insertBefore(lg,cta||null);if(window.FSTR)bar.insertBefore(FSTR.picker("site"),cta||null);
+bar.insertBefore(sb,cta||null);bar.insertBefore(lg,cta||null);if(window.FSTR)bar.insertBefore(FSTR.picker("site"),cta||null);if(window.FSTR){const lk=document.getElementById("links");if(lk)lk.appendChild(FSTR.picker("site inmenu"));}
 const P=document.createElement("div");P.className="nsp";P.innerHTML='<div class="bx" role="dialog" aria-label="Search"><div class="in"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#bbb" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="nsq" type="search" placeholder="Search services, samples, industries, pages…" autocomplete="off"><kbd>ESC</kbd></div><div class="rs" id="nsr"></div><div class="hint">Try: <b>perfume reel</b>, <b>website</b>, <b>wedding</b>, <b>Arabic</b>, <b>logo</b>, <b>gym</b></div></div>';document.body.appendChild(P);
 const PAGES=[["./","Home","🏠","Flow Studio home"],["services","Services","🧩","All services"],["work","Work & samples","🎞️","Sample folders, photos and videos"],["reels","Reels","🎬","Reels for every industry"],["packages","Packages","📦","Plans and prices"],["about","About & founder","👑","Arsalan Ahmed Shaikh, Founder & MD"],["contact","Contact & free quote","✉️","Send a brief, WhatsApp, call"],["portal.html","Login · Dashboard","🔐","Clients, team and owner dashboards"],["founder","Founder profile","✨","Meet the founder"]];
 const IND=["Perfume","Fashion","Clinics","Gym","Supplements","Shoes","Watches","Optical","Hotels","Food","Real estate","Religious","Wedding","Political rally","Car","Phone","Music","Visiting cards","Arabic","Urdu","Hindi","Marathi","Persian","Chinese","Spanish"];
-const BIZ=[["Clinic & doctor","🩺","clinic doctor dental dentist hospital skin derma physio pathology lab diagnostic health medical",["shoot-and-edit","graphic-designing","social-media-handling","website-development","ai-chatbot-whatsapp","pc-mobile-combo-app"],"clinic dental derma glow skin doctor pharmacy aarogya physio"],
+const BIZ=[["Barber tools & shears","✂️","barber shears scissors scissor kainchi trimmer razor grooming",["commercial-video-editing","ai-product-photoshoot","ecommerce-store","brand-identity-logo","social-media-handling"],"sharpedge shears scissors barber"],
+["Natural & herbal products","🌿","natural herbal organic ayurvedic ayurveda essential oil wellness capsules",["ai-product-photoshoot","commercial-video-editing","ai-video-ads","ecommerce-store","commercial-graphic-designing"],"herbiva natural herbal ayurve"],
+["Computers & laptops","💻","computer laptop pc desktop gaming it hardware",["social-media-handling","commercial-video-editing","graphic-designing","ecommerce-store","website-development"],"bytezone computer laptop"],
+["Printing & photocopy","🖨️","printer printing print press photocopy xerox flex banner offset",["graphic-designing","visiting-cards-print","social-media-handling","website-development"],"printpoint print flyer"],
+["Camera & photo store","📷","camera cameras lens photography dslr",["commercial-video-editing","social-media-handling","ecommerce-store","graphic-designing"],"focuspro camera lens"],
+["Speakers & electronics","🔊","speaker speakers audio sound system home theatre soundbar electronics",["commercial-video-editing","ai-video-ads","social-media-handling","ecommerce-store"],"bassbox audio speaker"],
+["Hardware & tools","🔧","hardware tools paint sanitary plumbing drill",["commercial-video-editing","graphic-designing","social-media-handling","business-dashboards"],"ironmart hardware tools"],
+["Furniture & interiors","🛋️","furniture sofa bed interior interiors decor carpenter",["shoot-and-edit","commercial-video-editing","ai-product-photoshoot","social-media-handling","ecommerce-store"],"woodnest furniture sofa"],
+["Stationery & books","✏️","stationery stationary books pens notebook",["graphic-designing","social-media-handling","ecommerce-store"],"inkwell stationery"],
+["Tiles, marble & sanitary","🧱","tiles tile marble granite sanitaryware bathroom flooring",["shoot-and-edit","commercial-video-editing","graphic-designing","social-media-handling"],"stonecraft tiles marble"],
+["Electricals, fans & AC","💡","electrical electricals electric fan fans ac aircon cooler light lights led wiring",["commercial-video-editing","graphic-designing","social-media-handling","business-dashboards"],"voltline electrical fan"],
+["Mobiles & repair","📱","mobile phone phones smartphone repair accessories cover",["social-media-handling","commercial-video-editing","graphic-designing","ai-chatbot-whatsapp"],"fixit mobile phone repair mobiles"],
+["Clinic & doctor","🩺","clinic doctor dental dentist hospital skin derma physio pathology lab diagnostic health medical",["shoot-and-edit","graphic-designing","social-media-handling","website-development","ai-chatbot-whatsapp","pc-mobile-combo-app"],"clinic dental derma glow skin doctor pharmacy aarogya physio"],
 ["Restaurant, café & food","🍛","restaurant cafe food hotel dhaba biryani bakery sweets cloud kitchen tiffin chai momo pizza",["shoot-and-edit","commercial-video-editing","graphic-designing","social-media-handling","ai-product-photoshoot","ecommerce-store"],"biryani cafe food chai bakery sweets momo menu restaurant kitchen tiffin coffee"],
 ["Perfume & attar","🌸","perfume attar ittar oud fragrance scent",["commercial-video-editing","ai-video-ads","ai-product-photoshoot","ecommerce-store","brand-identity-logo","social-media-handling"],"perfume attar oud fragrance scent ittar noir"],
 ["Fashion & boutique","👗","fashion boutique clothing saree lehenga tailor garments kurti handloom",["shoot-and-edit","social-media-handling","ecommerce-store","ai-product-photoshoot","graphic-designing"],"boutique fashion saree lehenga tailor threads handloom try-on"],
