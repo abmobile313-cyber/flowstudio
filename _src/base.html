@@ -181,6 +181,7 @@ h1 .ln>span{display:inline-block;transform:translateY(110%) rotate(6deg);animati
 .qm-lock,.qm-lock body{overflow:hidden}
 .rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 @media(max-width:1000px){.rgrid{grid-template-columns:repeat(3,1fr)}}@media(max-width:700px){.rgrid{grid-template-columns:repeat(2,1fr);gap:12px}}
+.sc.smore{display:grid;place-items:center;text-align:center;font:700 15px var(--T);color:#fff;background:linear-gradient(135deg,rgba(59,130,255,.25),rgba(155,92,255,.25));border:1px dashed rgba(255,255,255,.3);cursor:pointer;min-height:160px}.sc.smore small{font-weight:500;color:#cfcbe6}
 .rc{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/10;cursor:pointer;background:#0b0912;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 20px 40px -24px rgba(0,0,0,.9);transform:translateZ(0);transition:transform .45s cubic-bezier(.2,1,.3,1),box-shadow .45s;border:0;padding:0;color:#fff;text-align:left}
 .rc:hover{transform:translateY(-6px) scale(1.02);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3),0 30px 60px -20px rgba(155,92,255,.55)}
 .rc img,.rc video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s ease}
@@ -879,8 +880,6 @@ const SAMPLES = [
   ["shoot", "img", "shoot-n27", "Shoot · Toy Store", "Kids Kingdom Toys"],
   ["shoot", "img", "shoot-n28", "Shoot · Attar Perfume Shop", "Noor Attars"],
   ["shoot", "img", "shoot-n29", "Shoot · Homemade Pickle Brand", "Swaad Pickles"],
-  ["shoot", "video", "shoot-v01", "Shoot film · Luxury Perfume House", "Al Aswad Dubai"],
-  ["shoot", "video", "shoot-v02", "Shoot film · Perfume Brand", "ScentKart"],
   ["shoot", "video", "shoot-v04", "Shoot film · Supplement Brand", "MuscleCore"],
   ["shoot", "video", "shoot-v05", "Shoot film · Skin Clinic", "Glow Derma"],
   ["shoot", "video", "shoot-v06", "Shoot film · Fashion Boutique", "Velvet Threads"],
@@ -937,10 +936,9 @@ const SAMPLES = [
   ["edit", "img", "edit-n36", "Edit · Optical Store reel", "Optic Hub"],
   ["edit", "img", "edit-n37", "Edit · Wedding Banquet Hall reel", "Mehfil Banquets"],
   ["edit", "img", "edit-n38", "Edit · Handloom Saree Brand reel", "Kala Handlooms"],
-  ["edit", "video", "edit-v01", "Edited reel · Perfume Brand", "ScentKart"],
   ["edit", "video", "edit-v02", "Edited reel · Sneaker Brand", "Stride"],
   ["edit", "video", "edit-v03", "Edited reel · Supplement Brand", "MuscleCore"],
-  ["edit", "video", "edit-v06", "Edited reel · Optical Store", "Optic Hub"],
+  ["edit", "video", "edit-v06", "Edited reel · Fashion Boutique", "Velvet Threads"],
   ["edit", "video", "edit-v07", "Edited reel · Luxury Hotel", "The Grand Saffron"],
   ["edit", "video", "edit-v04", "Edited reel · Skin Clinic", "Glow Derma"],
   ["edit", "video", "edit-v05", "Edited reel · Fashion Boutique", "Velvet Threads"],
@@ -995,7 +993,7 @@ const SAMPLES = [
   ["comm", "img", "comm-n42", "Commercial · Dates And Dry Fruits Shop", "Baraka Dates"],
   ["comm", "img", "comm-n43", "Commercial · Car Service Garage", "AutoPro Garage"],
   ["comm", "img", "comm-n44", "Commercial · Travel Agency", "Wanderlust Tours"],
-  ["comm", "video", "comm-v01", "TV commercial · Sneaker Brand", "Stride"],
+  ["comm", "video", "comm-v01", "TV commercial · Fitness Gym", "Iron Forge"],
   ["comm", "video", "comm-v02", "TV commercial · Supplement Brand", "MuscleCore"],
   ["comm", "video", "comm-v03", "TV commercial · Skin Clinic", "Glow Derma"],
   ["comm", "video", "comm-v04", "TV commercial · Fashion Boutique", "Velvet Threads"],
@@ -1059,7 +1057,7 @@ const SAMPLES = [
   ["design", "video", "design-v05", "Poster motion · Luxury Hotel", "The Grand Saffron"],
   ["design", "video", "design-v06", "Poster motion · Fitness Gym", "Iron Forge"],
   ["design", "video", "design-v07", "Poster motion · Watch Brand", "Regal Chrono"],
-  ["design", "video", "design-v08", "Poster motion · Luxury Perfume House", "Al Aswad Dubai"],
+  ["design", "video", "design-v08", "Poster motion · Fashion Boutique", "Velvet Threads"],
   ["cdesign", "img", "design-jewellery-ad", "Luxury ad creative", "Aurum & Co. jewellery"],
   ["cdesign", "img", "design-packaging", "Packaging design", "Nectar Valley juices"],
   ["cdesign", "img", "design-menu", "Menu design", "Saffron Table restaurant"],
@@ -1110,14 +1108,11 @@ const SAMPLES = [
   ["cdesign", "img", "cdesign-n36", "Packaging · Wedding Banquet Hall", "Mehfil Banquets"],
   ["cdesign", "img", "cdesign-n37", "Packaging · Pet Clinic", "PetPals Clinic"],
   ["cdesign", "img", "cdesign-n38", "Packaging · Momos Cafe", "Momo Mantra"],
-  ["cdesign", "video", "cdesign-v01", "Packaging reveal · Skin Clinic", "Glow Derma"],
   ["cdesign", "video", "cdesign-v02", "Packaging reveal · Fashion Boutique", "Velvet Threads"],
   ["cdesign", "video", "cdesign-v03", "Packaging reveal · Optical Store", "Optic Hub"],
   ["cdesign", "video", "cdesign-v04", "Packaging reveal · Luxury Hotel", "The Grand Saffron"],
   ["cdesign", "video", "cdesign-v05", "Packaging reveal · Fitness Gym", "Iron Forge"],
   ["cdesign", "video", "cdesign-v06", "Packaging reveal · Watch Brand", "Regal Chrono"],
-  ["cdesign", "video", "cdesign-v07", "Packaging reveal · Luxury Perfume House", "Al Aswad Dubai"],
-  ["cdesign", "video", "cdesign-v08", "Packaging reveal · Perfume Brand", "ScentKart"],
   ["social", "img", "social-instagram", "Instagram handling", "maison.nira boutique"],
   ["social", "img", "social-m1", "Instagram grid", "Crumb & Co. bakery"],
   ["social", "img", "social-m2", "Content calendar", "Monthly posting plan"],
@@ -1173,7 +1168,6 @@ const SAMPLES = [
   ["social", "video", "social-v03", "Instagram feed · Luxury Hotel", "The Grand Saffron"],
   ["social", "video", "social-v04", "Instagram feed · Fitness Gym", "Iron Forge"],
   ["social", "video", "social-v05", "Instagram feed · Watch Brand", "Regal Chrono"],
-  ["social", "video", "social-v06", "Instagram feed · Luxury Perfume House", "Al Aswad Dubai"],
   ["social", "video", "social-v08", "Instagram feed · Sneaker Brand", "Stride"],
   ["smm", "img", "smm-m1", "Ads manager", "Campaign overview"],
   ["smm", "img", "smm-m2", "Monthly report", "Analytics & next steps"],
@@ -1195,8 +1189,6 @@ const SAMPLES = [
   ["smm", "video", "smm-v01", "Growth dashboard · Optical Store", "Optic Hub"],
   ["smm", "video", "smm-v02", "Growth dashboard · Luxury Hotel", "The Grand Saffron"],
   ["smm", "video", "smm-v03", "Growth dashboard · Fitness Gym", "Iron Forge"],
-  ["smm", "video", "smm-v05", "Growth dashboard · Luxury Perfume House", "Al Aswad Dubai"],
-  ["smm", "video", "smm-v06", "Growth dashboard · Perfume Brand", "ScentKart"],
   ["smm", "video", "smm-v07", "Growth dashboard · Sneaker Brand", "Stride"],
   ["smm", "video", "smm-v08", "Growth dashboard · Supplement Brand", "MuscleCore"],
   ["landing", "img", "landing-m1", "Coaching landing page", "Book a free call"],
@@ -1287,14 +1279,21 @@ const SAMPLES = [
   ["ugc", "video", "../ugc/ugc-10", "UGC · Course testimonial", "Student explains what she learned"]
 ];
 const SVID = { has: () => true };
+/* videos lead every folder; photos follow, a few at a time */
+const PHOTO_STEP = 12; let photoShow = PHOTO_STEP, lastF = "";
 function drawSamples(f) {
-  $("#sgrid").innerHTML = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2]))).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${STAG[x[0]]||""}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") || `<p class="rnote">New samples in this category are on the way.</p>`;
+  if (f !== lastF) { photoShow = PHOTO_STEP; lastF = f; }
+  const all = SAMPLES.filter(x => f === "all" || x[0] === f).filter(x => !(x[1] === "video" && !SVID.has(x[2])));
+  const vids = all.filter(x => x[1] === "video"), imgs = all.filter(x => x[1] !== "video"), more = Math.max(0, imgs.length - photoShow);
+  $("#sgrid").innerHTML = vids.concat(imgs.slice(0, photoShow)).map(x => `<button class="sc${x[5] ? " w" : ""}" type="button" data-sm="${SAMPLES.indexOf(x)}" aria-label="Open sample: ${esc(x[3])}">${x[1] === "video" ? `<img src="samples/${x[2]}.jpg" alt="" loading="lazy" decoding="async"><span class="rp"></span>` : `<img src="samples/${x[2]}.jpg" alt="${esc(x[3] + " – " + x[4])}" loading="lazy" decoding="async">`}<span class="stag">${STAG[x[0]]||""}</span><span class="st"><small>${esc(x[3])}</small><b>${esc(x[4])}</b></span></button>`).join("") + (more ? `<button class="sc smore" type="button" id="smore"><span>📷 Show ${Math.min(more, PHOTO_STEP)} more photos<br><small>${more} more in this folder</small></span></button>` : "") || `<p class="rnote">New samples in this category are on the way.</p>`;
+  const mb = $("#smore"); if (mb) mb.onclick = e => { e.stopPropagation(); photoShow += PHOTO_STEP; drawSamples(f); };
 }
 const FOLD = [["shoot", "Shoot + Edit", "#ff8a1f", "#ff3d9a"], ["edit", "Video Editing", "#3b82ff", "#9b5cff"], ["comm", "Commercial Video", "#ff3d9a", "#9b5cff"], ["design", "Graphic Design", "#ff3d9a", "#ff8a1f"], ["cdesign", "Commercial Design", "#ff8a1f", "#ffd43b"], ["social", "Social Handling", "#ffd43b", "#ff8a1f"], ["smm", "Social Management", "#3b82ff", "#9b5cff"], ["landing", "Landing Pages", "#22d37f", "#3b82ff"], ["website", "Websites", "#3b82ff", "#22d37f"], ["combo", "PC + Mobile Combo", "#00d1ff", "#7c4dff"], ["app", "Mobile Apps", "#7c4dff", "#00d1ff"], ["pc", "PC Software", "#00d1ff", "#22d37f"], ["custom", "Custom Software", "#9b5cff", "#00d1ff"], ["aiads", "AI Video Ads", "#ff2bd6", "#9b5cff"], ["aiphoto", "AI Product Photos", "#9b5cff", "#ff2bd6"], ["aifilm", "AI Films", "#ff2bd6", "#ff8a1f"], ["aiauto", "AI Automation", "#9b5cff", "#3b82ff"], ["brand", "Brand Identity", "#ffd43b", "#ff3d9a"], ["print", "Cards & Print", "#d4af37", "#ff8a1f"], ["deck", "Pitch Decks", "#3b82ff", "#ffd43b"], ["shop", "Online Stores", "#22d37f", "#ffd43b"], ["seo", "SEO & Blogs", "#22d37f", "#3b82ff"], ["mkt", "Email & WhatsApp", "#25d366", "#3b82ff"], ["pb", "Zero to Hero", "#ff3d9a", "#ffd43b"], ["music", "Music Reels", "#9b5cff", "#ff3d9a"], ["chatbot", "AI Chatbots", "#00e5ff", "#22d37f"], ["voice", "Voiceover & Dubbing", "#ff8a1f", "#00e5ff"], ["course", "Online Courses", "#ffd43b", "#22d37f"], ["dash", "Dashboards", "#3b82ff", "#00e5ff"], ["ugc", "UGC Videos", "#22d37f", "#ffd43b"]];
 const STAG = {"shoot": "SHOOT + EDIT", "edit": "VIDEO EDITING", "comm": "COMMERCIAL VIDEO", "design": "GRAPHIC DESIGN", "cdesign": "COMMERCIAL DESIGN", "social": "SOCIAL HANDLING", "smm": "SOCIAL MANAGEMENT", "landing": "LANDING PAGES", "website": "WEBSITES", "combo": "PC + MOBILE COMBO", "app": "MOBILE APPS", "pc": "PC SOFTWARE", "custom": "CUSTOM SOFTWARE", "aiads": "AI VIDEO ADS", "aiphoto": "AI PRODUCT PHOTOS", "aifilm": "AI FILMS", "aiauto": "AI AUTOMATION", "brand": "BRAND IDENTITY", "print": "CARDS & PRINT", "deck": "PITCH DECKS", "shop": "ONLINE STORES", "seo": "SEO & BLOGS", "mkt": "EMAIL & WHATSAPP", "pb": "ZERO TO HERO", "music": "MUSIC REELS", "chatbot": "AI CHATBOTS", "voice": "VOICEOVER & DUBBING", "course": "ONLINE COURSES", "dash": "DASHBOARDS", "ugc": "UGC VIDEOS"};
 $("#fds").innerHTML = FOLD.map(([k, name, t1, t2]) => { const L = SAMPLES.filter(x => x[0] === k); if (!L.length) return "";
-  const files = L.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
-  return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${L[L.length - 1][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${L.length} ${L.length === 1 ? "FILE" : "FILES"}</small></span><span class="fgo">+</span></span></button>`; }).join("");
+  const LV = L.filter(x => x[1] === "video").concat(L.filter(x => x[1] !== "video"));
+  const files = LV.slice(0, 3).map((x, j) => `<i style="--k:${j};background-image:url(samples/${x[2]}.jpg)"><em><span>${esc(x[3])}</span><span>${x[1] === "video" ? "MP4" : "JPG"}</span></em></i>`).join("");
+  return `<button class="fd" type="button" data-f="${k}" style="--cv:url(samples/${LV[0][2]}.jpg);--t1:${t1};--t2:${t2}" aria-label="Open folder: ${esc(name)}"><span class="fbk"></span><span class="ffs">${files}</span><span class="ffr"><span class="fn"><b>${esc(name)}</b><small>${(() => { const v = L.filter(x => x[1] === "video").length, i = L.length - v; return [v ? v + (v === 1 ? " VIDEO" : " VIDEOS") : "", i ? i + (i === 1 ? " PHOTO" : " PHOTOS") : ""].filter(Boolean).join(" · "); })()}</small></span><span class="fgo">+</span></span></button>`; }).join("");
 const fopen = $("#fopen");
 $$("#fds .fd").forEach(b => b.onclick = e => { e.stopPropagation(); try { wake(); } catch (er) {} const on = !b.classList.contains("on"); $$("#fds .fd").forEach(x => x.classList.remove("on"));
   SFX.play(on ? "fopen" : "fclose");
