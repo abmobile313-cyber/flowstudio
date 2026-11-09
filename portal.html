@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Flow Studio Dashboard</title>
+<meta name="description" content="Flow Studio dashboard for clients, team and owner: projects, quotations, bills, duty time and reports.">
+<meta name="theme-color" content="#060a1a">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#050816;--bg2:#0a1030;--ink:#eaf0ff;--mut:#8d98bf;--mut2:#5d6890;--line:rgba(140,170,255,.14);--card:rgba(20,32,80,.42);--card2:rgba(30,48,120,.35);
+ --blue:#4f7cff;--blue2:#7aa2ff;--vio:#9b5cff;--pink:#ff3d9a;--gold:#f3c14b;--ok:#22d37f;--warn:#ffb020;--bad:#ff5470;--r:18px;--F:Inter,system-ui,sans-serif;--H:Sora,Inter,sans-serif;--M:"JetBrains Mono",ui-monospace,monospace;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%}html{background:#050816}
+body{background:radial-gradient(1200px 700px at 85% -10%,rgba(79,124,255,.28),transparent 60%),radial-gradient(900px 600px at -10% 110%,rgba(155,92,255,.22),transparent 60%),linear-gradient(180deg,#050816,#070c22 40%,#050816);background-attachment:fixed;color:var(--ink);font:14px/1.5 var(--F);-webkit-font-smoothing:antialiased}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(120,150,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(120,150,255,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse at 50% 0,#000 20%,transparent 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 0,#000 20%,transparent 75%)}
+a{color:var(--blue2)}button,input,select,textarea{font:inherit;color:inherit}
+[hidden]{display:none!important}
+.gl{background:linear-gradient(180deg,rgba(40,60,140,.38),rgba(16,24,64,.42));border:1px solid var(--line);border-radius:var(--r);box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 20px 50px rgba(0,0,0,.35);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 16px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);cursor:pointer;font-weight:600;text-decoration:none;color:var(--ink);transition:.2s;white-space:nowrap}
+.btn:hover{background:rgba(255,255,255,.1);transform:translateY(-1px)}.btn:disabled{opacity:.5;cursor:default;transform:none}
+.btn.pri{background:linear-gradient(135deg,#4f7cff,#7a5cff);border-color:transparent;box-shadow:0 10px 30px rgba(79,124,255,.35)}
+.btn.gold{background:linear-gradient(135deg,#f6e27a,#d4a017);color:#1d1400;border-color:transparent}
+.btn.ok{background:linear-gradient(135deg,#22d37f,#0ea765);border-color:transparent;color:#03140b}
+.btn.bad{background:linear-gradient(135deg,#ff5470,#d1264b);border-color:transparent}
+.btn.sm{padding:6px 11px;font-size:12.5px;border-radius:10px}
+.muted{color:var(--mut)}.mono{font-family:var(--M)}
+input,select,textarea{width:100%;padding:11px 13px;border-radius:12px;border:1px solid var(--line);background:rgba(5,10,30,.55);outline:none;transition:border .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--blue)}
+label.f{display:grid;gap:6px;font-size:12.5px;color:var(--mut);font-weight:600}label.f b{color:var(--pink)}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:90;padding:12px 18px;border-radius:14px;background:#111a44;border:1px solid var(--line);box-shadow:0 20px 50px rgba(0,0,0,.5);font-weight:600;max-width:calc(100% - 32px)}
+
+/* ---------- login ---------- */
+.center{min-height:100vh;display:grid;place-items:center;padding:30px max(16px,env(safe-area-inset-left,0px)) 30px max(16px,env(safe-area-inset-right,0px))}
+.lg{width:min(1040px,100%);display:grid;grid-template-columns:1.05fr .95fr;overflow:hidden;padding:0}
+.lg .l{padding:44px 40px;display:flex;flex-direction:column;gap:18px;position:relative}
+.lg .r{position:relative;min-height:520px;background:radial-gradient(circle at 50% 45%,rgba(79,124,255,.35),transparent 60%),#040713;display:grid;place-items:center;overflow:hidden}
+.brand{display:flex;align-items:center;gap:10px}.brand img{width:38px;height:38px;border-radius:10px}.brand b{font:800 18px var(--H);letter-spacing:-.02em}.brand small{display:block;color:var(--mut);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.lg h1{font:800 clamp(30px,4vw,44px)/1.05 var(--H);letter-spacing:-.03em;margin:8px 0 0;text-wrap:balance}
+.lg h1 em{font-style:normal;background:linear-gradient(90deg,#7aa2ff,#b28cff,#ff6bb5);-webkit-background-clip:text;background-clip:text;color:transparent}
+.roles{display:grid;gap:10px}.role{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.role i{font-style:normal;width:34px;height:34px;flex:none;border-radius:10px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(79,124,255,.35),rgba(155,92,255,.35))}.role b{display:block}.role span{color:var(--mut);font-size:12.5px}
+.gbtn{background:#fff;color:#1b1f2c;border:0;font-weight:700;padding:13px 18px;border-radius:14px;display:flex;gap:10px;align-items:center;justify-content:center;cursor:pointer;font-size:15px;box-shadow:0 14px 40px rgba(79,124,255,.35)}
+.gbtn svg{width:20px;height:20px}
+/* aperture */
+.ap{width:min(330px,70%);aspect-ratio:1;position:relative;filter:drop-shadow(0 30px 60px rgba(0,0,0,.6))}
+.ap svg{width:100%;height:100%;display:block}
+.ap .bl{transform-origin:100px 100px;transition:transform 1.4s cubic-bezier(.7,0,.2,1)}
+.ap .rot{transform-origin:100px 100px;animation:spin 40s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ap-cap{position:absolute;bottom:26px;left:0;right:0;text-align:center;font:600 11px var(--M);letter-spacing:.3em;color:#9fb2ff;opacity:.75}
+
+/* ---------- app shell ---------- */
+.app{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;padding:18px 14px calc(18px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:14px;border-right:1px solid var(--line);background:linear-gradient(180deg,rgba(10,16,48,.85),rgba(5,8,22,.9));z-index:20}
+.side .brand{padding:4px 8px 10px}
+.nav{position:relative;display:grid;gap:4px}
+.nav button{position:relative;z-index:1;display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:12px;border:0;background:none;color:var(--mut);cursor:pointer;font-weight:600;text-align:left;transition:color .25s}
+.nav button svg{width:18px;height:18px;flex:none;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav button:hover{color:var(--ink)}.nav button[aria-current=page]{color:#fff}
+.nav button .bd{margin-left:auto;font:700 10.5px var(--M);padding:2px 7px;border-radius:99px;background:var(--pink);color:#fff}
+.pill{position:absolute;left:0;right:0;top:0;height:0;border-radius:12px;background:linear-gradient(135deg,rgba(79,124,255,.55),rgba(122,92,255,.45));box-shadow:0 8px 24px rgba(79,124,255,.35),inset 0 1px 0 rgba(255,255,255,.18);z-index:0;pointer-events:none}
+.pill:before{content:"";position:absolute;left:-14px;top:22%;bottom:22%;width:3px;border-radius:3px;background:#9fb8ff;box-shadow:0 0 12px #7aa2ff}
+.sec{font:700 10.5px var(--M);letter-spacing:.2em;color:var(--mut2);text-transform:uppercase;padding:8px 12px 2px}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding:10px;border-radius:14px;background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.me img,.av{width:38px;height:38px;border-radius:50%;object-fit:cover;flex:none;background:linear-gradient(135deg,#4f7cff,#9b5cff);display:grid;place-items:center;font-weight:800}
+.me b{display:block;font-size:13px;line-height:1.2}.me small{color:var(--mut);font-size:11.5px;font-family:var(--M)}
+.main{min-width:0;padding:0 max(22px,env(safe-area-inset-right,0px)) 40px 22px}
+.top{position:sticky;top:0;z-index:15;display:flex;align-items:center;gap:12px;padding:14px 0;background:linear-gradient(180deg,rgba(5,8,22,.92),rgba(5,8,22,.6) 70%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.crumb{color:var(--mut);font-size:13px}.crumb b{color:var(--ink)}
+.live{display:flex;align-items:center;gap:6px;font:600 12px var(--M);padding:6px 10px;border-radius:99px;background:rgba(34,211,127,.1);color:#5ff0a8;border:1px solid rgba(34,211,127,.3)}
+.live i{width:7px;height:7px;border-radius:50%;background:#22d37f;box-shadow:0 0 0 0 rgba(34,211,127,.7);animation:pulse 1.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(34,211,127,0)}100%{box-shadow:0 0 0 0 rgba(34,211,127,0)}}
+.topr{margin-left:auto;display:flex;gap:8px;align-items:center}
+.ham{display:none}
+h2.t{font:800 26px/1.15 var(--H);letter-spacing:-.02em;margin:6px 0 4px}
+.sub{color:var(--mut);margin:0 0 18px}
+.grid{display:grid;gap:16px}
+.k4{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.kpi{padding:16px 18px;position:relative;overflow:hidden}
+.kpi small{display:flex;gap:8px;align-items:center;color:var(--mut);font-weight:600;font-size:12px}
+.kpi small i{font-style:normal;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:rgba(79,124,255,.18)}
+.kpi b{display:block;font:800 28px/1.1 var(--H);margin-top:8px;letter-spacing:-.02em}
+.kpi span{font-size:12px;color:var(--mut)}
+.kpi:after{content:"";position:absolute;right:-30px;top:-30px;width:110px;height:110px;border-radius:50%;background:radial-gradient(circle,rgba(79,124,255,.25),transparent 70%)}
+.card{padding:18px}
+.card h3{margin:0 0 12px;font:700 15px var(--H);display:flex;align-items:center;gap:8px}
+.card h3 .muted{font:500 12px var(--F)}
+.c2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}
+.c3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.c2>*,.c3>*,.k4>*{min-width:0}.duty .kpi b{font-size:20px}.duty .kpi{padding:12px 14px}
+.list{display:grid;gap:10px}
+.row{display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--line);min-width:0}
+.row .x{min-width:0;flex:1}.row .x b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .x span{color:var(--mut);font-size:12.5px}
+.tag{display:inline-flex;align-items:center;gap:6px;font:700 11px var(--M);letter-spacing:.04em;padding:4px 9px;border-radius:99px;background:rgba(255,255,255,.07);border:1px solid var(--line);white-space:nowrap}
+.tag.requested{color:#ffd166;border-color:rgba(255,209,102,.35)}.tag.quoted{color:#7aa2ff;border-color:rgba(122,162,255,.4)}.tag.in_progress{color:#c59bff;border-color:rgba(197,155,255,.4)}.tag.review{color:#ff9bd2;border-color:rgba(255,155,210,.4)}.tag.delivered,.tag.closed{color:#5ff0a8;border-color:rgba(95,240,168,.4)}
+.empty{padding:26px;text-align:center;color:var(--mut);border:1px dashed var(--line);border-radius:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:13px}.tbl th{text-align:left;color:var(--mut);font-weight:600;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--line)}.tbl td{padding:10px;border-bottom:1px solid rgba(140,170,255,.07)}
+.scx{overflow-x:auto}
+/* steps */
+.steps{display:flex;gap:4px;margin:10px 0 4px}.steps i{flex:1;height:6px;border-radius:6px;background:rgba(255,255,255,.08);position:relative;overflow:hidden}
+.steps i.on{background:linear-gradient(90deg,#4f7cff,#9b5cff)}.steps i.cur:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:sh 1.6s infinite}
+@keyframes sh{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.stl{display:flex;justify-content:space-between;font-size:10.5px;color:var(--mut);font-family:var(--M)}
+/* code card */
+.code{position:relative;overflow:hidden;padding:20px;border-radius:var(--r);background:linear-gradient(135deg,#1a2a7a,#3b1f78 55%,#6b1a5e);border:1px solid rgba(255,255,255,.18)}
+.code:before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.18) 48%,transparent 60%);transform:translateX(-100%);animation:shine 5s ease-in-out infinite}
+@keyframes shine{50%,100%{transform:translateX(100%)}}
+.code small{letter-spacing:.2em;font:700 10.5px var(--M);color:#c9d4ff}.code b{display:block;font:800 30px var(--M);letter-spacing:.06em;margin:6px 0}
+/* chat */
+.chat{display:grid;gap:8px;max-height:340px;overflow:auto;padding:4px}
+.msg{max-width:82%;padding:9px 12px;border-radius:14px;background:rgba(255,255,255,.06);font-size:13.5px;white-space:pre-wrap;word-break:break-word}
+.msg.me{justify-self:end;background:linear-gradient(135deg,rgba(79,124,255,.45),rgba(122,92,255,.4))}
+.msg small{display:block;color:var(--mut);font-size:10.5px;margin-top:3px}
+/* duty ring */
+.duty{display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:center}
+.ring{width:190px;height:190px;position:relative}.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring .ct{position:absolute;inset:0;display:grid;place-items:center;text-align:center}.ring .ct b{font:800 28px var(--M);display:block}.ring .ct span{font-size:11px;color:var(--mut);letter-spacing:.14em;text-transform:uppercase}
+.punch{display:flex;gap:8px;flex-wrap:wrap}
+.badges{display:flex;gap:8px;flex-wrap:wrap}.bdg{display:flex;gap:8px;align-items:center;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid var(--line);font-size:12.5px}.bdg.off{opacity:.35;filter:grayscale(1)}
+.heat{display:grid;gap:3px}.heat .hr{display:grid;grid-template-columns:120px repeat(31,minmax(10px,1fr));gap:3px;align-items:center;font-size:11px}
+.heat .hr i{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,.05)}
+.chart svg{width:100%;height:auto;display:block;overflow:visible}
+.grade{font:800 54px var(--H);background:linear-gradient(135deg,#f6e27a,#ff9b3d);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
+.modal{position:fixed;inset:0;z-index:60;background:rgba(2,4,14,.72);backdrop-filter:blur(6px);display:grid;place-items:center;padding:20px 16px;overflow:auto}
+.modal>.gl{width:min(760px,100%);padding:22px;max-height:calc(100vh - 40px);overflow:auto}
+.qi{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.6fr) 64px 100px 34px;gap:6px}
+.seg{display:inline-flex;padding:4px;border-radius:12px;background:rgba(255,255,255,.05);border:1px solid var(--line);gap:4px}.seg button{border:0;background:none;padding:6px 12px;border-radius:9px;cursor:pointer;color:var(--mut);font-weight:600}.seg button[aria-pressed=true]{background:rgba(79,124,255,.4);color:#fff}
+.spot{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(79,124,255,.10),transparent 65%);transform:translate(-50%,-50%);z-index:0;transition:opacity .4s}
+.fade{animation:fd .45s ease both}@keyframes fd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.idm{position:fixed;inset:0;z-index:70;background:rgba(2,4,14,.8);display:grid;place-items:center;padding:20px;overflow:auto}.idm .cards{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;zoom:1.35}.ctl2{display:flex;gap:8px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+.paper{position:fixed;left:-10000px;top:0;width:794px;background:#fff;color:#14172b;font:13px/1.5 Inter,sans-serif;padding:40px}
+.paper h1{font:800 24px Sora,sans-serif;margin:0}.paper h2{font:700 16px Sora,sans-serif;margin:22px 0 8px;color:#2a3a9a}.paper table{width:100%;border-collapse:collapse;font-size:12px}.paper th{background:#eef1ff;text-align:left;padding:7px 8px}.paper td{padding:7px 8px;border-bottom:1px solid #e6e8f2}
+.paper .hd{display:flex;align-items:center;gap:12px;border-bottom:3px solid #4f7cff;padding-bottom:14px}.paper .hd img{width:46px;height:46px;border-radius:10px}.paper .kp{display:flex;gap:10px;margin-top:14px}.paper .kp div{flex:1;background:#f4f6ff;border-radius:10px;padding:10px}.paper .kp b{display:block;font:800 18px Sora,sans-serif}
+.paper .ft{margin-top:26px;display:flex;justify-content:space-between;align-items:flex-end;color:#667}.paper .ft img{height:46px;filter:invert(1)}
+@media(max-width:980px){.c2,.c3{grid-template-columns:1fr}.lg{grid-template-columns:1fr}.lg .r{min-height:300px;order:-1}}
+@media(max-width:820px){.app{grid-template-columns:1fr}.side{position:fixed;inset:0 auto 0 0;width:260px;transform:translateX(-105%);transition:transform .35s}.side.open{transform:none;box-shadow:30px 0 80px rgba(0,0,0,.6)}.ham{display:inline-flex}.main{padding:0 max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}.duty{grid-template-columns:1fr;justify-items:center}.heat .hr{grid-template-columns:80px repeat(31,minmax(6px,1fr))}.qi{grid-template-columns:1fr 1fr}.crumb{display:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="spot" id="spot"></div>
+
+<!-- sign in -->
+<section class="center" id="login" hidden>
+ <div class="gl lg fade">
+  <div class="l">
+   <a class="brand" href="./" style="text-decoration:none;color:inherit"><img src="logo.webp" alt="Flow Studio"><div><b>Flow Studio</b><small>Dashboard</small></div></a>
+   <h1>One login for <em>clients, team &amp; owner.</em></h1>
+   <p class="muted" style="margin:0">Track every project, see your quotations and bills, chat with the team, and download everything as PDF. Your dashboard opens by itself after you sign in.</p>
+   <div class="roles">
+    <div class="role"><i>🧑‍💼</i><div><b>Clients</b><span>Book services, follow each project step by step, and download your quotations and bills.</span></div></div>
+    <div class="role"><i>🎬</i><div><b>Team</b><span>Duty timer, your projects, progress card and your ID card.</span></div></div>
+    <div class="role"><i>👑</i><div><b>Owner</b><span>Every client by code, every employee, all reports.</span></div></div>
+   </div>
+   <button class="gbtn" id="gIn" type="button"><svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>Sign in with Gmail</button>
+   <p class="muted" style="font-size:12px;margin:0" id="lgMsg">Login is required. New clients get a permanent client code after a 30-second sign-up.</p>
+  </div>
+  <div class="r"><div class="ap" id="ap"></div><div class="ap-cap">FLOW STUDIO · ƒ/1.4 · DASHBOARD</div></div>
+ </div>
+</section>
+
+<!-- new client sign-up -->
+<section class="center" id="reg" hidden>
+ <form class="gl card fade" id="regF" style="width:min(640px,100%);padding:28px">
+  <div class="brand"><img src="logo.webp" alt=""><div><b>Create your client dashboard</b><small>Flow Studio</small></div></div>
+  <p class="muted">Fields marked <b style="color:var(--pink)">*</b> are required. You get a permanent client code. It keeps your full history with us.</p>
+  <div class="g2">
+   <label class="f"><span>Your name <b>*</b></span><input id="rName" required autocomplete="name"></label>
+   <label class="f"><span>Business name <b>*</b></span><input id="rBiz" required autocomplete="organization"></label>
+   <label class="f"><span>Email <b>*</b></span><input id="rMail" readonly></label>
+   <label class="f"><span>Mobile / WhatsApp <b>*</b></span><input id="rPh" required inputmode="tel" autocomplete="tel" placeholder="+91 90000 00000"></label>
+   <div class="f" style="grid-column:1/-1;display:grid;gap:6px;font-size:12.5px;color:var(--mut);font-weight:600"><span>Is this Gmail your business email or personal email? <b>*</b></span><div class="seg" id="rType" style="width:max-content"><button type="button" data-et="business" aria-pressed="false">🏢 Business Gmail</button><button type="button" data-et="personal" aria-pressed="false">👤 Personal Gmail</button></div></div>
+   <label class="f">City (optional)<input id="rCity" autocomplete="address-level2"></label>
+   <label class="f">GST no. (optional)<input id="rGst"></label>
+  </div>
+  <label class="f" style="margin-top:12px">Address (optional)<textarea id="rAddr" rows="2" autocomplete="street-address"></textarea></label>
+  <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap"><button class="btn pri" type="submit" id="rGo">Create my dashboard →</button><button class="btn" type="button" data-out>Use another Google account</button></div>
+  <p class="muted" id="rMsg" style="margin:10px 0 0"></p>
+ </form>
+</section>
+
+<!-- dashboard -->
+<div class="app" id="app" hidden>
+ <aside class="side" id="side">
+  <a class="brand" href="./" style="text-decoration:none;color:inherit"><img src="logo.webp" alt=""><div><b>Flow Studio</b><small id="roleL">Dashboard</small></div></a>
+  <div class="sec">Menu</div>
+  <nav class="nav" id="nav"><div class="pill" id="pill"></div></nav>
+  <div class="me"><span id="meAv"></span><div style="min-width:0"><b id="meN"></b><small id="meC"></small></div><button class="btn sm" type="button" data-out title="Sign out" style="margin-left:auto">⎋</button></div>
+ </aside>
+ <main class="main">
+  <header class="top">
+   <button class="btn sm ham" id="ham" type="button" aria-label="Menu">☰</button>
+   <div class="crumb">Flow Studio / <b id="crumb">Overview</b></div>
+   <div class="topr"><span class="live"><i></i><span id="clock">--:--:--</span></span><button class="btn sm" type="button" id="refresh" title="Refresh">↻</button></div>
+  </header>
+  <div id="view"></div>
+ </main>
+</div>
+
+<div id="boot" class="center"><div style="text-align:center"><div class="ap" id="ap0" style="width:120px;margin:auto"></div><p class="muted">Opening your dashboard…</p></div></div>
+<div class="toast" id="toast" hidden></div>
+<div class="paper" id="paper"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script>
+const API="https://quranic-science-automation.quranicscience01.workers.dev";
+firebase.initializeApp({apiKey:"AIzaSyCCoqjw2BzgWcal6OVBqONYOB7x--WP12g",authDomain:"quranicscience-682ff.firebaseapp.com",projectId:"quranicscience-682ff",appId:"1:573259128290:web:ac11b77238e1bd7354edbb"});
+const auth=firebase.auth(),$=id=>document.getElementById(id);
+const H=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const rs=v=>"₹"+Math.round(+v||0).toLocaleString("en-IN");
+const dt=t=>t?new Date(t).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"—";
+const when=t=>t?new Date(t).toLocaleString("en-IN",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"}):"";
+const IST=t=>new Date(t+19800000);const istDay=t=>IST(t).toISOString().slice(0,10);
+const wa=(ph,msg)=>`https://wa.me/${String(ph||"").replace(/\D/g,"").replace(/^(\d{10})$/,"91$1")}?text=${encodeURIComponent(msg)}`;
+function toast(t,ms=2600){const e=$("toast");e.textContent=t;e.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>e.hidden=true,ms)}
+async function call(path,body){const t=await auth.currentUser.getIdToken();const r=await fetch(API+path,{method:body?"POST":"GET",headers:{authorization:"Bearer "+t,"content-type":"application/json"},body:body?JSON.stringify(body):undefined});const j=await r.json().catch(()=>({error:"Server error "+r.status}));if(!r.ok||j.error)throw new Error(j.error||r.status);return j}
+const SVC=["Shoot + Edit","Video Editing","Commercial Video Editing","Graphic Designing","Commercial Graphic Designing","Social Media Handling","Social Media Management","Landing Page Design","Website Development","PC + Mobile Combo App","Mobile App Development","PC Software","Custom Software & Web Apps","AI Video Ads & Reels","AI Product Photoshoot","AI Films & Storytelling","AI Content Automation","UGC Videos","Brand Identity & Logo","Pitch Decks & Presentations","AI Chatbot & WhatsApp Automation","E-commerce Store Setup","SEO & Blog Content","Email & WhatsApp Marketing","Business Dashboards & Reports","Online Course Creation","AI Voiceover & Dubbing","Music & Song Reels","Religious & Devotional Videos","Political Campaign Content","Personal Branding (Zero to Hero)","Premium Visiting Cards & Print"];
+const STG=["requested","quoted","in_progress","review","delivered"],STL={requested:"Requested",quoted:"Quoted",in_progress:"In progress",review:"Review",delivered:"Delivered",closed:"Closed"};
+const ICON={home:'<path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/>',plus:'<path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="10"/>',box:'<path d="M21 8l-9-5-9 5 9 5 9-5zM3 8v8l9 5 9-5V8"/>',doc:'<path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',id:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2.5"/><path d="M14 10h4M14 14h4M6 16c.6-1.4 1.7-2 3-2s2.4.6 3 2"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/>',team:'<circle cx="9" cy="8" r="3.5"/><circle cx="17" cy="9" r="2.5"/><path d="M2 20c1-3.5 3.8-5.5 7-5.5s6 2 7 5.5M15 14.6c2.8 0 4.8 1.6 6 4.4"/>',file:'<path d="M4 4h10l6 6v10H4z"/><path d="M8 14h8M8 18h5"/>',dl:'<path d="M12 3v12M6 11l6 6 6-6M4 21h16"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>'};
+const ico=k=>`<svg viewBox="0 0 24 24">${ICON[k]||""}</svg>`;
+
+/* ---------- aperture (login + loader) ---------- */
+function aperture(el,open=.8){const n=9,blades=[...Array(n)].map((_,i)=>`<g class="bl" data-i="${i}" style="transform:rotate(${i*40}deg)"><path d="M100 100 L100 20 A80 80 0 0 1 151 38 Z" fill="url(#bg${el.id})" stroke="rgba(0,0,0,.65)" stroke-width=".8"/></g>`).join("");
+ el.innerHTML=`<svg viewBox="0 0 200 200"><defs><radialGradient id="ring${el.id}" cx="50%" cy="40%"><stop offset="0" stop-color="#3a4170"/><stop offset=".7" stop-color="#151a33"/><stop offset="1" stop-color="#05070f"/></radialGradient><linearGradient id="bg${el.id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b2f45"/><stop offset=".5" stop-color="#11131f"/><stop offset="1" stop-color="#30344a"/></linearGradient><radialGradient id="gls${el.id}" cx="40%" cy="35%"><stop offset="0" stop-color="#9fb8ff" stop-opacity=".9"/><stop offset=".35" stop-color="#4f3cff" stop-opacity=".55"/><stop offset=".7" stop-color="#ff3d9a" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity="0"/></radialGradient><clipPath id="cl${el.id}"><circle cx="100" cy="100" r="78"/></clipPath></defs>
+ <circle cx="100" cy="100" r="99" fill="url(#ring${el.id})"/><g class="rot"><circle cx="100" cy="100" r="92" fill="none" stroke="rgba(255,255,255,.18)" stroke-dasharray="1 4.2" stroke-width="5"/></g>
+ <circle cx="100" cy="100" r="80" fill="#02030a"/><circle cx="100" cy="100" r="78" fill="url(#gls${el.id})"/><g clip-path="url(#cl${el.id})">${blades}</g>
+ <ellipse cx="78" cy="70" rx="26" ry="14" fill="#fff" opacity=".12" transform="rotate(-30 78 70)"/><circle cx="100" cy="100" r="80" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1"/></svg>`;
+ el.set=v=>el.querySelectorAll(".bl").forEach((b,i)=>b.style.transform=`rotate(${i*40+v*58}deg) translate(${v*20}px,${-v*6}px)`);el.set(0);setTimeout(()=>el.set(open),120);return el}
+aperture($("ap0"),.9);{let o=1;setInterval(()=>{o=!o;$("ap0").set(o?.9:.3)},1300)}
+{const a=aperture($("ap"),.85);let t=0;setInterval(()=>{t++;a.set([.85,.35,.95,.6][t%4])},2600)}
+addEventListener("pointermove",e=>{const s=$("spot");s.style.left=e.clientX+"px";s.style.top=e.clientY+"px"});
+setInterval(()=>{$("clock").textContent=new Date().toLocaleTimeString("en-IN",{hour12:false})},1000);
+
+/* ---------- auth ---------- */
+$("gIn").onclick=()=>{const p=new firebase.auth.GoogleAuthProvider();p.setCustomParameters({prompt:"select_account"});auth.signInWithPopup(p).catch(e=>{if(/popup/.test(e.code||""))auth.signInWithRedirect(p);else $("lgMsg").textContent="Sign-in failed: "+(e.message||e.code)})};
+document.addEventListener("click",async e=>{if(e.target.closest("[data-out]")){try{if(auth.currentUser)await call("/fs/logout",{})}catch(x){}auth.signOut()}});
+let ME=null,D={},VIEW="home";
+auth.onAuthStateChanged(async u=>{$("boot").hidden=!!u?false:true;["login","reg","app"].forEach(k=>$(k).hidden=true);
+ if(!u){$("boot").hidden=true;$("login").hidden=false;return}
+ try{const r=await call("/fs/me");ME=r.me;ME.client=r.client;ME.staff=r.staff}catch(e){$("boot").hidden=true;$("login").hidden=false;$("lgMsg").textContent="Could not open the dashboard: "+e.message;return}
+ $("boot").hidden=true;
+ if(ME.role==="new"){$("reg").hidden=false;$("rMail").value=ME.email;$("rName").value=ME.name||"";return}
+ start()});
+let ET="";$("rType").onclick=e=>{const b=e.target.closest("[data-et]");if(!b)return;ET=b.dataset.et;$("rType").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b))};
+$("regF").onsubmit=async e=>{e.preventDefault();if(!ET){$("rMsg").textContent="Please choose: is this Gmail business or personal?";return}$("rGo").disabled=true;$("rMsg").textContent="Creating your code…";
+ try{const r=await call("/fs/register",{emailType:ET,name:$("rName").value,business:$("rBiz").value,phone:$("rPh").value,city:$("rCity").value,gst:$("rGst").value,address:$("rAddr").value});
+  const m=await call("/fs/me");ME=m.me;ME.client=m.client;$("reg").hidden=true;start();celebrate();setTimeout(()=>toast("Welcome! Your client code is "+r.code,5000),300)}
+ catch(x){$("rMsg").textContent=x.message;$("rGo").disabled=false}};
+
+/* ---------- shell ---------- */
+const MENUS={client:[["home","home","Overview"],["book","plus","Book a service"],["projects","box","My projects"],["docs","doc","Quotations & bills"],["profile","user","My profile"]],
+ staff:[["home","clock","Today & duty"],["work","box","My projects"],["clients","search","Client lookup"],["make","file","Quotes & bills"],["perf","chart","Progress card"],["pay","doc","Salary & letters"],["idcard","id","My ID card"]],
+ owner:[["home","home","Overview"],["clients","search","Clients by code"],["work","box","All projects"],["make","file","Quotes & bills"],["team","team","Team & duty"],["payroll","doc","Salary & payroll"],["logins","clock","Login history"],["reports","dl","Reports & PDFs"],["idcard","id","My founder card"]]};
+function start(){$("app").hidden=false;const R=ME.role;$("roleL").textContent={client:"Client dashboard",staff:"Team dashboard",owner:"Owner dashboard"}[R];
+ $("meN").textContent=ME.name||ME.email;$("meC").textContent=R==="client"?ME.code:R==="staff"?ME.tid:"FS-001 · Owner";
+ $("meAv").innerHTML=avatar(R==="staff"?(ME.staff||{}).photo:R==="owner"?"https://quranicscience.info/img-founder.webp":ME.photo,ME.name);
+ const nav=$("nav");nav.querySelectorAll("button").forEach(b=>b.remove());nav.insertAdjacentHTML("beforeend",MENUS[R].map(([k,i,l])=>`<button type="button" data-v="${k}">${ico(i)}<span>${l}</span></button>`).join(""));
+ const h=(location.hash||"").slice(1);go(MENUS[R].some(m=>m[0]===h)?h:"home",true)}
+function avatar(src,name){return src?`<img src="${H(src)}" alt="" referrerpolicy="no-referrer">`:`<span class="av">${H((name||"?").trim()[0]||"?").toUpperCase()}</span>`}
+let pillAt=0;
+function movePill(btn,instant){const p=$("pill"),top=btn.offsetTop,bot=top+btn.offsetHeight,down=top>=pillAt;pillAt=top;
+ if(instant){p.style.transition="none";p.style.top=top+"px";p.style.height=btn.offsetHeight+"px";return}
+ /* lead edge moves fast, trailing edge follows: the pill stretches then settles */
+ const cur={t:p.offsetTop,b:p.offsetTop+p.offsetHeight},to={t:top,b:bot};
+ const lead=down?"b":"t",start=performance.now(),dl=360,dt2=560,ease=x=>1-Math.pow(1-x,3),eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+ p.style.transition="none";(function f(n){const e=n-start,a=Math.min(1,e/dl),b=Math.min(1,e/dt2);
+  const t=lead==="t"?cur.t+(to.t-cur.t)*ease(a):cur.t+(to.t-cur.t)*eio(b),bb=lead==="b"?cur.b+(to.b-cur.b)*ease(a):cur.b+(to.b-cur.b)*eio(b);
+  p.style.top=t+"px";p.style.height=(bb-t)+"px";if(a<1||b<1)requestAnimationFrame(f)})(start)}
+$("nav").onclick=e=>{const b=e.target.closest("[data-v]");if(b){go(b.dataset.v);$("side").classList.remove("open")}};
+$("ham").onclick=()=>$("side").classList.toggle("open");
+$("refresh").onclick=()=>load(true);
+async function go(v,first){VIEW=v;const b=$("nav").querySelector(`[data-v="${v}"]`);$("nav").querySelectorAll("button").forEach(x=>x.toggleAttribute("aria-current",x===b));if(b){b.setAttribute("aria-current","page");requestAnimationFrame(()=>movePill(b,first))}
+ $("crumb").textContent=b?b.textContent:"";try{history.replaceState(null,"","#"+v)}catch(e){}if(first)await load();else render()}
+addEventListener("resize",()=>{const b=$("nav").querySelector("[aria-current=page]");if(b)movePill(b,true)});
+async function load(){$("view").innerHTML=`<div class="empty">Loading…</div>`;
+ try{D=ME.role==="client"?await call("/fs/client"):await call("/fs/team")}catch(e){$("view").innerHTML=`<div class="empty">Could not load: ${H(e.message)}<br><br><button class="btn" onclick="load()">Try again</button></div>`;return}
+ if(ME.role==="staff"&&D.staffRec)ME.staff=D.staffRec;render()}
+function render(){const f=(VIEWS[ME.role]||{})[VIEW]||VIEWS[ME.role].home;$("view").innerHTML=`<div class="fade">${f()}</div>`;(AFTER[ME.role+"."+VIEW]||(()=>{}))();window.scrollTo({top:0})}
+const greet=()=>{const h=IST(Date.now()).getUTCHours();return h<12?"Good morning":h<17?"Good afternoon":"Good evening"};
+const LINES=["Small steps every day make big brands.","Quality is the best marketing.","Deliver early, surprise always.","Your work is someone's first impression.","Dreams into visuals — one frame at a time."];
+const line=()=>LINES[new Date().getDate()%LINES.length];
+function kpi(icon,label,val,sub){return `<div class="gl kpi"><small><i>${icon}</i>${label}</small><b>${val}</b><span>${sub||"&nbsp;"}</span></div>`}
+function steps(s){const i=STG.indexOf(s==="closed"?"delivered":s);return `<div class="steps">${STG.map((_,k)=>`<i class="${k<=i?"on":""} ${k===i&&s!=="delivered"&&s!=="closed"?"cur":""}"></i>`).join("")}</div><div class="stl">${STG.map(k=>`<span>${STL[k]}</span>`).join("")}</div>`}
+const tag=s=>`<span class="tag ${s}">${STL[s]||s}</span>`;
+
+/* ---------- charts (plain SVG) ---------- */
+function bars(vals,labels,{h=170,color="url(#gB)",fmt=v=>v,goal}={}){const w=Math.max(560,vals.length*50),max=Math.max(1,...vals,goal||0),bw=w/vals.length;
+ return `<div class="chart scx"><svg viewBox="0 -18 ${w} ${h+44}"><defs><linearGradient id="gB" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7aa2ff"/><stop offset="1" stop-color="#5a3cff" stop-opacity=".55"/></linearGradient></defs>
+ ${[.25,.5,.75,1].map(g=>`<line x1="0" x2="${w}" y1="${h-h*g}" y2="${h-h*g}" stroke="rgba(140,170,255,.1)"/>`).join("")}
+ ${goal?`<line x1="0" x2="${w}" y1="${h-h*goal/max}" y2="${h-h*goal/max}" stroke="#f3c14b" stroke-dasharray="4 4" opacity=".7"/>`:""}
+ ${vals.map((v,i)=>{const bh=Math.max(2,h*v/max);return `<g><rect x="${i*bw+bw*.18}" y="${h-bh}" width="${bw*.64}" height="${bh}" rx="5" fill="${color}"><title>${H(labels[i])}: ${fmt(v)}</title><animate attributeName="height" from="0" to="${bh}" dur=".7s" fill="freeze"/><animate attributeName="y" from="${h}" to="${h-bh}" dur=".7s" fill="freeze"/></rect>${v?`<text x="${i*bw+bw/2}" y="${h-bh-5}" fill="#c9d4ff" font-size="9.5" text-anchor="middle" font-family="JetBrains Mono">${fmt(v)}</text>`:""}<text x="${i*bw+bw/2}" y="${h+16}" fill="#8d98bf" font-size="10" text-anchor="middle">${H(labels[i])}</text></g>`}).join("")}</svg></div>`}
+function donut(parts){const tot=parts.reduce((t,p)=>t+p[1],0)||1;let a=0;const R=54,C=2*Math.PI*R;
+ return `<div style="display:flex;gap:18px;align-items:center;flex-wrap:wrap"><svg viewBox="0 0 140 140" width="150" height="150" style="transform:rotate(-90deg)"><circle cx="70" cy="70" r="${R}" fill="none" stroke="rgba(255,255,255,.06)" stroke-width="16"/>${parts.map(([l,v,c])=>{const d=C*v/tot,s=`<circle cx="70" cy="70" r="${R}" fill="none" stroke="${c}" stroke-width="16" stroke-dasharray="${d} ${C-d}" stroke-dashoffset="${-a}" stroke-linecap="butt"/>`;a+=d;return s}).join("")}</svg>
+ <div class="list" style="gap:6px;flex:1;min-width:140px">${parts.map(([l,v,c])=>`<div style="display:flex;gap:8px;align-items:center;font-size:12.5px"><i style="width:10px;height:10px;border-radius:3px;background:${c}"></i>${H(l)}<b style="margin-left:auto" class="mono">${v}</b></div>`).join("")}</div></div>`}
+function funnel(projects){const cnt=STG.map(s=>projects.filter(p=>(p.status==="closed"?"delivered":p.status)===s).length),cum=STG.map((_,i)=>cnt.slice(i).reduce((t,v)=>t+v,0)),max=Math.max(1,cum[0]);
+ return `<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:end;height:200px">${STG.map((s,i)=>`<div style="display:grid;gap:6px;height:100%;align-content:end"><b class="mono" style="font-size:18px">${cum[i]}</b><span class="muted" style="font-size:11px">${STL[s]}</span><div style="height:${Math.max(4,130*cum[i]/max)}px;border-radius:10px;background:${i===0?"linear-gradient(180deg,#7aa2ff,#4f3cff)":"repeating-linear-gradient(135deg,rgba(122,162,255,.35) 0 6px,rgba(122,162,255,.15) 6px 12px)"};transition:height .8s"></div>${i?`<span class="mono muted" style="font-size:10.5px">${cum[i-1]?Math.round(cum[i]*100/cum[i-1]):0}%</span>`:'<span class="mono muted" style="font-size:10.5px">100%</span>'}</div>`).join("")}</div>`}
+
+/* ---------- attendance maths ---------- */
+function dayStats(a,now=Date.now()){const ev=(a&&a.events)||[];let work=0,brk=0,inAt=0,bAt=0,state="out",first=0,last=0;
+ for(const e of ev){if(e.t==="in"){inAt=e.ts;state="in";first=first||e.ts}else if(e.t==="bin"){work+=e.ts-inAt;bAt=e.ts;state="break"}else if(e.t==="bout"){brk+=e.ts-bAt;inAt=e.ts;state="in"}else if(e.t==="out"){if(state==="in")work+=e.ts-inAt;if(state==="break")brk+=e.ts-bAt;state="out";last=e.ts}}
+ const live=a&&a.day===istDay(now);if(live&&state==="in")work+=now-inAt;if(live&&state==="break")brk+=now-bAt;return{work,brk,state,first,last}}
+const hm=ms=>{const m=Math.max(0,Math.round(ms/60000));return Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m"};
+const hms=ms=>{const s=Math.max(0,Math.floor(ms/1000));return [Math.floor(s/3600),Math.floor(s/60)%60,s%60].map(x=>String(x).padStart(2,"0")).join(":")};
+const shiftMs=s=>{const [a,b]=[(s&&s.shiftStart)||"10:00",(s&&s.shiftEnd)||"19:00"].map(x=>x.split(":").map(Number));return ((b[0]*60+b[1])-(a[0]*60+a[1]))*60000-((s&&s.breakMin)||60)*60000};
+function staffYear(tid,att){const mine=att.filter(a=>a.tid===tid),byDay={};mine.forEach(a=>byDay[a.day]=dayStats(a));return byDay}
+
+/* ---------- PDFs ---------- */
+async function pdfFrom(el,fname){if(!window.html2canvas||!window.jspdf){toast("PDF tool is loading, try again");return}toast("Making PDF…",9000);
+ const cv=await html2canvas(el,{scale:2,useCORS:true,backgroundColor:"#ffffff",logging:false}),{jsPDF}=window.jspdf,pdf=new jsPDF({unit:"mm",format:"a4"});
+ const pw=210,ph=297,ih=cv.height*pw/cv.width;let y=0,first=true;const pageH=Math.floor(cv.width*ph/pw);
+ for(let sy=0;sy<cv.height;sy+=pageH){const c=document.createElement("canvas");c.width=cv.width;c.height=Math.min(pageH,cv.height-sy);c.getContext("2d").drawImage(cv,0,sy,cv.width,c.height,0,0,cv.width,c.height);
+  if(!first)pdf.addPage();first=false;pdf.addImage(c.toDataURL("image/jpeg",.92),"JPEG",0,0,pw,c.height*pw/cv.width,undefined,"FAST")}
+ pdf.save(fname);toast("PDF downloaded ✓")}
+function paper(title,sub,body){const p=$("paper");p.innerHTML=`<div class="hd"><img src="logo.webp" alt=""><div><h1>${H(title)}</h1><div style="color:#667">${H(sub)}</div></div><div style="margin-left:auto;text-align:right;color:#667;font-size:11px">Flow Studio<br>pixelflowstudio.agency<br>${dt(Date.now())}</div></div>${body}<div class="ft"><span>Generated from the Flow Studio dashboard · confidential</span><div style="text-align:center"><img src="sig-white.png?v=2" alt=""><br><b style="color:#14172b">Arsalan Ahmed Shaikh</b><br><small>Founder &amp; MD</small></div></div>`;return p}
+const enc=o=>{const b=new TextEncoder().encode(JSON.stringify(o));let s="";b.forEach(x=>s+=String.fromCharCode(x));return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"")};
+async function docData(id){const d=await call("/fs/doc?id="+encodeURIComponent(id));return JSON.parse(d.data||"{}")}
+async function openDoc(id){const w=window.open("about:blank","_blank");try{const d=await docData(id);const u="quote.html#d="+enc(d);if(w)w.location=u;else location.href=u}catch(e){if(w)w.close();toast(e.message)}}
+async function docPdf(id){toast("Making PDF…",15000);try{const d=await docData(id),f=document.createElement("iframe");f.style.cssText="position:fixed;left:-3000px;top:0;width:900px;height:1300px;border:0";f.src="quote.html#d="+enc(d);document.body.appendChild(f);
+  await new Promise(r=>f.onload=r);await new Promise(r=>setTimeout(r,1400));const doc=f.contentDocument,sc=doc.querySelector(".sc");if(sc){sc.style.transform="none";sc.style.height="auto"}
+  const pg=doc.querySelector(".page");const cv=await f.contentWindow.html2canvas?null:null;const c=await html2canvas(pg,{scale:2.5,useCORS:true,backgroundColor:null,logging:false,windowWidth:900});
+  const {jsPDF}=window.jspdf,pdf=new jsPDF({unit:"mm",format:"a4"});pdf.addImage(c.toDataURL("image/jpeg",.95),"JPEG",0,0,210,297,undefined,"FAST");pdf.save(`Flow-Studio-${d.type==="invoice"?"Bill":"Quotation"}-${(d.no||id).replace(/[^\w-]/g,"")}.pdf`);f.remove();toast("PDF downloaded ✓")}catch(e){toast("PDF failed: "+e.message)}}
+
+/* ---------- celebrate ---------- */
+function celebrate(){const c=document.createElement("canvas");c.style.cssText="position:fixed;inset:0;z-index:99;pointer-events:none";c.width=innerWidth;c.height=innerHeight;document.body.appendChild(c);const x=c.getContext("2d"),P=[...Array(140)].map(()=>({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:Math.random()*-12-4,c:["#4f7cff","#9b5cff","#ff3d9a","#f3c14b","#22d37f"][Math.random()*5|0],r:Math.random()*6+3,a:Math.random()*6}));let t=0;
+ (function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.vy+=.35;p.x+=p.vx;p.y+=p.vy;p.a+=.2;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore()});if(++t<140)requestAnimationFrame(f);else c.remove()})()}
+
+/* =================================================================== VIEWS */
+const VIEWS={client:{},staff:{},owner:{}},AFTER={};
+
+/* ----- CLIENT ----- */
+VIEWS.client.home=()=>{const c=D.client,T=D.totals,act=D.projects.filter(p=>!["delivered","closed"].includes(p.status));
+ return `<h2 class="t">${greet()}, ${H(c.name.split(" ")[0])} 👋</h2><p class="sub">${H(c.business)} · ${line()}</p>
+ <div class="c2"><div class="code"><small>YOUR PERMANENT CLIENT CODE</small><b>${H(c.code)}</b><span style="color:#d6defc;font-size:13px">Share this code with Flow Studio on WhatsApp or call. It opens your full history with us.</span><div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn sm" type="button" data-copy="${H(c.code)}">⧉ Copy code</button><button class="btn sm pri" type="button" data-go="book">+ Book a service</button></div></div>
+ <div class="k4" style="grid-template-columns:1fr 1fr">${kpi("📦","Projects",T.projects,act.length+" active")}${kpi("✅","Delivered",T.delivered,"finished")}${kpi("🧾","Billed",rs(T.billed),"all bills")}${kpi("📄","Quoted",rs(T.quoted),D.docs.filter(d=>d.type==="quote").length+" quotations")}</div></div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>Live projects <span class="muted">step by step</span></h3>${act.length?`<div class="list">${act.slice(0,4).map(p=>`<div class="row" style="display:block"><div style="display:flex;gap:10px;align-items:center"><div class="x"><b>${H(p.title)}</b><span>${H(p.service)} · ${H(p.pid)}</span></div>${tag(p.status)}</div>${steps(p.status)}</div>`).join("")}</div>`:`<div class="empty">No live project yet. <a href="#" data-go="book">Book your first service →</a></div>`}</div>
+ <div class="gl card"><h3>Latest documents</h3>${docList(D.docs.slice(0,5),true)}</div></div>`};
+function docList(docs,dl){return docs.length?`<div class="list">${docs.map(d=>`<div class="row"><span style="font-size:22px">${d.type==="invoice"?"🧾":"📄"}</span><div class="x"><b>${d.type==="invoice"?"Bill":"Quotation"} ${H(d.no||"")}</b><span>${dt(d.ts)} · ${rs(d.total)}${d.by?" · by "+H(d.by):""}</span></div><button class="btn sm" type="button" data-doc="${d.did}">Open</button>${dl?`<button class="btn sm pri" type="button" data-pdf="${d.did}">⬇ PDF</button>`:""}</div>`).join("")}</div>`:`<div class="empty">Nothing here yet. Quotations and bills from Flow Studio show up here.</div>`}
+VIEWS.client.book=()=>`<h2 class="t">Book a service</h2><p class="sub">Tell us what you need. The team replies in your dashboard and on WhatsApp.</p>
+ <form class="gl card" id="bkF"><div class="g2"><label class="f"><span>Service <b>*</b></span><select id="bS">${SVC.map(s=>`<option>${H(s)}</option>`).join("")}</select></label><label class="f">Project name<input id="bT" placeholder="e.g. Eid campaign reels"></label><label class="f">Budget (optional)<input id="bB" placeholder="e.g. ₹15,000"></label><label class="f">Needed by (optional)<input id="bD" type="date"></label></div>
+ <label class="f" style="margin-top:12px">What do you need? <b>*</b><textarea id="bR" rows="5" required placeholder="Describe the work, the number of reels/posts/pages, the language, and links to examples you like."></textarea></label>
+ <div style="margin-top:14px"><button class="btn pri" type="submit">Send request →</button></div></form>`;
+AFTER["client.book"]=()=>{const q=new URLSearchParams(location.search).get("service");if(q){const o=[...$("bS").options].find(o=>o.text.toLowerCase()===q.toLowerCase());if(o)o.selected=true}
+ $("bkF").onsubmit=async e=>{e.preventDefault();try{await call("/fs/client/request",{service:$("bS").value,title:$("bT").value,budget:$("bB").value,deadline:$("bD").value,brief:$("bR").value});celebrate();toast("Request sent ✓ The team will reply soon.");await load();go("projects")}catch(x){toast(x.message)}}};
+VIEWS.client.projects=()=>`<h2 class="t">My projects</h2><p class="sub">Every service you booked, its stage, and the chat with the team.</p>${D.projects.length?`<div class="grid">${D.projects.map(p=>projCard(p,false)).join("")}</div>`:`<div class="empty">No projects yet.</div>`}`;
+function projCard(p,team){const mine=team?"o":"c";return `<div class="gl card"><div style="display:flex;gap:10px;align-items:flex-start;flex-wrap:wrap"><div style="flex:1;min-width:0"><h3 style="margin:0">${H(p.title)}</h3><span class="muted">${H(p.service)} · <span class="mono">${H(p.pid)}</span>${team?` · <b>${H(p.client||"")}</b> <span class="mono">${H(p.code)}</span>`:""} · ${dt(p.ts)}</span></div>${tag(p.status)}</div>${steps(p.status)}
+ <div class="g2" style="margin:10px 0;font-size:12.5px"><div><span class="muted">Amount</span><br><b>${p.amount?rs(p.amount):"—"}</b></div><div><span class="muted">Needed by</span><br><b>${H(p.deadline||"—")}</b></div><div><span class="muted">Team member</span><br><b>${H(p.assigneeName||"Flow Studio team")}</b></div>${p.deliveredAt?`<div><span class="muted">Delivered</span><br><b>${dt(p.deliveredAt)}</b></div>`:""}</div>
+ ${team?teamCtl(p):""}
+ <details ${team?"":"open"}><summary class="muted" style="cursor:pointer;margin:6px 0">💬 Messages (${(p.msgs||[]).length})</summary><div class="chat">${(p.msgs||[]).map(m=>`<div class="msg ${m.f===mine?"me":""}">${H(m.t)}<small>${H(m.by||"")} · ${when(m.ts)}</small></div>`).join("")||'<span class="muted">No messages yet.</span>'}</div>
+ <form data-msg="${p.pid}" style="display:flex;gap:8px;margin-top:8px"><input placeholder="Write a message…" required><button class="btn pri sm" type="submit">Send</button></form></details></div>`}
+VIEWS.client.docs=()=>`<h2 class="t">Quotations &amp; bills</h2><p class="sub">Open any document or download it as a PDF.</p><div class="gl card">${docList(D.docs,true)}</div>`;
+VIEWS.client.profile=()=>{const c=D.client;return `<h2 class="t">My profile</h2><p class="sub">Your client code never changes. You can update your details any time.</p>
+ <div class="c2"><form class="gl card" id="pfF"><div class="g2"><label class="f">Your name<input id="pN" value="${H(c.name)}"></label><label class="f">Business name<input id="pB" value="${H(c.business)}"></label><label class="f">Mobile / WhatsApp<input id="pP" value="${H(c.phone)}"></label><label class="f">Gmail (${c.emailType==="business"?"business":c.emailType==="personal"?"personal":"type not set"})<input value="${H(c.email)}" readonly></label><label class="f">This Gmail is<select id="pE"><option value="business" ${c.emailType==="business"?"selected":""}>Business email</option><option value="personal" ${c.emailType==="personal"?"selected":""}>Personal email</option></select></label><label class="f">City<input id="pC" value="${H(c.city||"")}"></label><label class="f">GST no.<input id="pG" value="${H(c.gst||"")}"></label></div><label class="f" style="margin-top:12px">Address<textarea id="pA" rows="2">${H(c.address||"")}</textarea></label><div style="margin-top:14px"><button class="btn pri" type="submit">Save</button></div></form>
+ <div class="code"><small>CLIENT SINCE ${dt(c.ts).toUpperCase()}</small><b>${H(c.code)}</b><span style="color:#d6defc">${H(c.business)}</span></div></div>`};
+AFTER["client.profile"]=()=>{$("pfF").onsubmit=async e=>{e.preventDefault();try{await call("/fs/client/profile",{emailType:$("pE").value,name:$("pN").value,business:$("pB").value,phone:$("pP").value,city:$("pC").value,gst:$("pG").value,address:$("pA").value});toast("Saved ✓");load()}catch(x){toast(x.message)}}};
+
+/* ----- shared team pieces ----- */
+function teamCtl(p){const own=ME.role==="owner";return `<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:4px 0 8px">
+ <select data-st="${p.pid}" style="width:auto">${[...STG,"closed"].map(s=>`<option value="${s}" ${s===p.status?"selected":""}>${STL[s]}</option>`).join("")}</select>
+ ${own?`<select data-as="${p.pid}" style="width:auto"><option value="">— assign —</option>${(D.staff||[]).filter(s=>s.active!==false).map(s=>`<option value="${s.tid}" ${s.tid===p.assignee?"selected":""}>${H(s.name)} · ${s.tid}</option>`).join("")}</select>`:(!p.assignee?`<button class="btn sm" type="button" data-take="${p.pid}">✋ Take this project</button>`:"")}
+ <button class="btn sm" type="button" data-mk="${p.pid}" data-code="${H(p.code)}">📄 Quote / bill</button>${own?`<a class="btn sm" href="#" data-look="${H(p.code)}">👤 Client</a>`:""}</div>`}
+VIEWS.staff.work=VIEWS.owner.work=()=>{const all=D.projects,mine=ME.role==="staff"?all.filter(p=>p.assignee===ME.tid||!p.assignee):all;const f=window._pf||"open";
+ const list=mine.filter(p=>f==="all"?true:f==="done"?["delivered","closed"].includes(p.status):!["delivered","closed"].includes(p.status));
+ return `<h2 class="t">${ME.role==="owner"?"All projects":"My projects"}</h2><p class="sub">${ME.role==="owner"?"Assign work, change the stage, chat with clients.":"Your projects and new requests no one has taken yet."}</p>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px"><div class="seg" id="pfS">${[["open","Open"],["done","Delivered"],["all","All"]].map(([k,l])=>`<button type="button" data-pf="${k}" aria-pressed="${k===f}">${l}</button>`).join("")}</div><button class="btn sm pri" type="button" id="npB">+ New project for a client</button></div>
+ ${list.length?`<div class="grid">${list.map(p=>projCard(p,true)).join("")}</div>`:`<div class="empty">Nothing here.</div>`}`};
+AFTER["staff.work"]=AFTER["owner.work"]=()=>{$("pfS").onclick=e=>{const b=e.target.closest("[data-pf]");if(b){window._pf=b.dataset.pf;render()}};$("npB").onclick=newProject};
+function newProject(code){const m=modal(`<h3 style="margin-top:0">New project</h3><div class="g2"><label class="f"><span>Client code <b>*</b></span><input id="nC" value="${H(code||"")}" placeholder="FS-ABC-1234" class="mono"></label><label class="f">Service<select id="nS">${SVC.map(s=>`<option>${H(s)}</option>`).join("")}</select></label><label class="f">Project name<input id="nT"></label><label class="f">Amount ₹ (optional)<input id="nA" type="number" min="0"></label><label class="f">Needed by<input id="nD" type="date"></label></div><label class="f" style="margin-top:10px">Brief<textarea id="nB" rows="3"></textarea></label><div style="display:flex;gap:8px;margin-top:14px"><button class="btn pri" id="nGo" type="button">Create</button><button class="btn" type="button" data-x>Cancel</button></div>`);
+ $("nGo").onclick=async()=>{try{await call("/fs/project/new",{code:$("nC").value.trim(),service:$("nS").value,title:$("nT").value,amount:$("nA").value,deadline:$("nD").value,brief:$("nB").value});m.remove();toast("Project created ✓");load()}catch(x){toast(x.message)}}}
+function modal(html){const m=document.createElement("div");m.className="modal";m.innerHTML=`<div class="gl fade">${html}</div>`;document.body.appendChild(m);m.onclick=e=>{if(e.target===m||e.target.closest("[data-x]"))m.remove()};return m}
+
+/* client lookup (owner + staff) */
+VIEWS.staff.clients=VIEWS.owner.clients=()=>`<h2 class="t">${ME.role==="owner"?"Clients by code":"Client lookup"}</h2><p class="sub">Type a client code to see everything: services taken, rates, documents${ME.role==="owner"?", notes and future plan":""}.</p>
+ <form class="gl card" id="lkF" style="display:flex;gap:10px;flex-wrap:wrap"><input id="lkC" class="mono" placeholder="FS-ABC-1234" style="flex:1;min-width:200px;font-size:16px;letter-spacing:.06em;text-transform:uppercase"><button class="btn pri" type="submit">${ico("search")} Find</button></form>
+ <div id="lkOut" style="margin-top:16px"></div>
+ <div class="gl card" style="margin-top:16px"><h3>All clients <span class="muted">${D.clients.length}</span></h3><input id="lkQ" placeholder="Filter by name, business, city or phone…" style="margin-bottom:10px"><div class="scx"><table class="tbl"><thead><tr><th>Code</th><th>Business</th><th>Name</th><th>City</th><th>Since</th><th></th></tr></thead><tbody id="lkT">${clientRows(D.clients)}</tbody></table></div></div>`;
+function clientRows(cs){return cs.map(c=>`<tr><td class="mono">${H(c.code)}</td><td><b>${H(c.business)}</b></td><td>${H(c.name)}</td><td>${H(c.city||"")}</td><td>${dt(c.ts)}</td><td><button class="btn sm" type="button" data-look="${H(c.code)}">Open</button></td></tr>`).join("")||`<tr><td colspan="6" class="muted">No clients yet.</td></tr>`}
+AFTER["staff.clients"]=AFTER["owner.clients"]=()=>{$("lkF").onsubmit=e=>{e.preventDefault();lookup($("lkC").value)};$("lkQ").oninput=e=>{const q=e.target.value.toLowerCase();$("lkT").innerHTML=clientRows(D.clients.filter(c=>JSON.stringify(c).toLowerCase().includes(q)))};if(window._look){const c=window._look;window._look=null;$("lkC").value=c;lookup(c)}};
+let LK=null;
+async function lookup(code){code=String(code||"").trim().toUpperCase();if(!code)return;$("lkOut").innerHTML=`<div class="empty">Searching ${H(code)}…</div>`;
+ try{LK=await call("/fs/lookup?code="+encodeURIComponent(code))}catch(e){$("lkOut").innerHTML=`<div class="empty">${H(e.message)}</div>`;return}
+ const c=LK.client,T=LK.totals,own=ME.role==="owner",svc={};LK.projects.forEach(p=>{svc[p.service]=(svc[p.service]||0)+1});
+ $("lkOut").innerHTML=`<div class="fade grid"><div class="c2"><div class="code"><small>CLIENT · SINCE ${dt(c.ts).toUpperCase()}</small><b>${H(c.code)}</b><div style="font-size:17px;font-weight:700">${H(c.business)}</div><div style="color:#d6defc">${H(c.name)} · ${H(c.phone)} · ${H(c.email)} <span class="tag">${c.emailType==="business"?"🏢 Business Gmail":c.emailType==="personal"?"👤 Personal Gmail":"Gmail"}</span></div><div style="color:#d6defc;font-size:12.5px">${H([c.address,c.city,c.gst?"GST "+c.gst:""].filter(Boolean).join(" · "))}</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><a class="btn sm" target="_blank" rel="noopener" href="${wa(c.phone,"Assalamu alaikum "+c.name+", Flow Studio here.")}">💬 WhatsApp</a><button class="btn sm" type="button" data-mk="" data-code="${H(c.code)}">📄 Quote / bill</button><button class="btn sm" type="button" data-np="${H(c.code)}">+ Project</button>${own?`<button class="btn sm gold" type="button" id="lkPdf">⬇ Client report PDF</button>`:""}</div></div>
+  <div class="k4" style="grid-template-columns:1fr 1fr">${kpi("📦","Projects",T.projects,T.delivered+" delivered")}${kpi("🧾","Billed",rs(T.billed),"total of all bills")}${kpi("📄","Quoted",rs(T.quoted),"all quotations")}${kpi("⭐","Services",Object.keys(svc).length,"different services")}</div></div>
+  ${own?`<div class="gl card"><h3>Owner notes &amp; future plan <span class="muted">only you can see this</span></h3><div class="g2"><label class="f">Notes<textarea id="oN" rows="4">${H(c.notes||"")}</textarea></label><label class="f">Future plan for this client<textarea id="oP" rows="4" placeholder="e.g. Ramadan campaign in Feb, website in Q2, monthly SMM retainer">${H(c.plan||"")}</textarea></label></div><button class="btn pri sm" type="button" id="oSave" style="margin-top:10px">Save notes</button></div>`:""}
+  <div class="c2"><div class="gl card"><h3>Services &amp; rates</h3><div class="scx"><table class="tbl"><thead><tr><th>Project</th><th>Service</th><th>Stage</th><th>Amount</th><th>Date</th></tr></thead><tbody>${LK.projects.map(p=>`<tr><td><b>${H(p.title)}</b><br><span class="mono muted">${p.pid}</span></td><td>${H(p.service)}</td><td>${tag(p.status)}</td><td class="mono">${p.amount?rs(p.amount):"—"}</td><td>${dt(p.ts)}</td></tr>`).join("")||'<tr><td colspan="5" class="muted">No projects yet.</td></tr>'}</tbody></table></div></div>
+  <div class="gl card"><h3>Documents</h3>${docList(LK.docs,own)}</div></div></div>`;
+ if(own){$("oSave").onclick=async()=>{try{await call("/fs/owner/client",{code:c.code,notes:$("oN").value,plan:$("oP").value});toast("Saved ✓")}catch(x){toast(x.message)}};$("lkPdf").onclick=()=>clientReport(LK)}}
+function clientReport(L){const c=L.client,T=L.totals;const p=paper("Client report · "+c.business,c.code+" · "+c.name,`<div class="kp"><div>Projects<b>${T.projects}</b></div><div>Delivered<b>${T.delivered}</b></div><div>Billed<b>${rs(T.billed)}</b></div><div>Quoted<b>${rs(T.quoted)}</b></div></div>
+ <h2>Contact</h2><table><tr><td>Name</td><td>${H(c.name)}</td><td>Mobile</td><td>${H(c.phone)}</td></tr><tr><td>Email</td><td>${H(c.email)}</td><td>City</td><td>${H(c.city||"—")}</td></tr><tr><td>Address</td><td colspan="3">${H(c.address||"—")}</td></tr><tr><td>Client since</td><td>${dt(c.ts)}</td><td>GST</td><td>${H(c.gst||"—")}</td></tr></table>
+ <h2>Projects &amp; services</h2><table><tr><th>ID</th><th>Project</th><th>Service</th><th>Stage</th><th>Amount</th><th>Date</th></tr>${L.projects.map(p=>`<tr><td>${p.pid}</td><td>${H(p.title)}</td><td>${H(p.service)}</td><td>${STL[p.status]||p.status}</td><td>${p.amount?rs(p.amount):"—"}</td><td>${dt(p.ts)}</td></tr>`).join("")||"<tr><td colspan=6>None</td></tr>"}</table>
+ <h2>Quotations &amp; bills</h2><table><tr><th>Type</th><th>No.</th><th>Date</th><th>Total</th><th>By</th></tr>${L.docs.map(d=>`<tr><td>${d.type==="invoice"?"Bill":"Quotation"}</td><td>${H(d.no)}</td><td>${dt(d.ts)}</td><td>${rs(d.total)}</td><td>${H(d.by||"")}</td></tr>`).join("")||"<tr><td colspan=5>None</td></tr>"}</table>
+ <h2>Owner notes</h2><p>${H(c.notes||"—")}</p><h2>Future plan</h2><p>${H(c.plan||"—")}</p>`);pdfFrom(p,`Client-${c.code}-report.pdf`)}
+
+/* quotation / bill maker (owner + staff) */
+VIEWS.staff.make=VIEWS.owner.make=()=>`<h2 class="t">Quotations &amp; bills</h2><p class="sub">Make it once — it appears in the client's dashboard as a PDF and can go on WhatsApp too.</p>
+ <div class="gl card"><button class="btn pri" type="button" data-mk="" data-code="">+ New quotation / bill</button></div>
+ <div class="gl card" style="margin-top:16px"><h3>Recently issued</h3>${D.docs.length?`<div class="scx"><table class="tbl"><thead><tr><th>Type</th><th>No.</th><th>Client</th><th>Total</th><th>Date</th><th>By</th><th></th></tr></thead><tbody>${D.docs.slice(0,60).map(d=>`<tr><td>${d.type==="invoice"?"🧾 Bill":"📄 Quote"}</td><td class="mono">${H(d.no)}</td><td class="mono">${H(d.code)}</td><td class="mono">${rs(d.total)}</td><td>${dt(d.ts)}</td><td>${H(d.by||"")}</td><td><button class="btn sm" type="button" data-doc="${d.did}">Open</button>${ME.role==="owner"?` <button class="btn sm" type="button" data-pdf="${d.did}">⬇</button>`:""}</td></tr>`).join("")}</tbody></table></div>`:`<div class="empty">Nothing issued yet.</div>`}</div>`;
+const fmtD=d=>d.toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}),addD=n=>fmtD(new Date(Date.now()+n*864e5));
+function maker(code,pid){const pr=pid?D.projects.find(p=>p.pid===pid):null;let pay={};try{pay=JSON.parse(localStorage.getItem("qm-pay")||"{}")}catch(e){}
+ const m=modal(`<h3 style="margin-top:0">Quotation / bill</h3><div class="g2"><label class="f">Type<select id="mT"><option value="quote">Quotation</option><option value="invoice">Bill / invoice</option></select></label><label class="f"><span>Client code <b>*</b></span><input id="mC" class="mono" value="${H(code||"")}" placeholder="FS-ABC-1234"></label><label class="f">Project<select id="mP"><option value="">— none —</option></select></label><label class="f">Number<input id="mN"></label><label class="f">Date<input id="mD" value="${fmtD(new Date())}"></label><label class="f" id="mVl">Valid until<input id="mV"></label><label class="f" id="mDw">Delivery time<input id="mDl" value="10–12 working days"></label><label class="f">GST %<input id="mG" type="number" min="0" value="0"></label></div>
+ <div id="mI" style="display:grid;gap:8px;margin:12px 0"></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn sm" type="button" id="mAdd">+ Add line</button><b id="mTot" style="margin-left:auto" class="mono"></b></div>
+ <div id="mPw" hidden class="g2" style="margin-top:10px"><label class="f">Advance already paid ₹<input id="mPd" type="number" min="0"></label><label class="f">Paid on<input id="mPo" value="${fmtD(new Date())}"></label></div>
+ <details style="margin-top:10px"><summary class="muted" style="cursor:pointer">Payment details printed on it</summary><div class="g2" style="margin-top:8px"><label class="f">UPI<input id="pU" value="${H(pay.upi||"")}"></label><label class="f">Bank<input id="pBk" value="${H(pay.bank||"")}"></label><label class="f">A/c no.<input id="pAc" value="${H(pay.acno||"")}"></label><label class="f">IFSC<input id="pIf" value="${H(pay.ifsc||"")}"></label></div></details>
+ <label style="display:flex;gap:8px;align-items:center;margin-top:12px;font-size:13px"><input type="checkbox" id="mW" style="width:auto" checked> Also send a WhatsApp message to the client</label>
+ <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn" type="button" id="mPrev">👁 Preview</button><button class="btn pri" type="button" id="mGo">Add to client's dashboard</button><button class="btn" type="button" data-x>Cancel</button></div><p class="muted" id="mMsg"></p>`);
+ const row=(it={})=>{const r=document.createElement("div");r.className="qi";r.innerHTML=`<input list="svcL" placeholder="Service" value="${H(it.service||"")}" data-k="service"><input placeholder="What is included" value="${H(it.desc||"")}" data-k="desc"><input type="number" min="0" step="any" value="${it.qty||1}" data-k="qty"><input type="number" min="0" step="any" placeholder="Rate ₹" value="${it.rate||""}" data-k="rate"><button class="btn sm" type="button" data-del>✕</button>`;$("mI").appendChild(r);calc()};
+ const fillP=()=>{const c=$("mC").value.trim().toUpperCase(),ps=D.projects.filter(p=>p.code===c);$("mP").innerHTML=`<option value="">— none —</option>`+ps.map(p=>`<option value="${p.pid}" ${p.pid===pid?"selected":""}>${H(p.title)} · ${STL[p.status]}</option>`).join("")};
+ const type=()=>{const inv=$("mT").value==="invoice";$("mVl").firstChild.textContent=inv?"Due date":"Valid until";$("mDw").hidden=inv;$("mPw").hidden=!inv;$("mN").value=(inv?"FS-INV-":"FS-Q-")+new Date().getFullYear()+"-"+String(Date.now()).slice(-4);$("mV").value=addD(inv?7:14);calc()};
+ const data=()=>{const items=[...$("mI").querySelectorAll(".qi")].map(r=>{const o={};r.querySelectorAll("[data-k]").forEach(i=>o[i.dataset.k]=i.type==="number"?+i.value||0:i.value.trim());return o}).filter(i=>i.service&&i.qty&&i.rate);
+  const code=$("mC").value.trim().toUpperCase(),cl=(D.clients||[]).find(c=>c.code===code)||{},p=D.projects.find(x=>x.pid===$("mP").value);
+  const d={type:$("mT").value,no:$("mN").value.trim(),date:$("mD").value.trim(),client:{name:cl.business||code,contact:[cl.name,cl.phone].filter(Boolean).join(" · "),project:p?p.title:""},items,gst:+$("mG").value||0,split:.4,pay:{upi:$("pU").value.trim(),bank:$("pBk").value.trim(),acno:$("pAc").value.trim(),ifsc:$("pIf").value.trim()}};
+  if(d.type==="invoice"){d.due_date=$("mV").value;const pd=+$("mPd").value||0;d.paid=pd?[{label:"40% advance",date:$("mPo").value,amount:pd}]:[]}else{d.valid_until=$("mV").value;d.delivery=$("mDl").value}
+  try{localStorage.setItem("qm-pay",JSON.stringify(d.pay))}catch(e){}return d};
+ const calc=()=>{const d=data(),s=d.items.reduce((t,i)=>t+i.qty*i.rate,0),t=Math.round(s+s*d.gst/100);$("mTot").textContent=d.items.length?"Total "+rs(t):""};
+ $("mI").onclick=e=>{if(e.target.closest("[data-del]")){e.target.closest(".qi").remove();calc()}};m.addEventListener("input",calc);
+ $("mT").onchange=type;$("mC").onchange=fillP;$("mAdd").onclick=()=>row();
+ $("mPrev").onclick=()=>window.open("quote.html#d="+enc(data()),"_blank");
+ $("mGo").onclick=async()=>{const d=data();if(!d.items.length){toast("Add at least one line with a rate");return}$("mGo").disabled=true;$("mMsg").textContent="Saving…";
+  try{const r=await call("/fs/doc/new",{code:$("mC").value.trim(),pid:$("mP").value,data:d,wa:$("mW").checked});m.remove();celebrate();toast("Added to the client's dashboard ✓"+(r.wa?" · WhatsApp sent":""),4000);
+   if($("mW")&&!r.wa&&r.waTo){} if(!r.wa&&$("mW")!==null){} if(!r.wa)modal(`<h3 style="margin-top:0">Saved ✓</h3><p>It is in the client's dashboard now. WhatsApp could not be sent automatically. Send this message yourself:</p><p class="mono" style="white-space:pre-wrap;background:rgba(0,0,0,.3);padding:12px;border-radius:12px">${H(r.waText)}</p><a class="btn pri" target="_blank" rel="noopener" href="https://wa.me/${r.waTo}?text=${encodeURIComponent(r.waText)}">Open WhatsApp</a> <button class="btn" data-x>Close</button>`);load()}
+  catch(x){$("mMsg").textContent=x.message;$("mGo").disabled=false}};
+ if(pr&&pr.amount)row({service:pr.service,desc:pr.title,qty:1,rate:pr.amount});else row(pr?{service:pr.service,desc:pr.title}:{});fillP();type()}
+{const dl=document.createElement("datalist");dl.id="svcL";dl.innerHTML=SVC.map(s=>`<option value="${H(s)}">`).join("");document.body.appendChild(dl)}
+
+/* ----- STAFF ----- */
+VIEWS.staff.home=()=>{const s=ME.staff||{},today=(D.att||[]).find(a=>a.tid===ME.tid&&a.day===istDay(Date.now())),st=dayStats(today),my=D.projects.filter(p=>p.assignee===ME.tid),open=my.filter(p=>!["delivered","closed"].includes(p.status));
+ const week=[...Array(7)].map((_,i)=>istDay(Date.now()-(6-i)*864e5)),ys=staffYear(ME.tid,D.att||[]);
+ return `<h2 class="t">${greet()}, ${H((s.name||ME.name||"").split(" ")[0])} ✨</h2><p class="sub">${H(s.role||"Team member")} · ${H(s.dept||"Flow Studio")} · Shift ${H(s.shiftStart||"10:00")}–${H(s.shiftEnd||"19:00")} · ${line()}</p>
+ <div class="c2"><div class="gl card"><h3>Duty today <span class="muted" id="dState"></span></h3><div class="duty"><div class="ring" id="dRing"></div><div class="grid" style="gap:10px"><div class="k4" style="grid-template-columns:1fr 1fr" id="dK"></div><div class="punch" id="punch"></div><p class="muted" style="margin:0;font-size:12px">Check-in and check-out reach the owner straight away.</p></div></div></div>
+ <div class="grid"><div class="k4" style="grid-template-columns:1fr 1fr">${kpi("📦","Open projects",open.length,"assigned to you")}${kpi("✅","Delivered",my.filter(p=>["delivered","closed"].includes(p.status)).length,"all time")}</div>
+ <div class="gl card"><h3>This week <span class="muted">hours on duty</span></h3>${bars(week.map(d=>+(((ys[d]||{}).work||0)/36e5).toFixed(1)),week.map(d=>new Date(d).toLocaleDateString("en-GB",{weekday:"short"})),{h:120,goal:shiftMs(s)/36e5,fmt:v=>v+"h"})}</div></div></div>
+ <div class="gl card" style="margin-top:16px"><h3>Your next work</h3>${open.length?`<div class="list">${open.slice(0,5).map(p=>`<div class="row"><div class="x"><b>${H(p.title)}</b><span>${H(p.client)} · ${H(p.service)} · needed by ${H(p.deadline||"—")}</span></div>${tag(p.status)}</div>`).join("")}</div>`:`<div class="empty">No open project assigned. Check <a href="#" data-go="work">My projects</a> for new requests.</div>`}</div>`};
+AFTER["staff.home"]=()=>{dutyTick();clearInterval(window._dt);window._dt=setInterval(()=>{if(VIEW==="home"&&ME.role==="staff")dutyTick()},1000)};
+function dutyTick(){const s=ME.staff||{},today=(D.att||[]).find(a=>a.tid===ME.tid&&a.day===istDay(Date.now())),st=dayStats(today),need=shiftMs(s),pct=Math.min(1,st.work/need),ot=Math.max(0,st.work-need),R=80,C=2*Math.PI*R;
+ const [eh,em]=(s.shiftEnd||"19:00").split(":").map(Number),n=IST(Date.now()),endMs=Date.UTC(n.getUTCFullYear(),n.getUTCMonth(),n.getUTCDate(),eh,em)-19800000,left=endMs-Date.now();
+ if(!$("dRing"))return;
+ $("dRing").innerHTML=`<svg viewBox="0 0 190 190"><defs><linearGradient id="gR"><stop offset="0" stop-color="#4f7cff"/><stop offset=".6" stop-color="#9b5cff"/><stop offset="1" stop-color="#ff3d9a"/></linearGradient></defs><circle cx="95" cy="95" r="${R}" fill="none" stroke="rgba(255,255,255,.07)" stroke-width="14"/><circle cx="95" cy="95" r="${R}" fill="none" stroke="${ot?"#f3c14b":"url(#gR)"}" stroke-width="14" stroke-linecap="round" stroke-dasharray="${C*pct} ${C}"/></svg><div class="ct"><div><span>${st.state==="break"?"On break":st.state==="in"?"On duty":"Duty time"}</span><b>${hms(st.state==="break"?st.brk:st.work)}</b><span>${Math.round(pct*100)}% of ${hm(need)}</span></div></div>`;
+ $("dState").textContent={in:"· 🟢 on duty",break:"· ☕ on break",out:st.first?"· 🔴 checked out":"· not checked in"}[st.state];
+ $("dK").innerHTML=kpi("⏳",st.state==="out"?"Shift ends":"Shift ends in",st.state==="out"?(s.shiftEnd||"19:00"):left>0?hms(left):"Done",left>0?"countdown":"shift over")+kpi("⚡","Overtime",hm(ot),"after "+hm(need))+kpi("☕","Break",hm(st.brk),"allowed "+((s.breakMin||60))+"m")+kpi("🕘","Checked in",st.first?new Date(st.first).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}):"—",st.last?"out "+new Date(st.last).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}):"");
+ const B={out:[["in","🟢 Check in","ok"]],in:[["bin","☕ Start break",""],["out","🔴 Check out","bad"]],break:[["bout","▶ Back from break","pri"],["out","🔴 Check out","bad"]]}[st.state];
+ const h=B.map(([t,l,c])=>`<button class="btn ${c}" type="button" data-punch="${t}">${l}</button>`).join("");if($("punch").dataset.h!==h){$("punch").innerHTML=h;$("punch").dataset.h=h}}
+async function punch(t){try{const t0=await auth.currentUser.getIdToken();const r=await fetch(API+"/shop/admin",{method:"POST",headers:{authorization:"Bearer "+t0,"content-type":"application/json"},body:JSON.stringify({action:"punch",type:t})}).then(r=>r.json());if(r.error)throw new Error(r.error);
+ const i=D.att.findIndex(a=>a.tid===ME.tid&&a.day===r.att.day);if(i>=0)D.att[i]=Object.assign(D.att[i],r.att);else D.att.push(r.att);if(t==="in")celebrate();toast({in:"Checked in ✓ Have a great day!",bin:"Enjoy your break ☕",bout:"Welcome back ▶",out:"Checked out ✓ See you tomorrow"}[t]);render()}catch(e){toast(e.message)}}
+VIEWS.staff.perf=()=>progress(ME.staff||{},D.att||[],D.projects,true);
+function progress(s,att,projects,self){const ys=staffYear(s.tid,att),yr=String(IST(Date.now()).getUTCFullYear()),mons=[...Array(12)].map((_,i)=>yr+"-"+String(i+1).padStart(2,"0"));
+ const monH=mons.map(m=>Object.entries(ys).filter(([d])=>d.startsWith(m)).reduce((t,[,v])=>t+v.work,0)/36e5),my=projects.filter(p=>p.assignee===s.tid),del=my.filter(p=>p.deliveredAt);
+ const monD=mons.map(m=>del.filter(p=>istDay(p.deliveredAt).startsWith(m)).length),days=Object.keys(ys).length,need=shiftMs(s),full=Object.values(ys).filter(v=>v.work>=need*.95).length,ot=Object.values(ys).reduce((t,v)=>t+Math.max(0,v.work-need),0);
+ const late=Object.values(ys).filter(v=>{if(!v.first)return false;const d=IST(v.first),[h,m]=(s.shiftStart||"10:00").split(":").map(Number);return d.getUTCHours()*60+d.getUTCMinutes()>h*60+m+10}).length;
+ const onTime=days?Math.round((days-late)*100/days):0,score=Math.round(Math.min(100,(days?full*100/days:0)*.4+onTime*.3+Math.min(100,del.length*10)*.3)),grade=score>=90?"A+":score>=80?"A":score>=70?"B+":score>=60?"B":score>=45?"C":"—";
+ const wk=[...Array(7)].map((_,i)=>istDay(Date.now()-(6-i)*864e5)),mon=istDay(Date.now()).slice(0,7),mDays=Object.entries(ys).filter(([d])=>d.startsWith(mon));
+ const BADGE=[["🌅","First day",days>=1],["📅","10 duty days",days>=10],["🏆","50 duty days",days>=50],["⏰","Always on time",days>=5&&late===0],["🚀","First delivery",del.length>=1],["🎯","10 deliveries",del.length>=10],["💪","10h overtime",ot>=36e6],["👑","Grade A",score>=80]];
+ return `<h2 class="t">${self?"My progress card":"Progress card · "+H(s.name)}</h2><p class="sub">${H(s.tid)} · ${H(s.role||"")} · ${yr}</p>
+ <div class="c3"><div class="gl card" style="text-align:center"><span class="muted">Overall grade</span><div class="grade" style="margin:8px 0">${grade}</div><b class="mono">${score}/100</b><p class="muted" style="font-size:12px">Full days 40% · On time 30% · Deliveries 30%</p></div>
+ <div class="k4" style="grid-template-columns:1fr 1fr;grid-column:span 2">${kpi("📅","Duty days",days,"this year")}${kpi("⏰","On time",onTime+"%",late+" late days")}${kpi("✅","Delivered",del.length,"projects")}${kpi("⚡","Overtime",hm(ot),"this year")}${kpi("🕒","This month",hm(mDays.reduce((t,[,v])=>t+v.work,0)),mDays.length+" days")}${kpi("📆","This week",hm(wk.reduce((t,d)=>t+((ys[d]||{}).work||0),0)),"7 days")}</div></div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>Hours per month <span class="muted">${yr}</span></h3>${bars(monH.map(v=>+v.toFixed(0)),mons.map(m=>new Date(m+"-01").toLocaleDateString("en-GB",{month:"short"})),{fmt:v=>v+"h"})}</div>
+ <div class="gl card"><h3>Projects delivered</h3>${bars(monD,mons.map(m=>new Date(m+"-01").toLocaleDateString("en-GB",{month:"short"})),{color:"#22d37f"})}</div></div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>Daily hours <span class="muted">last 7 days</span></h3>${bars(wk.map(d=>+(((ys[d]||{}).work||0)/36e5).toFixed(1)),wk.map(d=>new Date(d).toLocaleDateString("en-GB",{weekday:"short"})),{h:130,goal:need/36e5,fmt:v=>v+"h"})}</div>
+ <div class="gl card"><h3>Achievements</h3><div class="badges">${BADGE.map(([i,l,on])=>`<div class="bdg ${on?"":"off"}"><span style="font-size:18px">${i}</span>${l}</div>`).join("")}</div></div></div>`}
+VIEWS.staff.idcard=()=>`<h2 class="t">My ID card</h2><p class="sub">Download your ID card as a high-quality PDF (front + back, 54 × 86 mm).</p><div class="gl card" style="display:grid;justify-items:center;gap:16px"><style>${CARD_CSS}</style><div class="cards" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;zoom:1.3" id="myCard">${cardHTML(ME.staff||{})}</div><button class="btn gold" type="button" id="myPdf">⬇ Download my ID card (PDF)</button></div>`;
+AFTER["staff.idcard"]=()=>{$("myPdf").onclick=()=>cardPdf($("myCard"),`${(ME.staff||{}).tid||"ID"}-ID-card.pdf`)};
+
+/* ----- OWNER ----- */
+VIEWS.owner.home=()=>{const P=D.projects,now=Date.now(),mon=istDay(now).slice(0,7),yr=mon.slice(0,4),mons=[...Array(12)].map((_,i)=>yr+"-"+String(i+1).padStart(2,"0"));
+ const bills=D.docs.filter(d=>d.type==="invoice"),billM=bills.filter(d=>istDay(d.ts).startsWith(mon)).reduce((t,d)=>t+d.total,0),onDuty=(D.staff||[]).filter(s=>s.active!==false&&dayStats((D.att||[]).find(a=>a.tid===s.tid&&a.day===istDay(now))).state!=="out");
+ const rev=mons.map(m=>bills.filter(d=>istDay(d.ts).startsWith(m)).reduce((t,d)=>t+d.total,0)),svc={};P.forEach(p=>svc[p.service]=(svc[p.service]||0)+1);const top=Object.entries(svc).sort((a,b)=>b[1]-a[1]).slice(0,5),COL=["#4f7cff","#9b5cff","#ff3d9a","#f3c14b","#22d37f"];
+ const newReq=P.filter(p=>p.status==="requested");
+ return `<h2 class="t">${greet()}, Arsalan 👑</h2><p class="sub">Everything at Flow Studio, live · ${line()}</p>
+ <div class="k4">${kpi("🧑‍💼","Clients",D.clients.length,D.clients.filter(c=>istDay(c.ts||0).startsWith(mon)).length+" new this month")}${kpi("📦","Active projects",P.filter(p=>!["delivered","closed"].includes(p.status)).length,newReq.length+" new requests")}${kpi("💰","Billed this month",rs(billM),rs(bills.reduce((t,d)=>t+d.total,0))+" all time")}${kpi("🟢","On duty now",onDuty.length+"/"+(D.staff||[]).filter(s=>s.active!==false).length,onDuty.map(s=>s.name.split(" ")[0]).join(", ")||"nobody yet")}</div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>Project funnel <span class="muted">request → delivered</span></h3>${funnel(P)}</div><div class="gl card"><h3>Top services</h3>${top.length?donut(top.map(([l,v],i)=>[l,v,COL[i]])):'<div class="empty">No projects yet.</div>'}</div></div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>Revenue billed <span class="muted">${yr}</span></h3>${bars(rev,mons.map(m=>new Date(m+"-01").toLocaleDateString("en-GB",{month:"short"})),{fmt:v=>v>=1e5?(v/1e5).toFixed(1)+"L":v>=1e3?Math.round(v/1e3)+"k":v})}</div>
+ <div class="gl card"><h3>New requests <span class="muted">need a reply</span></h3>${newReq.length?`<div class="list">${newReq.slice(0,5).map(p=>`<div class="row"><div class="x"><b>${H(p.client)} · ${H(p.service)}</b><span>${H((p.brief||"").slice(0,80))}</span></div><button class="btn sm pri" type="button" data-go="work">Open</button></div>`).join("")}</div>`:'<div class="empty">All caught up ✓</div>'}</div></div>
+ <div class="gl card" style="margin-top:16px"><h3>Team attendance <span class="muted">${new Date(mon+"-01").toLocaleDateString("en-GB",{month:"long",year:"numeric"})} · darker = more hours</span></h3>${heat(mon)}</div>`};
+function heat(mon){const st=(D.staff||[]).filter(s=>s.active!==false);if(!st.length)return '<div class="empty">No team members yet. Add them in Team &amp; duty.</div>';
+ return `<div class="scx"><div class="heat" style="min-width:560px"><div class="hr"><span></span>${[...Array(31)].map((_,i)=>`<span class="muted mono" style="font-size:9px;text-align:center">${i+1}</span>`).join("")}</div>${st.map(s=>{const ys=staffYear(s.tid,D.att||[]);return `<div class="hr"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${H(s.name)}</span>${[...Array(31)].map((_,i)=>{const d=mon+"-"+String(i+1).padStart(2,"0"),w=((ys[d]||{}).work||0)/36e5;return `<i title="${d}: ${w.toFixed(1)}h" style="${w?`background:rgba(79,124,255,${Math.min(1,.18+w/10)})`:""}"></i>`}).join("")}</div>`}).join("")}</div></div>`}
+VIEWS.owner.team=()=>{const now=Date.now();return `<h2 class="t">Team &amp; duty</h2><p class="sub">Who is on duty, hours, overtime and each person's progress card.</p>
+ <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px"><button class="btn pri" type="button" id="addW">+ Add employee</button></div>
+ <div class="grid">${(D.staff||[]).filter(s=>s.active!==false).map(s=>{const st=dayStats((D.att||[]).find(a=>a.tid===s.tid&&a.day===istDay(now))),ys=staffYear(s.tid,D.att||[]),mon=istDay(now).slice(0,7),mh=Object.entries(ys).filter(([d])=>d.startsWith(mon)).reduce((t,[,v])=>t+v.work,0);
+  return `<div class="gl card"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">${avatar(s.photo,s.name)}<div style="flex:1;min-width:0"><b>${H(s.name)}</b> <span class="mono muted">${H(s.tid)}</span><br><span class="muted">${H(s.role||"")} · ${H(s.dept||"")} · ${H(s.phone||"")}</span></div><span class="tag ${st.state==="in"?"delivered":st.state==="break"?"requested":""}">${st.state==="in"?"🟢 On duty "+hm(st.work):st.state==="break"?"☕ Break":st.first?"🔴 Out · "+hm(st.work):"Not in"}</span></div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px"><span class="tag">This month ${hm(mh)}</span><span class="tag">Delivered ${D.projects.filter(p=>p.assignee===s.tid&&p.deliveredAt).length}</span><button class="btn sm" type="button" data-prog="${s.tid}">📈 Progress card</button><button class="btn sm" type="button" data-rep="${s.tid}">⬇ Report PDF</button><button class="btn sm" type="button" data-idc="${s.tid}">🪪 ID card</button><button class="btn sm" type="button" data-sal="${s.tid}">💰 Salary &amp; slips</button><button class="btn sm" type="button" data-jl="${s.tid}">📄 Joining letter</button><button class="btn sm" type="button" data-edw="${s.tid}">✎ Edit</button></div></div>`}).join("")||'<div class="empty">No employees yet. Tap “Add employee”.</div>'}</div>`};
+AFTER["owner.team"]=()=>{$("addW").onclick=()=>staffForm({})};
+function staffForm(s){const m=modal(`<h3 style="margin-top:0">${s.tid?"Edit "+H(s.tid):"Add employee"}</h3><p class="muted" style="margin-top:0">The employee code is made from the name and mobile number. The employee signs in with this Gmail.</p><div class="g2"><label class="f"><span>Full name <b>*</b></span><input id="sN" value="${H(s.name||"")}"></label><label class="f"><span>Gmail <b>*</b></span><input id="sE" value="${H(s.email||"")}" ${s.tid?"readonly":""}></label><label class="f"><span>Mobile <b>*</b></span><input id="sP" value="${H(s.phone||"")}"></label><label class="f">Designation<input id="sR" value="${H(s.role||"")}" placeholder="Video Editor"></label><label class="f">Department<input id="sD" value="${H(s.dept||"")}" placeholder="Editing"></label><label class="f">Joining date<input id="sJ" type="date" value="${H(s.joined||"")}"></label><label class="f">Shift start<input id="sS" type="time" value="${H(s.shiftStart||"10:00")}"></label><label class="f">Shift end<input id="sX" type="time" value="${H(s.shiftEnd||"19:00")}"></label><label class="f">Break minutes<input id="sB" type="number" value="${s.breakMin||60}"></label><label class="f">Blood group<input id="sG" value="${H(s.blood||"")}"></label><label class="f">Photo<input id="sF" type="file" accept="image/*"></label></div>
+ <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn pri" type="button" id="sGo">Save</button>${s.tid?'<button class="btn bad" type="button" id="sDel">Remove</button>':""}<button class="btn" type="button" data-x>Cancel</button></div>`);
+ let photo=s.photo||"";$("sF").onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Image();img.onload=()=>{const c=document.createElement("canvas"),k=360/Math.max(img.width,img.height);c.width=img.width*Math.min(1,k);c.height=img.height*Math.min(1,k);c.getContext("2d").drawImage(img,0,0,c.width,c.height);photo=c.toDataURL("image/jpeg",.85)};img.src=URL.createObjectURL(f)};
+ const post=async b=>{const t=await auth.currentUser.getIdToken();const r=await fetch(API+"/shop/admin",{method:"POST",headers:{authorization:"Bearer "+t,"content-type":"application/json"},body:JSON.stringify(b)}).then(r=>r.json());if(r.error)throw new Error(r.error);return r};
+ $("sGo").onclick=async()=>{try{const r=await post({action:"staffSave",staff:{tid:s.tid||"",name:$("sN").value,email:$("sE").value,phone:$("sP").value,role:$("sR").value,dept:$("sD").value,joined:$("sJ").value,shiftStart:$("sS").value,shiftEnd:$("sX").value,breakMin:$("sB").value,blood:$("sG").value,photo}});m.remove();celebrate();toast("Saved ✓ Employee code "+r.tid,5000);load()}catch(x){toast(x.message)}};
+ if(s.tid)$("sDel").onclick=async()=>{if(!$("sDel").dataset.sure){$("sDel").dataset.sure=1;$("sDel").textContent="Tap again to remove";return}try{await post({action:"staffRemove",tid:s.tid});m.remove();toast("Removed");load()}catch(x){toast(x.message)}}}
+function staffReport(s){const ys=staffYear(s.tid,D.att||[]),need=shiftMs(s),rows=Object.entries(ys).sort(),del=D.projects.filter(p=>p.assignee===s.tid),tot=rows.reduce((t,[,v])=>t+v.work,0),ot=rows.reduce((t,[,v])=>t+Math.max(0,v.work-need),0);
+ const p=paper("Employee report · "+s.name,s.tid+" · "+(s.role||"")+" · "+(s.dept||""),`<div class="kp"><div>Duty days<b>${rows.length}</b></div><div>Total hours<b>${hm(tot)}</b></div><div>Overtime<b>${hm(ot)}</b></div><div>Delivered<b>${del.filter(p=>p.deliveredAt).length}</b></div></div>
+ <h2>Details</h2><table><tr><td>Mobile</td><td>${H(s.phone||"")}</td><td>Gmail</td><td>${H(s.email||"")}</td></tr><tr><td>Shift</td><td>${H(s.shiftStart)}–${H(s.shiftEnd)} · break ${s.breakMin||60}m</td><td>Joined</td><td>${H(s.joined||"—")}</td></tr></table>
+ <h2>Projects</h2><table><tr><th>ID</th><th>Client</th><th>Project</th><th>Stage</th><th>Delivered</th></tr>${del.map(p=>`<tr><td>${p.pid}</td><td>${H(p.client)}</td><td>${H(p.title)}</td><td>${STL[p.status]}</td><td>${p.deliveredAt?dt(p.deliveredAt):"—"}</td></tr>`).join("")||"<tr><td colspan=5>None</td></tr>"}</table>
+ <h2>Attendance (this year)</h2><table><tr><th>Date</th><th>In</th><th>Out</th><th>Worked</th><th>Break</th><th>Overtime</th></tr>${rows.slice(-120).map(([d,v])=>`<tr><td>${d}</td><td>${v.first?new Date(v.first).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}):"—"}</td><td>${v.last?new Date(v.last).toLocaleTimeString("en-IN",{hour:"2-digit",minute:"2-digit"}):"—"}</td><td>${hm(v.work)}</td><td>${hm(v.brk)}</td><td>${hm(Math.max(0,v.work-need))}</td></tr>`).join("")||"<tr><td colspan=6>No attendance yet</td></tr>"}</table>`);pdfFrom(p,`Employee-${s.tid}-report.pdf`)}
+
+/* ---------- salary, slips, joining letter ---------- */
+const MONN=m=>new Date(m+"-01").toLocaleDateString("en-GB",{month:"long",year:"numeric"});
+const words=n=>{n=Math.round(n);if(!n)return"Zero";const a=["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"],b=["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+ const t=x=>x<20?a[x]:b[Math.floor(x/10)]+(x%10?" "+a[x%10]:""),h=x=>x>=100?a[Math.floor(x/100)]+" Hundred"+(x%100?" "+t(x%100):""):t(x);let o="";
+ const cr=Math.floor(n/1e7),l=Math.floor(n/1e5)%100,th=Math.floor(n/1e3)%100,r=n%1000;if(cr)o+=h(cr)+" Crore ";if(l)o+=t(l)+" Lakh ";if(th)o+=t(th)+" Thousand ";if(r)o+=h(r);return o.trim()};
+function workDays(m,upto){const [y,mo]=m.split("-").map(Number),n=new Date(y,mo,0).getDate(),cur=istDay(Date.now()),lim=upto&&cur.startsWith(m)?+cur.slice(8,10):n;let w=0;for(let d=1;d<=lim;d++)if(new Date(y,mo-1,d).getDay()!==0)w++;return w}
+function autoSlip(s,m){const S=s.salary||{},ys=staffYear(s.tid,D.att||[]),need=shiftMs(s),days=Object.entries(ys).filter(([d])=>d.startsWith(m)),wd=workDays(m),pres=days.length,ot=days.reduce((t,[,v])=>t+Math.max(0,v.work-need),0)/36e5;
+ const fixed=(S.basic||0)+(S.hra||0)+(S.allow||0)+(S.travel||0)+(S.other||0),absent=Math.max(0,workDays(m,true)-pres),cut=S.cutAbsent!==false&&fixed?Math.round(fixed/wd*absent):0;
+ const earn=[["Basic",S.basic],["HRA",S.hra],["Special allowance",S.allow],["Travel allowance",S.travel],["Other",S.other],["Overtime ("+ot.toFixed(1)+" h)",Math.round(ot*(S.otRate||0))]].filter(x=>x[1]).map(([l,v])=>({l,v}));
+ const ded=[["Provident fund (PF)",S.pf],["ESI",S.esi],["Professional tax",S.pt],["TDS",S.tds],["Absent days ("+absent+")",cut]].filter(x=>x[1]).map(([l,v])=>({l,v}));
+ return {earn,ded,days:String(wd),present:String(pres),otHours:ot.toFixed(1),note:"",paidOn:"",status:"issued"}}
+function salaryModal(s){const S=s.salary||{},cm=istDay(Date.now()).slice(0,7),f=(k,l,ph="")=>`<label class="f">${l}<input data-s="${k}" value="${H(S[k]??"")}" ${["bank","acno","ifsc","pan","uan"].includes(k)?"":`type="number" min="0"`} placeholder="${ph}"></label>`;
+ const m=modal(`<h3 style="margin-top:0">💰 Salary · ${H(s.name)} <span class="mono muted">${H(s.tid)}</span></h3>
+ <div class="seg" id="slT" style="margin-bottom:14px"><button type="button" data-t="str" aria-pressed="true">Salary structure</button><button type="button" data-t="slip" aria-pressed="false">Make salary slip</button><button type="button" data-t="old" aria-pressed="false">Past slips</button></div>
+ <div data-p="str"><p class="muted" style="margin-top:0">Monthly amounts in ₹.</p><div class="g2">${f("basic","Basic")}${f("hra","HRA")}${f("allow","Special allowance")}${f("travel","Travel allowance")}${f("other","Other allowance")}${f("otRate","Overtime ₹ per hour")}</div><h4>Deductions (monthly)</h4><div class="g2">${f("pf","PF")}${f("esi","ESI")}${f("pt","Professional tax")}${f("tds","TDS")}</div><h4>Bank &amp; IDs (printed on slip)</h4><div class="g2">${f("bank","Bank name")}${f("acno","Account no.")}${f("ifsc","IFSC")}${f("pan","PAN")}${f("uan","UAN")}</div>
+  <label style="display:flex;gap:8px;align-items:center;margin-top:10px;font-size:13px"><input type="checkbox" id="slCut" style="width:auto" ${S.cutAbsent!==false?"checked":""}> Cut salary for absent days (Sundays are off)</label><div style="margin-top:12px;display:flex;gap:8px;align-items:center"><button class="btn pri" type="button" id="slSave">Save structure</button><b class="mono" id="slCtc"></b></div></div>
+ <div data-p="slip" hidden><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end"><label class="f">Month<input type="month" id="slM" value="${cm}"></label><button class="btn sm" type="button" id="slAuto">↻ Fill from attendance</button></div>
+  <div class="g2" style="margin-top:10px"><label class="f">Working days<input id="slWd"></label><label class="f">Days present<input id="slPr"></label><label class="f">Overtime hours<input id="slOt"></label><label class="f">Paid on<input id="slPd" placeholder="e.g. 01 Dec 2026"></label></div>
+  <h4>Earnings</h4><div id="slE" class="grid" style="gap:6px"></div><button class="btn sm" type="button" data-addl="slE" style="margin-top:6px">+ Earning</button>
+  <h4>Deductions</h4><div id="slD" class="grid" style="gap:6px"></div><button class="btn sm" type="button" data-addl="slD" style="margin-top:6px">+ Deduction</button>
+  <label class="f" style="margin-top:10px">Note on slip (optional)<input id="slN" placeholder="e.g. Diwali bonus included"></label>
+  <label style="display:flex;gap:8px;align-items:center;margin-top:10px;font-size:13px"><input type="checkbox" id="slPaid" style="width:auto"> Mark as paid</label>
+  <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn pri" type="button" id="slGo">Save slip (employee can see &amp; download)</button><button class="btn" type="button" id="slPrev">⬇ PDF</button><b class="mono" id="slNet" style="margin-left:auto"></b></div></div>
+ <div data-p="old" hidden>${slipList(s.tid,true)}</div><div style="margin-top:14px"><button class="btn" type="button" data-x>Close</button></div>`);
+ m.firstChild.style.width="min(860px,100%)";
+ const tabs=m.querySelector("#slT");tabs.onclick=e=>{const b=e.target.closest("[data-t]");if(!b)return;tabs.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));m.querySelectorAll("[data-p]").forEach(p=>p.hidden=p.dataset.p!==b.dataset.t)};
+ const getS=()=>{const o={};m.querySelectorAll("[data-s]").forEach(i=>o[i.dataset.s]=i.type==="number"?+i.value||0:i.value.trim());o.cutAbsent=$("slCut").checked;return o};
+ const ctc=()=>{const o=getS();$("slCtc").textContent="Monthly gross "+rs(o.basic+o.hra+o.allow+o.travel+o.other)+" · in hand ~"+rs(o.basic+o.hra+o.allow+o.travel+o.other-o.pf-o.esi-o.pt-o.tds)};ctc();m.addEventListener("input",()=>{ctc();net()});
+ $("slSave").onclick=async()=>{try{await call("/fs/owner/salary",{tid:s.tid,salary:getS()});s.salary=Object.assign({},getS());toast("Salary saved ✓")}catch(x){toast(x.message)}};
+ const line=(box,x={})=>{const r=document.createElement("div");r.style.cssText="display:grid;grid-template-columns:1fr 140px 34px;gap:6px";r.innerHTML=`<input data-l value="${H(x.l||"")}" placeholder="Label"><input data-v type="number" min="0" value="${x.v||""}" placeholder="₹"><button class="btn sm" type="button" data-rm>✕</button>`;$(box).appendChild(r)};
+ m.addEventListener("click",e=>{const a=e.target.closest("[data-addl]");if(a)line(a.dataset.addl);const r=e.target.closest("[data-rm]");if(r){r.parentNode.remove();net()}});
+ const rd=box=>[...$(box).children].map(r=>({l:r.querySelector("[data-l]").value.trim(),v:+r.querySelector("[data-v]").value||0})).filter(x=>x.l);
+ const slip=()=>({earn:rd("slE"),ded:rd("slD"),days:$("slWd").value,present:$("slPr").value,otHours:$("slOt").value,paidOn:$("slPd").value,note:$("slN").value,status:$("slPaid").checked?"paid":"issued"});
+ const net=()=>{const d=slip(),g=d.earn.reduce((t,x)=>t+x.v,0),dd=d.ded.reduce((t,x)=>t+x.v,0);$("slNet").textContent="Net pay "+rs(g-dd)};
+ const fill=()=>{const mo=$("slM").value,ex=(D.slips||[]).find(x=>x.tid===s.tid&&x.month===mo&&x.status!=="removed"),d=ex||autoSlip(Object.assign({},s,{salary:Object.assign({},s.salary||{},getS())}),mo);
+  $("slE").innerHTML="";$("slD").innerHTML="";d.earn.forEach(x=>line("slE",x));d.ded.forEach(x=>line("slD",x));if(!d.earn.length)line("slE");$("slWd").value=d.days;$("slPr").value=d.present;$("slOt").value=d.otHours;$("slPd").value=d.paidOn||"";$("slN").value=d.note||"";$("slPaid").checked=d.status==="paid";net()};
+ fill();$("slM").onchange=fill;$("slAuto").onclick=()=>{const mo=$("slM").value,d=autoSlip(Object.assign({},s,{salary:getS()}),mo);$("slE").innerHTML="";$("slD").innerHTML="";d.earn.forEach(x=>line("slE",x));d.ded.forEach(x=>line("slD",x));$("slWd").value=d.days;$("slPr").value=d.present;$("slOt").value=d.otHours;net();toast("Filled from attendance ✓")};
+ $("slGo").onclick=async()=>{try{const r=await call("/fs/owner/slip",{tid:s.tid,month:$("slM").value,slip:slip()});D.slips=(D.slips||[]).filter(x=>!(x.tid===s.tid&&x.month===r.slip.month)).concat([r.slip]);toast("Slip saved ✓ "+s.name+" can download it now",4000);m.querySelector('[data-p="old"]').innerHTML=slipList(s.tid,true)}catch(x){toast(x.message)}};
+ $("slPrev").onclick=()=>{const d=slip(),g=d.earn.reduce((t,x)=>t+x.v,0),dd=d.ded.reduce((t,x)=>t+x.v,0);slipPdf(Object.assign({tid:s.tid,month:$("slM").value,gross:g,deductions:dd,net:g-dd},d),Object.assign({},s,{salary:getS()}))}}
+function slipList(tid,own){const L=(D.slips||[]).filter(x=>x.tid===tid&&x.status!=="removed");return L.length?`<div class="list">${L.map(x=>`<div class="row"><span style="font-size:22px">💵</span><div class="x"><b>${MONN(x.month)}</b><span>Net ${rs(x.net)} · gross ${rs(x.gross)} · ${x.status==="paid"?"✅ paid "+H(x.paidOn||""):"issued"}</span></div><button class="btn sm pri" type="button" data-slip="${x.tid}_${x.month}">⬇ PDF</button></div>`).join("")}</div>`:`<div class="empty">No salary slips yet.</div>`}
+function slipPdf(sl,s){const S=s.salary||{},rows=Math.max(sl.earn.length,sl.ded.length);
+ const p=paper("Salary slip · "+MONN(sl.month),s.name+" · "+s.tid,`<table style="margin-top:14px"><tr><td>Employee</td><td><b>${H(s.name)}</b></td><td>Employee code</td><td><b>${H(s.tid)}</b></td></tr><tr><td>Designation</td><td>${H(s.role||"")}</td><td>Department</td><td>${H(s.dept||"")}</td></tr><tr><td>Joining date</td><td>${H(s.joined||"—")}</td><td>Pay month</td><td>${MONN(sl.month)}</td></tr><tr><td>Working days</td><td>${H(sl.days||"—")}</td><td>Days present</td><td>${H(sl.present||"—")}</td></tr><tr><td>Bank</td><td>${H(S.bank||"—")} ${S.acno?"· ****"+H(String(S.acno).slice(-4)):""}</td><td>PAN / UAN</td><td>${H(S.pan||"—")} / ${H(S.uan||"—")}</td></tr></table>
+ <table style="margin-top:16px"><tr><th>Earnings</th><th style="text-align:right">₹</th><th>Deductions</th><th style="text-align:right">₹</th></tr>${[...Array(rows)].map((_,i)=>{const e=sl.earn[i],d=sl.ded[i];return `<tr><td>${e?H(e.l):""}</td><td style="text-align:right">${e?Math.round(e.v).toLocaleString("en-IN"):""}</td><td>${d?H(d.l):""}</td><td style="text-align:right">${d?Math.round(d.v).toLocaleString("en-IN"):""}</td></tr>`}).join("")}
+ <tr style="font-weight:700;background:#f4f6ff"><td>Gross earnings</td><td style="text-align:right">${rs(sl.gross)}</td><td>Total deductions</td><td style="text-align:right">${rs(sl.deductions)}</td></tr></table>
+ <div style="margin-top:16px;padding:16px;border-radius:12px;background:linear-gradient(135deg,#eef1ff,#f7eeff);display:flex;justify-content:space-between;align-items:center"><div><div style="color:#667">Net pay</div><b style="font:800 26px Sora,sans-serif">${rs(sl.net)}</b><div style="color:#667">Rupees ${words(sl.net)} only</div></div><div style="text-align:right;color:#667">${sl.status==="paid"?"✅ Paid "+H(sl.paidOn||""):"Issued"}${sl.otHours&&+sl.otHours?"<br>Overtime "+H(sl.otHours)+" h":""}</div></div>
+ ${sl.note?`<p style="margin-top:12px">Note: ${H(sl.note)}</p>`:""}<p style="color:#889;font-size:11px;margin-top:14px">This is a computer-generated salary slip from the Flow Studio dashboard.</p>`);pdfFrom(p,`Salary-slip-${s.tid}-${sl.month}.pdf`)}
+function letterModal(s){const L=s.letter||{},S=s.salary||{},g=(S.basic||0)+(S.hra||0)+(S.allow||0)+(S.travel||0)+(S.other||0);
+ const f=(k,l,v)=>`<label class="f">${l}<input data-lt="${k}" value="${H(L[k]??v??"")}"></label>`;
+ const m=modal(`<h3 style="margin-top:0">📄 Joining letter · ${H(s.name)}</h3><p class="muted" style="margin-top:0">Name, designation, department, joining date and shift come from the employee's details. Change anything below, save, and download. The employee can download it from their dashboard too.</p>
+ <div class="g2">${f("ref","Reference no.","FS/HR/"+new Date().getFullYear()+"/"+s.tid)}${f("date","Letter date",fmtD(new Date()))}${f("ctc","Salary (monthly gross)",g?rs(g)+" per month":"")}${f("probation","Probation","3 months")}${f("notice","Notice period","30 days")}${f("hours","Working hours",(s.shiftStart||"10:00")+" to "+(s.shiftEnd||"19:00")+", Monday to Saturday")}${f("place","Place of work","Flow Studio, Deolali Camp, Nashik")}${f("reportTo","Reports to","Arsalan Ahmed Shaikh, Founder & MD")}</div>
+ <label class="f" style="margin-top:10px">Employee address (optional)<input data-lt="address" value="${H(L.address||"")}"></label>
+ <label class="f" style="margin-top:10px">Extra terms (one per line)<textarea data-lt="terms" rows="5">${H(L.terms||"All work made at Flow Studio belongs to Flow Studio and its clients.\nClient information must be kept confidential.\nCarry your ID card on duty and mark attendance in the dashboard every day.")}</textarea></label>
+ <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn pri" type="button" id="jlSave">Save</button><button class="btn gold" type="button" id="jlPdf">⬇ Download PDF</button><button class="btn" type="button" data-x>Close</button></div>`);
+ const get=()=>{const o={};m.querySelectorAll("[data-lt]").forEach(i=>o[i.dataset.lt]=i.value.trim());return o};
+ $("jlSave").onclick=async()=>{try{await call("/fs/owner/letter",{tid:s.tid,letter:get()});s.letter=get();toast("Joining letter saved ✓")}catch(x){toast(x.message)}};
+ $("jlPdf").onclick=()=>letterPdf(Object.assign({},s,{letter:get()}))}
+function letterPdf(s){const L=s.letter||{},S=s.salary||{},g=(S.basic||0)+(S.hra||0)+(S.allow||0)+(S.travel||0)+(S.other||0),jd=s.joined?dt(Date.parse(s.joined)):"—";
+ const p=paper("Appointment & joining letter",L.ref||"Flow Studio HR",`<p style="margin-top:20px">Date: ${H(L.date||fmtD(new Date()))}</p><p><b>${H(s.name)}</b><br>${H(L.address||"")}${L.address?"<br>":""}Mobile: ${H(s.phone||"")} · ${H(s.email||"")}</p>
+ <p><b>Subject: Appointment as ${H(s.role||"Team Member")}</b></p><p>Dear ${H((s.name||"").split(" ")[0])},</p>
+ <p>We are happy to welcome you to <b>Flow Studio</b>. With reference to your interview and discussions, we are pleased to appoint you as <b>${H(s.role||"Team Member")}</b> in the <b>${H(s.dept||"Creative")}</b> department, on the terms below.</p>
+ <table><tr><td style="width:38%">Employee code</td><td><b>${H(s.tid)}</b></td></tr><tr><td>Date of joining</td><td>${jd}</td></tr><tr><td>Designation</td><td>${H(s.role||"")}</td></tr><tr><td>Department</td><td>${H(s.dept||"")}</td></tr><tr><td>Salary</td><td>${H(L.ctc||(g?rs(g)+" per month":"As discussed"))}</td></tr><tr><td>Working hours</td><td>${H(L.hours||"")}</td></tr><tr><td>Place of work</td><td>${H(L.place||"")}</td></tr><tr><td>Reports to</td><td>${H(L.reportTo||"")}</td></tr><tr><td>Probation</td><td>${H(L.probation||"")}</td></tr><tr><td>Notice period</td><td>${H(L.notice||"")}</td></tr></table>
+ <h2>Terms</h2><ol>${String(L.terms||"").split("\n").filter(x=>x.trim()).map(x=>`<li>${H(x)}</li>`).join("")}</ol>
+ <p>Please sign a copy of this letter as your acceptance. We look forward to creating great work together.</p><p>Warm regards,<br><b>For Flow Studio</b></p>
+ <div style="margin-top:30px;display:flex;justify-content:space-between"><div>__________________________<br>Employee signature<br>${H(s.name)}</div></div>`);pdfFrom(p,`Joining-letter-${s.tid}.pdf`)}
+VIEWS.staff.pay=()=>{const s=ME.staff||{};return `<h2 class="t">Salary &amp; letters</h2><p class="sub">Your salary slips and your joining letter. Download any of them as PDF.</p>
+ <div class="c2"><div class="gl card"><h3>Salary slips</h3>${slipList(s.tid)}</div><div class="gl card"><h3>Joining letter</h3>${s.letter?`<p class="muted">Ref ${H(s.letter.ref||"")} · ${H(s.letter.date||"")}</p><button class="btn gold" type="button" data-jlpdf="${H(s.tid)}">⬇ Download joining letter</button>`:'<div class="empty">Your joining letter is not ready yet.</div>'}</div></div>`};
+VIEWS.owner.payroll=()=>{const cm=window._pm||istDay(Date.now()).slice(0,7),st=(D.staff||[]).filter(s=>s.active!==false),sl=(D.slips||[]).filter(x=>x.month===cm&&x.status!=="removed");
+ return `<h2 class="t">Salary &amp; payroll</h2><p class="sub">Set each salary, make monthly slips from attendance, and download joining letters.</p>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end;margin-bottom:14px"><label class="f">Month<input type="month" id="pmM" value="${cm}"></label><button class="btn sm gold" type="button" id="pmPdf">⬇ Payroll PDF</button></div>
+ <div class="k4">${kpi("👥","Employees",st.length,"active")}${kpi("💵","Slips made",sl.length+"/"+st.length,MONN(cm))}${kpi("💰","Total net pay",rs(sl.reduce((t,x)=>t+x.net,0)),"this month")}${kpi("✅","Paid",sl.filter(x=>x.status==="paid").length,"slips marked paid")}</div>
+ <div class="gl card" style="margin-top:16px"><div class="scx"><table class="tbl"><thead><tr><th>Employee</th><th>Monthly gross</th><th>Slip (${MONN(cm)})</th><th>Net</th><th></th></tr></thead><tbody>${st.map(s=>{const S=s.salary||{},g=(S.basic||0)+(S.hra||0)+(S.allow||0)+(S.travel||0)+(S.other||0),x=sl.find(y=>y.tid===s.tid);return `<tr><td><b>${H(s.name)}</b><br><span class="mono muted">${s.tid}</span></td><td class="mono">${g?rs(g):'<span class="muted">not set</span>'}</td><td>${x?(x.status==="paid"?"✅ Paid":"📄 Issued"):'<span class="muted">—</span>'}</td><td class="mono">${x?rs(x.net):"—"}</td><td style="white-space:nowrap"><button class="btn sm pri" type="button" data-sal="${s.tid}">💰 Salary &amp; slip</button> ${x?`<button class="btn sm" type="button" data-slip="${x.tid}_${x.month}">⬇</button>`:""} <button class="btn sm" type="button" data-jl="${s.tid}">📄 Letter</button></td></tr>`}).join("")||'<tr><td colspan="5" class="muted">No employees yet.</td></tr>'}</tbody></table></div></div>`};
+AFTER["owner.payroll"]=()=>{$("pmM").onchange=e=>{window._pm=e.target.value;render()};$("pmPdf").onclick=()=>{const cm=$("pmM").value,sl=(D.slips||[]).filter(x=>x.month===cm&&x.status!=="removed");pdfFrom(paper("Payroll · "+MONN(cm),sl.length+" salary slips",`<table style="margin-top:14px"><tr><th>Code</th><th>Name</th><th>Designation</th><th>Present</th><th>Gross</th><th>Deductions</th><th>Net</th><th>Status</th></tr>${sl.map(x=>`<tr><td>${x.tid}</td><td>${H(x.name)}</td><td>${H(x.role)}</td><td>${H(x.present)}/${H(x.days)}</td><td>${rs(x.gross)}</td><td>${rs(x.deductions)}</td><td><b>${rs(x.net)}</b></td><td>${x.status}</td></tr>`).join("")||"<tr><td colspan=8>No slips for this month</td></tr>"}<tr style="font-weight:700;background:#f4f6ff"><td colspan="6">Total</td><td>${rs(sl.reduce((t,x)=>t+x.net,0))}</td><td></td></tr></table>`),`Payroll-${cm}.pdf`)}};
+VIEWS.owner.logins=()=>`<h2 class="t">Login history</h2><p class="sub">Who signed in or out of the dashboard, when, on which device and from which city. (One entry per visit; a new entry after 20 minutes away.)</p>
+ <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px"><div class="seg" id="lgS">${[["all","Everyone"],["client","Clients"],["staff","Team"],["owner","Owner"],["new","Not signed up"]].map(([k,l])=>`<button type="button" data-lr="${k}" aria-pressed="${k==="all"}">${l}</button>`).join("")}</div><input id="lgQ" placeholder="Search name, Gmail or code…" style="max-width:280px"><button class="btn sm gold" type="button" id="lgPdf">⬇ PDF</button></div>
+ <div class="gl card"><div class="scx"><table class="tbl"><thead><tr><th>Time</th><th>Event</th><th>Name</th><th>Role</th><th>Code</th><th>Gmail</th><th>Device</th><th>Place</th></tr></thead><tbody id="lgT"><tr><td colspan="8" class="muted">Loading…</td></tr></tbody></table></div></div>`;
+AFTER["owner.logins"]=async()=>{let L=[],R="all";const RL={client:"Client",staff:"Team",owner:"Owner",new:"Not signed up"};
+ const rows=()=>L.filter(x=>(R==="all"||x.role===R)&&JSON.stringify(x).toLowerCase().includes(($("lgQ").value||"").toLowerCase()));
+ const draw=()=>{$("lgT").innerHTML=rows().map(x=>`<tr><td class="mono">${new Date(x.ts).toLocaleString("en-IN",{day:"2-digit",month:"short",hour:"2-digit",minute:"2-digit"})}</td><td>${x.ev==="logout"?"🔴 Sign out":"🟢 Sign in"}</td><td><b>${H(x.name||"")}</b></td><td>${RL[x.role]||x.role}</td><td class="mono">${H(x.id||"")}</td><td>${H(x.email)}</td><td>${H(x.dev||"")}</td><td>${H([x.city,x.country].filter(Boolean).join(", "))}</td></tr>`).join("")||'<tr><td colspan="8" class="muted">No sign-ins yet.</td></tr>'};
+ $("lgS").onclick=e=>{const b=e.target.closest("[data-lr]");if(!b)return;R=b.dataset.lr;$("lgS").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));draw()};$("lgQ").oninput=draw;
+ $("lgPdf").onclick=()=>pdfFrom(paper("Login history","Dashboard sign-ins",`<table><tr><th>Time</th><th>Event</th><th>Name</th><th>Role</th><th>Code</th><th>Gmail</th><th>Device</th><th>Place</th></tr>${rows().slice(0,400).map(x=>`<tr><td>${new Date(x.ts).toLocaleString("en-IN")}</td><td>${x.ev}</td><td>${H(x.name||"")}</td><td>${RL[x.role]||x.role}</td><td>${H(x.id||"")}</td><td>${H(x.email)}</td><td>${H(x.dev||"")}</td><td>${H(x.city||"")}</td></tr>`).join("")}</table>`),"Flow-Studio-login-history.pdf");
+ try{L=(await call("/fs/owner/logins")).logins||[]}catch(e){$("lgT").innerHTML=`<tr><td colspan="8">${H(e.message)}</td></tr>`;return}draw()};
+VIEWS.owner.reports=()=>`<h2 class="t">Reports &amp; PDFs</h2><p class="sub">Download any report. Only you (the owner) can download all of these.</p>
+ <div class="c3"><div class="gl card"><h3>📊 Business summary</h3><p class="muted">Clients, projects by stage, revenue by month, top services and team hours.</p><button class="btn pri" type="button" id="repBiz">⬇ Download PDF</button></div>
+ <div class="gl card"><h3>🧑‍💼 All clients</h3><p class="muted">Every client code with contact, projects, billed and quoted totals.</p><button class="btn pri" type="button" id="repCl">⬇ Download PDF</button></div>
+ <div class="gl card"><h3>🎬 Team summary</h3><p class="muted">Each employee: duty days, hours, overtime, deliveries and grade.</p><button class="btn pri" type="button" id="repTm">⬇ Download PDF</button></div></div>
+ <div class="c2" style="margin-top:16px"><div class="gl card"><h3>One client</h3><p class="muted">Open the client by code, then tap “Client report PDF”.</p><button class="btn" type="button" data-go="clients">Clients by code →</button></div><div class="gl card"><h3>One employee</h3><p class="muted">Each employee card in Team &amp; duty has “Report PDF”.</p><button class="btn" type="button" data-go="team">Team &amp; duty →</button></div></div>`;
+AFTER["owner.reports"]=()=>{const yr=String(IST(Date.now()).getUTCFullYear());
+ $("repCl").onclick=()=>{const rows=D.clients.map(c=>{const ps=D.projects.filter(p=>p.code===c.code),ds=D.docs.filter(d=>d.code===c.code);return `<tr><td>${c.code}</td><td>${H(c.business)}</td><td>${H(c.name)}</td><td>${H(c.phone)}</td><td>${ps.length}</td><td>${rs(ds.filter(d=>d.type==="invoice").reduce((t,d)=>t+d.total,0))}</td><td>${rs(ds.filter(d=>d.type==="quote").reduce((t,d)=>t+d.total,0))}</td></tr>`}).join("");pdfFrom(paper("All clients",D.clients.length+" clients",`<h2>Clients</h2><table><tr><th>Code</th><th>Business</th><th>Name</th><th>Mobile</th><th>Projects</th><th>Billed</th><th>Quoted</th></tr>${rows||"<tr><td colspan=7>None</td></tr>"}</table>`),"Flow-Studio-all-clients.pdf")};
+ $("repTm").onclick=()=>{const rows=(D.staff||[]).filter(s=>s.active!==false).map(s=>{const ys=staffYear(s.tid,D.att||[]),need=shiftMs(s),v=Object.values(ys);return `<tr><td>${s.tid}</td><td>${H(s.name)}</td><td>${H(s.role||"")}</td><td>${v.length}</td><td>${hm(v.reduce((t,x)=>t+x.work,0))}</td><td>${hm(v.reduce((t,x)=>t+Math.max(0,x.work-need),0))}</td><td>${D.projects.filter(p=>p.assignee===s.tid&&p.deliveredAt).length}</td></tr>`}).join("");pdfFrom(paper("Team summary "+yr,"Duty, hours and deliveries",`<h2>Employees</h2><table><tr><th>Code</th><th>Name</th><th>Designation</th><th>Days</th><th>Hours</th><th>Overtime</th><th>Delivered</th></tr>${rows||"<tr><td colspan=7>None</td></tr>"}</table>`),"Flow-Studio-team-summary.pdf")};
+ $("repBiz").onclick=()=>{const P=D.projects,bills=D.docs.filter(d=>d.type==="invoice"),mons=[...Array(12)].map((_,i)=>yr+"-"+String(i+1).padStart(2,"0")),svc={};P.forEach(p=>svc[p.service]=(svc[p.service]||0)+1);
+  pdfFrom(paper("Business summary "+yr,"Flow Studio",`<div class="kp"><div>Clients<b>${D.clients.length}</b></div><div>Projects<b>${P.length}</b></div><div>Delivered<b>${P.filter(p=>p.deliveredAt).length}</b></div><div>Billed<b>${rs(bills.reduce((t,d)=>t+d.total,0))}</b></div></div>
+  <h2>Projects by stage</h2><table><tr>${[...STG,"closed"].map(s=>`<th>${STL[s]}</th>`).join("")}</tr><tr>${[...STG,"closed"].map(s=>`<td>${P.filter(p=>p.status===s).length}</td>`).join("")}</tr></table>
+  <h2>Revenue by month</h2><table><tr><th>Month</th><th>Bills</th><th>Amount</th></tr>${mons.map(m=>{const b=bills.filter(d=>istDay(d.ts).startsWith(m));return `<tr><td>${new Date(m+"-01").toLocaleDateString("en-GB",{month:"long"})}</td><td>${b.length}</td><td>${rs(b.reduce((t,d)=>t+d.total,0))}</td></tr>`}).join("")}</table>
+  <h2>Services</h2><table><tr><th>Service</th><th>Projects</th></tr>${Object.entries(svc).sort((a,b)=>b[1]-a[1]).map(([k,v])=>`<tr><td>${H(k)}</td><td>${v}</td></tr>`).join("")||"<tr><td colspan=2>None</td></tr>"}</table>`),"Flow-Studio-business-summary.pdf")}};
+VIEWS.owner.idcard=()=>`<h2 class="t">My founder ID card</h2><p class="sub">Black crystal &amp; gold. Download as an HD PDF.</p><div class="gl card" style="display:grid;justify-items:center;gap:16px"><style>${OWN_CSS}</style><div class="cards" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;zoom:1.3" id="myCard">${ownerCardHTML()}</div><button class="btn gold" type="button" id="myPdf">⬇ Download founder card (PDF)</button></div>`;
+AFTER["owner.idcard"]=()=>{$("myPdf").onclick=()=>cardPdf($("myCard"),"FS-001-Founder-ID-card.pdf")};
+
+/* ---------- global clicks ---------- */
+document.addEventListener("click",e=>{const t=e.target;let b;
+ if(b=t.closest("[data-go]")){e.preventDefault();go(b.dataset.go)}
+ else if(b=t.closest("[data-copy]")){navigator.clipboard.writeText(b.dataset.copy).then(()=>toast("Copied ✓"),()=>toast(b.dataset.copy))}
+ else if(b=t.closest("[data-doc]"))openDoc(b.dataset.doc);
+ else if(b=t.closest("[data-pdf]"))docPdf(b.dataset.pdf);
+ else if(b=t.closest("[data-look]")){e.preventDefault();window._look=b.dataset.look;if(VIEW==="clients")lookup(b.dataset.look);else go("clients")}
+ else if(b=t.closest("[data-mk]"))maker(b.dataset.code,b.dataset.mk);
+ else if(b=t.closest("[data-np]"))newProject(b.dataset.np);
+ else if(b=t.closest("[data-punch]"))punch(b.dataset.punch);
+ else if(b=t.closest("[data-take]"))projUpd({pid:b.dataset.take,assignee:ME.tid},"Project is yours ✓");
+ else if(b=t.closest("[data-prog]")){const s=D.staff.find(x=>x.tid===b.dataset.prog);const m=modal(progress(s,D.att||[],D.projects,false)+'<div style="margin-top:14px"><button class="btn" data-x>Close</button></div>');m.firstChild.style.width="min(1100px,100%)"}
+ else if(b=t.closest("[data-rep]"))staffReport(D.staff.find(x=>x.tid===b.dataset.rep));
+ else if(b=t.closest("[data-idc]")){const s=D.staff.find(x=>x.tid===b.dataset.idc);const m=modal(`<style>${CARD_CSS}</style><div class="cards" id="oCard" style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;zoom:1.2">${cardHTML(s)}</div><div class="ctl2"><button class="btn gold" id="oPdf" type="button">⬇ HD PDF</button><button class="btn" data-x>Close</button></div>`);$("oPdf").onclick=()=>cardPdf($("oCard"),`${s.tid}-ID-card.pdf`)}
+ else if(b=t.closest("[data-sal]"))salaryModal(D.staff.find(x=>x.tid===b.dataset.sal));
+ else if(b=t.closest("[data-jl]"))letterModal(D.staff.find(x=>x.tid===b.dataset.jl));
+ else if(b=t.closest("[data-slip]")){const sl=(D.slips||[]).find(x=>x.tid+"_"+x.month===b.dataset.slip);const st=(D.staff||[]).find(x=>x.tid===sl.tid)||ME.staff||{};slipPdf(sl,st)}
+ else if(b=t.closest("[data-jlpdf]")){const st=(D.staff||[]).find(x=>x.tid===b.dataset.jlpdf)||ME.staff;letterPdf(st)}
+ else if(b=t.closest("[data-edw]"))staffForm(D.staff.find(x=>x.tid===b.dataset.edw));
+});
+document.addEventListener("change",e=>{const t=e.target;if(t.dataset.st)projUpd({pid:t.dataset.st,status:t.value},t.value==="delivered"?"Delivered 🎉":"Stage updated ✓",t.value==="delivered");if(t.dataset.as!=null&&t.matches("[data-as]"))projUpd({pid:t.dataset.as,assignee:t.value},"Assigned ✓")});
+document.addEventListener("submit",async e=>{const f=e.target.closest("[data-msg]");if(!f)return;e.preventDefault();const i=f.querySelector("input");try{await call("/fs/msg",{pid:f.dataset.msg,text:i.value});i.value="";toast("Sent ✓");load()}catch(x){toast(x.message)}});
+async function projUpd(b,msg,party){try{await call("/fs/project",b);if(party)celebrate();toast(msg);load()}catch(x){toast(x.message)}}
+</script>
+<script>
+/* ---------- ID cards (same design as the team panel) ---------- */
+const FSU="https://pixelflowstudio.agency/";
+function phImg(src,name){return src?`<img src="${H(src)}" alt="" crossorigin="anonymous">`:`<img alt="" src="data:image/svg+xml,${encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='#2a2050'/><text x='50' y='62' font-size='40' text-anchor='middle' fill='#fff' font-family='Arial' font-weight='700'>${String(name||"?").trim()[0]||"?"}</text></svg>`)}">`}
+</script>
+<script>
+const FS="https://pixelflowstudio.agency/";
+function cardHTML(s){const bars=[...String(s.tid||"FS")+String(s.phone||"")].map((ch,i)=>`<i style="width:${(ch.charCodeAt(0)%3)+1}px"></i>`).join("");
+ return `<div class="idc f"><div class="rb"></div><div class="slot"></div><div class="hd"><img src="${FS}logo.webp" alt=""><div><b>Flow Studio</b><small>STAFF IDENTITY CARD</small></div></div>
+  <div class="pr"><div class="ring">${phImg(s.photo,s.name)}</div></div><div class="nm">${H(s.name||"")}</div><div class="rl">${H(s.role||"Team member")}</div><div class="tid">${H(s.tid||"")}</div>
+  <div class="kv"><span>Dept</span><b>${H(s.dept||"—")}</b><span>Mobile</span><b>${H(s.phone||"—")}</b><span>Joined</span><b>${H(s.joined?new Date(s.joined).toLocaleDateString("en-GB",{day:"2-digit",month:"short",year:"numeric"}):"—")}</b><span>Blood</span><b>${H(s.blood||"—")}</b></div>
+  <div class="bc">${bars}</div></div>
+ <div class="idc b"><div class="rb"></div><div class="slot"></div><div class="hd"><img src="${FS}logo.webp" alt=""><div><b>Flow Studio</b><small>TURN YOUR DREAMS INTO VISUALS</small></div></div>
+  <p class="tx">This card is the property of <b>Flow Studio</b> and must be carried on duty. It is not transferable. If found, please return it or contact us:</p>
+  <div class="ct"><span>🌐 pixelflowstudio.agency</span><span>💬 +91 93704 17863</span><span>✉ flowstudio91@gmail.com</span></div>
+  <div class="sg"><img src="${FS}sig-white.png?v=2" alt=""><b>Arsalan Ahmed Shaikh</b><small>Founder &amp; Managing Director · Authorised signatory</small></div>
+  <div class="vd">Valid while employed · ID ${H(s.tid||"")}</div></div>`}
+const CARD_CSS=`.idc{width:54mm;height:85.6mm;border-radius:3.2mm;position:relative;overflow:hidden;background:radial-gradient(circle at 85% 8%,rgba(155,92,255,.55),transparent 45%),radial-gradient(circle at 0% 100%,rgba(255,61,154,.4),transparent 45%),#0b0912;color:#f4f2ff;font-family:Inter,system-ui,sans-serif;box-shadow:0 18px 50px rgba(0,0,0,.5);display:flex;flex-direction:column;align-items:center;padding:7mm 3.6mm 3mm;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.idc .slot{position:absolute;top:1.9mm;left:50%;width:4.6mm;height:4.6mm;margin-left:-2.3mm;border-radius:50%;background:#05040a;box-shadow:inset 0 .4mm .8mm rgba(0,0,0,.9),0 0 0 .25mm rgba(255,255,255,.25)}
+.idc .rb{position:absolute;top:0;left:0;right:0;height:1.6mm;background:linear-gradient(90deg,#3b82ff,#9b5cff,#ff3d9a,#ff8a1f,#ffd43b,#22d37f)}.idc .hd{display:flex;gap:2mm;align-items:center;align-self:stretch}.idc .hd img{width:7.5mm;height:7.5mm;border-radius:2mm}.idc .hd b{display:block;font-size:3.6mm;font-weight:800;letter-spacing:-.1mm}.idc .hd small{display:block;font-size:1.7mm;letter-spacing:.35mm;color:#a7a3bd}
+.idc .pr{margin-top:2.4mm}.idc .ring{width:25mm;height:25mm;border-radius:50%;padding:.8mm;background:linear-gradient(135deg,#3b82ff,#9b5cff,#ff3d9a,#ff8a1f,#ffd43b,#22d37f)}.idc .ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:.7mm solid #0b0912;box-sizing:border-box;display:block}
+.idc .nm{margin-top:2.4mm;font-size:4.1mm;font-weight:800;text-align:center;line-height:1.1}.idc .rl{font-size:2.5mm;font-weight:700;color:#ff8a5c;margin-top:.6mm}.idc .tid{margin-top:1.6mm;font:700 2.6mm ui-monospace,Menlo,monospace;letter-spacing:.4mm;padding:.8mm 2.4mm;border-radius:2mm;background:rgba(255,255,255,.1);border:.2mm solid rgba(255,255,255,.25)}
+.idc .kv{display:grid;grid-template-columns:auto 1fr;gap:.6mm 2.4mm;font-size:2.15mm;margin-top:2.4mm;align-self:stretch;padding:0 1.5mm}.idc .kv span{color:#a7a3bd}.idc .kv b{text-align:right;font-weight:600}
+.idc .bc{margin-top:auto;display:flex;gap:.55mm;height:4mm;align-items:stretch;opacity:.85}.idc .bc i{background:#fff;display:block}
+.idc.b .tx{font-size:2.3mm;line-height:1.5;color:#d9d6ea;margin-top:4mm;text-align:center}.idc.b .ct{display:grid;gap:1mm;font-size:2.2mm;margin-top:3mm;text-align:center}.idc.b .sg{margin-top:auto;text-align:center;display:grid;justify-items:center}.idc.b .sg img{height:11mm;width:auto}.idc.b .sg b{font-size:2.6mm;border-top:.2mm solid rgba(255,255,255,.3);padding-top:.8mm;margin-top:.4mm}.idc.b .sg small{font-size:1.75mm;color:#a7a3bd}.idc.b .vd{font-size:1.8mm;color:#a7a3bd;margin-top:2mm;letter-spacing:.2mm}`;
+const GPAT="data:image/svg+xml,"+encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'><g fill='none' stroke='#d4af37' stroke-opacity='.16' stroke-width='.6'><path d='M30 2 58 30 30 58 2 30Z'/><path d='M30 12 48 30 30 48 12 30Z'/><circle cx='30' cy='30' r='6'/></g></svg>`);
+const OWN_CSS=`.oc{width:54mm;height:85.6mm;border-radius:3.4mm;position:relative;overflow:hidden;color:#fff;font-family:Inter,system-ui,sans-serif;box-sizing:border-box;-webkit-print-color-adjust:exact;print-color-adjust:exact;
+ background:url("${GPAT}") center/9mm 9mm,radial-gradient(circle at 50% 30%,#5a1626 0,#2a0a13 38%,#0b0407 75%);border:.7mm solid #c9a23a;box-shadow:0 22px 60px rgba(0,0,0,.6),inset 0 0 0 .35mm #fff1b8,inset 0 0 6mm rgba(212,175,55,.25)}
+.oc .gl{position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.16) 42%,rgba(180,220,255,.12) 47%,rgba(255,200,240,.12) 52%,transparent 64%);pointer-events:none}
+.oc .slot{position:absolute;top:2mm;left:50%;width:4.6mm;height:4.6mm;margin-left:-2.3mm;border-radius:50%;background:#030203;box-shadow:inset 0 .4mm .8mm #000,0 0 0 .3mm #d4af37}
+.oc .tb{position:absolute;top:0;left:0;right:0;height:1.4mm;background:linear-gradient(90deg,#7a5a14,#f6e27a,#fff6cc,#d4af37,#7a5a14)}
+.oc .hd{position:absolute;top:7.2mm;left:0;right:0;text-align:center}.oc .hd b{font-size:3.2mm;font-weight:800;letter-spacing:.9mm;color:#f3d77a}.oc .hd small{display:block;font-size:1.65mm;letter-spacing:.5mm;color:#d9c27a;margin-top:.4mm}
+.oc .ph{position:absolute;top:16.4mm;left:50%;width:29mm;height:29mm;margin-left:-14.5mm;border-radius:50%;padding:1.1mm;background:linear-gradient(145deg,#fff3b0,#b8860b 35%,#f6e27a 55%,#7a5a14 80%,#f6e27a);box-shadow:0 2mm 4mm rgba(0,0,0,.6),0 0 5mm rgba(246,226,122,.35)}
+.oc .ph img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;border:.7mm solid #120509;box-sizing:border-box;background:radial-gradient(circle at 35% 25%,#7a1f33,#12050a)}
+.oc .ph i{position:absolute;inset:1.1mm;border-radius:50%;background:linear-gradient(160deg,rgba(255,255,255,.28),transparent 40%)}
+.oc .crw{position:absolute;top:15.2mm;left:50%;margin-left:8.6mm;width:7.5mm;height:7.5mm;border-radius:50%;background:linear-gradient(145deg,#fff3b0,#d4af37,#7a5a14);display:flex;align-items:center;justify-content:center;font-size:3.6mm;box-shadow:0 1mm 2mm rgba(0,0,0,.5)}
+.oc .nm{position:absolute;top:48mm;left:2mm;right:2mm;text-align:center;font-size:4.3mm;font-weight:800;line-height:1.1;color:#f6e7b0;text-shadow:0 .25mm 0 #7a5a14,0 .6mm 1.2mm rgba(0,0,0,.8)}
+.oc .tt{position:absolute;top:58.6mm;left:0;right:0;text-align:center;font-size:2.3mm;font-weight:700;letter-spacing:.25mm;color:#fff}
+.oc .rib{position:absolute;top:62.6mm;left:50%;margin-left:-14mm;width:28mm;height:5mm;border-radius:1mm;background:linear-gradient(90deg,#7a5a14,#f6e27a,#fff6cc,#d4af37,#7a5a14);color:#2a0a13;font:800 2.7mm/5mm ui-monospace,Menlo,monospace;letter-spacing:.7mm;text-align:center;box-shadow:0 .6mm 1.4mm rgba(0,0,0,.5)}
+.oc .acc{position:absolute;top:69.4mm;left:0;right:0;text-align:center;font-size:1.8mm;letter-spacing:.6mm;color:#d9c27a}
+.oc .chip{position:absolute;bottom:3.6mm;left:4mm;width:8.5mm;height:6.4mm;border-radius:1.2mm;background:linear-gradient(135deg,#fff3b0,#c9a23a 45%,#f6e27a 60%,#8a6d1d);box-shadow:inset 0 0 0 .25mm rgba(0,0,0,.35)}
+.oc .chip:after{content:"";position:absolute;inset:1.3mm 2.6mm;border:.2mm solid rgba(0,0,0,.35);border-radius:.6mm}
+.oc .holo{position:absolute;bottom:3.2mm;right:4mm;width:7.6mm;height:7.6mm;border-radius:50%;background:linear-gradient(135deg,#ffd6f0,#c7f0ff,#fff6b0,#d9c8ff,#c7ffe1);box-shadow:0 0 0 .3mm #d4af37;display:flex;align-items:center;justify-content:center;font:800 2.2mm Inter,sans-serif;color:#5a1626}
+.oc .lg{position:absolute;bottom:3.6mm;left:50%;margin-left:-4mm;width:8mm;height:8mm;border-radius:2mm}
+.oc.b .bl{position:absolute;top:9mm;left:50%;margin-left:-9mm;width:18mm;height:18mm;border-radius:4mm;box-shadow:0 0 0 .5mm #d4af37,0 2mm 5mm rgba(0,0,0,.6)}
+.oc.b .bt{position:absolute;top:30mm;left:0;right:0;text-align:center}.oc.b .bt b{display:block;font-size:4mm;font-weight:800;color:#f3d77a;letter-spacing:.4mm}.oc.b .bt small{display:block;font-size:1.8mm;letter-spacing:.5mm;color:#d9c27a;margin-top:.6mm}
+.oc.b .tx{position:absolute;top:41.5mm;left:4mm;right:4mm;text-align:center;font-size:2.05mm;line-height:1.55;color:#eadfc0}
+.oc.b .sg{position:absolute;bottom:13mm;left:0;right:0;text-align:center}.oc.b .sg img{height:10mm;width:auto}.oc.b .sg b{display:block;font-size:2.5mm;color:#f6e7b0;border-top:.25mm solid rgba(246,226,122,.5);margin:0 9mm;padding-top:.8mm}.oc.b .sg small{display:block;font-size:1.6mm;color:#d9c27a}
+.oc.b .ct{position:absolute;bottom:3.6mm;left:0;right:0;text-align:center;font-size:1.75mm;letter-spacing:.2mm;color:#d9c27a}`;
+function ownerCardHTML(){const FSO="https://pixelflowstudio.agency/";return `<div class="oc f"><div class="tb"></div><div class="slot"></div><div class="hd"><b>FLOW STUDIO</b><small>FOUNDER · IDENTITY CARD</small></div>
+ <div class="ph"><img src="https://quranicscience.info/img-founder.webp" alt=""><i></i></div><div class="crw">👑</div>
+ <div class="nm">Arsalan Ahmed<br>Shaikh</div><div class="tt">FOUNDER &amp; MANAGING DIRECTOR</div><div class="rib">FS-001</div><div class="acc">ACCESS · ALL AREAS</div>
+ <div class="chip"></div><img class="lg" src="${FSO}logo.webp" alt=""><div class="holo">★</div><div class="gl"></div></div>
+ <div class="oc b"><div class="tb"></div><div class="slot"></div><img class="bl" src="${FSO}logo.webp" alt=""><div class="bt"><b>Flow Studio</b><small>TURN YOUR DREAMS INTO VISUALS</small></div>
+ <div class="tx">This card identifies the bearer as the <b style="color:#f6e7b0">Founder &amp; Managing Director</b> of Flow Studio, with full authority and access to all departments, studios and projects.</div>
+ <div class="sg"><img src="${FSO}sig-white.png?v=2" alt=""><b>Arsalan Ahmed Shaikh</b><small>Founder &amp; Managing Director</small></div>
+ <div class="ct">pixelflowstudio.agency · +91 93704 17863</div><div class="gl"></div></div>`}
+async function cardPdf(root,fname){if(!window.html2canvas||!window.jspdf){toast("PDF tool is loading, try again in a moment");return}
+ toast("Making high-quality PDF…");const cards=[...root.querySelectorAll(".idc,.oc")],{jsPDF}=window.jspdf;
+ const pdf=new jsPDF({unit:"mm",format:[54,85.6],orientation:"portrait"});
+ for(let i=0;i<cards.length;i++){const c=cards[i],sh=c.style.boxShadow;c.style.boxShadow="none";
+  const cv=await html2canvas(c,{scale:6,useCORS:true,backgroundColor:null,logging:false});c.style.boxShadow=sh;
+  if(i)pdf.addPage([54,85.6],"portrait");pdf.addImage(cv.toDataURL("image/jpeg",.95),"JPEG",0,0,54,85.6,undefined,"FAST")}
+ pdf.save(fname);toast("PDF downloaded ✓")}
+</script>
+</body>
+</html>
