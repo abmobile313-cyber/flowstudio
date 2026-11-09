@@ -52,11 +52,12 @@ main,header,footer{position:relative;z-index:2}
 /* ---------- nav ---------- */
 .nav{position:fixed;top:14px;left:0;right:0;z-index:50}
 .nav .bar{display:flex;align-items:center;gap:14px;height:64px;padding:0 10px 0 12px;border-radius:99px}
-.brand{display:flex;align-items:center;gap:10px;font:800 17px var(--D);letter-spacing:-.01em}
+.brand{white-space:nowrap;flex:none;display:flex;align-items:center;gap:10px;font:800 17px var(--D);letter-spacing:-.01em}
 .brand img{width:42px;height:42px;border-radius:50%;box-shadow:0 0 0 1px rgba(255,255,255,.25),0 0 22px rgba(155,92,255,.5)}
 .links{display:flex;gap:2px;margin-left:auto}
-.links a{padding:9px 14px;border-radius:99px;font-weight:600;font-size:15px;color:#d9d6ea;transition:background .2s,color .2s}
+.links a{white-space:nowrap;padding:9px 14px;border-radius:99px;font-weight:600;font-size:15px;color:#d9d6ea;transition:background .2s,color .2s}
 .links a:hover{background:rgba(255,255,255,.1);color:#fff}
+@media(min-width:1381px) and (max-width:1640px){.links a{padding:9px 10px;font-size:14px}.nav .bar{gap:10px}}
 .btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:15px 24px;border-radius:99px;font:700 16px var(--T);border:0;cursor:pointer;color:#fff;isolation:isolate;overflow:hidden;transition:transform .2s}
 .btn:hover{transform:translateY(-2px)}.btn:active{transform:scale(.97)}
 .btn svg{width:20px;height:20px}
@@ -66,9 +67,9 @@ main,header,footer{position:relative;z-index:2}
 .btn.wa{background:linear-gradient(135deg,#1fbd64,#0f8f49);box-shadow:0 14px 40px -12px rgba(34,211,127,.7)}
 .btn .shine{position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.45) 50%,transparent 70%);transform:translateX(-120%);animation:shine 3.6s ease-in-out infinite;z-index:1;pointer-events:none}
 @keyframes shine{60%,100%{transform:translateX(120%)}}
-.navcta{padding:11px 18px;font-size:14.5px}
+.navcta{padding:11px 18px;font-size:14.5px;white-space:nowrap;flex:none}
 .menu{display:none;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;margin-left:auto}
-@media(max-width:940px){.links{position:fixed;top:88px;left:16px;right:16px;flex-direction:column;padding:12px;border-radius:24px;background:rgba(16,13,26,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);display:none}.links.open{display:flex}.links a{font-size:18px;padding:13px 16px}.menu{display:grid;place-items:center}.navcta{display:none}}
+@media(max-width:1380px){.links{position:fixed;top:88px;left:16px;right:16px;flex-direction:column;padding:12px;border-radius:24px;background:rgba(16,13,26,.92);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);display:none}.links.open{display:flex}.links a{font-size:18px;padding:13px 16px}.menu{display:grid;place-items:center}}@media(max-width:940px){.navcta{display:none}}
 /* ---------- hero with the 3D glass lens ---------- */
 .hero{min-height:100svh;display:grid;align-items:center;padding:110px 0 60px;position:relative}
 .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:30px;align-items:center}
@@ -153,13 +154,13 @@ h1 .ln>span{display:inline-block;transform:translateY(110%) rotate(6deg);animati
 .card .q b{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.1);box-shadow:inset 0 0 0 1px rgba(255,255,255,.25);transition:transform .3s,background .3s}
 .card:hover .q b{transform:rotate(-45deg);background:var(--rb)}
 .card .cat{font:600 10.5px var(--M);letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;border-radius:99px;background:rgba(255,255,255,.07);box-shadow:inset 0 0 0 1px rgba(255,255,255,.15)}
-@media(pointer:fine){.card .orb{transform:translateZ(40px)}.card .no{transform:translateZ(20px)}.card h3{transform:translateZ(30px)}.card p{transform:translateZ(16px)}.card .q{transform:translateZ(24px)}}
+@media(pointer:fine){.card .orb{transform:translateZ(40px)}.card .no,.card h3,.card p{transform:none}.card .q{transform:none}}
 .sbtn{width:44px;height:44px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);flex:none}
 .eq{display:flex;gap:2.5px;align-items:flex-end;height:16px}.eq i{width:3px;border-radius:2px;background:var(--rb);background-size:400% 100%;animation:eq 1s ease-in-out infinite}
 .eq i:nth-child(1){height:40%;animation-delay:-.2s}.eq i:nth-child(2){height:90%;animation-delay:-.5s}.eq i:nth-child(3){height:60%;animation-delay:-.8s}.eq i:nth-child(4){height:75%;animation-delay:-.35s}
 @keyframes eq{50%{transform:scaleY(.3)}}.eq i{transform-origin:bottom}
 .sbtn.off .eq i{animation:none;height:3px!important;background:#8d89a3}
-@media(max-width:940px){.sbtn{margin-left:auto}.menu{margin-left:8px}}
+@media(max-width:1380px){.sbtn{margin-left:auto}.menu{margin-left:8px}}
 .card .q span{display:grid;line-height:1.2}.card .q small{font:500 12.5px var(--T);color:var(--mut)}
 .qm{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:16px;background:rgba(4,3,8,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);opacity:0;pointer-events:none;transition:opacity .3s}
 .qm.on{opacity:1;pointer-events:auto}
@@ -1425,7 +1426,7 @@ let t;sq.oninput=()=>{clearTimeout(t);t=setTimeout(()=>{const q=sq.value.trim().
 .nsb{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(255,255,255,.14);transition:background .2s;flex:none}
 .nsb:hover{background:rgba(255,255,255,.16)}.nsb svg{width:19px;height:19px}
 .nlog{display:inline-flex;align-items:center;gap:7px;padding:9px 15px;border-radius:99px;font-weight:700;font-size:14px;color:#fff;text-decoration:none;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);white-space:nowrap;flex:none}
-.nlog:hover{background:rgba(255,255,255,.16)}.nlog svg{width:17px;height:17px}
+.nlog:hover{background:rgba(255,255,255,.16)}.trp.site .trb{height:42px}@media(max-width:600px){.trp.site .trb b{display:none}.trp.site .trb{width:42px;padding:0;justify-content:center}}.nlog svg{width:17px;height:17px}
 @media(max-width:940px){.nlog span{display:none}.nlog{padding:0;width:42px;height:42px;justify-content:center}}
 .nsp{position:fixed;inset:0;z-index:200;background:rgba(5,3,12,.7);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:none;justify-content:center;align-items:flex-start;padding:90px 16px 20px}
 .nsp.on{display:flex}.nsp .bx{width:min(680px,100%);max-height:calc(100vh - 120px);display:flex;flex-direction:column;border-radius:22px;background:rgba(20,16,34,.96);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14),0 40px 100px rgba(0,0,0,.6);overflow:hidden}
@@ -1436,10 +1437,11 @@ let t;sq.oninput=()=>{clearTimeout(t);t=setTimeout(()=>{const q=sq.value.trim().
 .nsp a.r i{font-style:normal;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.07);flex:none}.nsp a.r b{display:block;font-size:14.5px}.nsp a.r small{color:#a7a3bd;font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:520px}
 .nsp .hint{padding:10px 14px;color:#8f89a8;font-size:12.5px;border-top:1px solid rgba(255,255,255,.08)}
 </style>
+<script src="tr.js?v=1"></script>
 <script>(()=>{const bar=document.querySelector(".nav .bar"),cta=document.querySelector(".navcta");if(!bar)return;
 const sb=document.createElement("button");sb.className="nsb";sb.type="button";sb.setAttribute("aria-label","Search the website");sb.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
 const lg=document.createElement("a");lg.className="nlog";lg.href="portal.html";lg.setAttribute("aria-label","Login to your dashboard");lg.title="Login · My dashboard";lg.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg><span>Dashboard</span>';
-bar.insertBefore(sb,cta||null);bar.insertBefore(lg,cta||null);
+bar.insertBefore(sb,cta||null);bar.insertBefore(lg,cta||null);if(window.FSTR)bar.insertBefore(FSTR.picker("site"),cta||null);
 const P=document.createElement("div");P.className="nsp";P.innerHTML='<div class="bx" role="dialog" aria-label="Search"><div class="in"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#bbb" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="nsq" type="search" placeholder="Search services, samples, industries, pages…" autocomplete="off"><kbd>ESC</kbd></div><div class="rs" id="nsr"></div><div class="hint">Try: <b>perfume reel</b>, <b>website</b>, <b>wedding</b>, <b>Arabic</b>, <b>logo</b>, <b>gym</b></div></div>';document.body.appendChild(P);
 const PAGES=[["./","Home","🏠","Flow Studio home"],["services","Services","🧩","All services"],["work","Work & samples","🎞️","Sample folders, photos and videos"],["reels","Reels","🎬","Reels for every industry"],["packages","Packages","📦","Plans and prices"],["about","About & founder","👑","Arsalan Ahmed Shaikh, Founder & MD"],["contact","Contact & free quote","✉️","Send a brief, WhatsApp, call"],["portal.html","Login · Dashboard","🔐","Clients, team and owner dashboards"],["founder","Founder profile","✨","Meet the founder"]];
 const IND=["Perfume","Fashion","Clinics","Gym","Supplements","Shoes","Watches","Optical","Hotels","Food","Real estate","Religious","Wedding","Political rally","Car","Phone","Music","Visiting cards","Arabic","Urdu","Hindi","Marathi","Persian","Chinese","Spanish"];
