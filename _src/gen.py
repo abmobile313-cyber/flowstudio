@@ -96,7 +96,8 @@ def build(key, show, title, desc, hero, body_attr="", extra_sections=""):
     hide = f'<style>[data-p]{{display:none!important}}' + "".join(f'[data-p~="{k}"]' for k in []) + "</style>"
     sel = ",".join(f'[data-p~="{k}"]' for k in sorted(keep))
     style = f"<style>{CSS}[data-p]:not({sel}){{display:none!important}}</style>"
-    h = h.replace("</head>", style + "\n</head>", 1)
+    svinfo = [dict(slug=s[0], name=s[1], fold=s[2], d=s[3], get=s[4], ideal=s[5], dl=s[6]) for s in SV]
+    h = h.replace("</head>", style + "<script>window.SVINFO=" + json.dumps(svinfo, ensure_ascii=False).replace("</", "<\\/") + "</script>\n</head>", 1)
     h = re.sub(r"<title>.*?</title>", f"<title>{E(title)}</title>", h, count=1)
     h = re.sub(r'<meta name="description" content="[^"]*">', f'<meta name="description" content="{E(desc)}">', h, count=1)
     url = SITE + ("" if key == "index" else key)
