@@ -141,3 +141,19 @@ open(os.path.join(R, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="U
 open(os.path.join(R, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n")
 json.dump([s[0] for s in SV], open(os.path.join(R, "_src/slugs.json"), "w"))
 print("built", len(PAGES) + len(SV), "pages")
+
+# ---- samples.json for the client dashboard (service name -> its sample photos & videos) ----
+import json as _j, re as _r
+_h = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'base.html')).read() if 'os' in dir() else open('base.html').read()
+_fold = _j.loads(_r.search(r'const FOLD = (\[.*?\]);', _h).group(1))
+_s = _h.index('const SERVICES = ['); _e = _h.index('];', _s)
+_names = _r.findall(r'\[\s*"[^"]*",\s*"([^"]+)"', _h[_s:_e])
+_map = {n: _fold[i][0] for i, n in enumerate(_names) if i < len(_fold)}
+_map.update({"UGC Videos": "ugc", "Religious & Devotional Videos": "aifilm", "Political Campaign Content": "comm"})
+_ss = _h.index('const SAMPLES = ['); _se = _h.index('];\n', _ss)
+_rows = _j.loads('[' + _h[_ss + len('const SAMPLES = ['):_se].strip().rstrip(',') + ']')
+_by = {}
+for r in _rows: _by.setdefault(r[0], []).append({"t": r[1], "f": r[2], "title": r[3], "sub": r[4] if len(r) > 4 else ""})
+_out = {n: _by.get(k, []) for n, k in _map.items()}
+open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'samples.json') if 'os' in dir() else '../samples.json', 'w').write(_j.dumps(_out, ensure_ascii=False, separators=(',', ':')))
+print('samples.json', sum(len(v) for v in _out.values()))
