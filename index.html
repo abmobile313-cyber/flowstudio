@@ -308,6 +308,17 @@ summary:after{content:"+";flex:none;width:32px;height:32px;border-radius:50%;dis
 details[open] summary:after{transform:rotate(45deg);background:var(--rb)}
 details p{margin:0;padding:0 22px 20px;color:var(--mut)}
 /* footer */
+.ftop{display:flex;align-items:flex-end;justify-content:space-between;gap:28px 40px;flex-wrap:wrap;margin:0 0 34px}.ftop .fw{margin:0}
+.fnd{position:relative;display:flex;align-items:center;gap:18px;padding:18px 22px 18px 18px;border-radius:28px;background:linear-gradient(150deg,rgba(255,255,255,.09),rgba(255,255,255,.02));backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 20px 60px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.12);max-width:100%}
+.fnd::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+.fph{position:relative;flex:none;width:112px;height:112px;border-radius:50%;padding:3px;background:var(--rb);background-size:200% 100%;animation:flow 7s linear infinite;box-shadow:0 0 34px rgba(155,92,255,.45)}
+.fph img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:50% 20%;display:block;border:3px solid #0b0912;background:radial-gradient(circle at 25% 20%,#ff3d9a 0,transparent 55%),radial-gradient(circle at 85% 30%,#3b82ff 0,transparent 55%),radial-gradient(circle at 60% 100%,#ff8a1f 0,transparent 60%),linear-gradient(160deg,#9b5cff,#1a0f3d)}
+.fin{min-width:0}.fin small{display:block;font:700 10.5px/1 var(--D,inherit);letter-spacing:.22em;color:var(--mut)}
+.fin b{display:block;font:800 22px/1.15 var(--D,inherit);letter-spacing:-.02em;color:#fff;margin:7px 0 3px}
+.fin>span{display:block;font-weight:700;font-size:14.5px}
+.fch{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.fch i{font-style:normal;font-size:11.5px;font-weight:600;color:#e9e6ff;padding:5px 10px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)}
+@media(min-width:1000px){.ftop{flex-wrap:nowrap;align-items:center}.ftop .fw{font-size:clamp(56px,8.4vw,170px)}}
+@media(max-width:560px){.fnd{width:100%;padding:16px}.fph{width:88px;height:88px}.fin b{font-size:19px}}
 footer{padding:80px 0 120px;border-top:1px solid rgba(255,255,255,.08);overflow:hidden}
 .fw{font:800 clamp(56px,14vw,200px)/.85 var(--D);letter-spacing:-.06em;margin:0 0 34px}
 .fr{display:flex;flex-wrap:wrap;gap:20px 44px;justify-content:space-between;color:var(--mut);font-size:15px}
@@ -522,7 +533,12 @@ h1,h2{text-shadow:0 1px 0 rgba(255,255,255,.08),0 2px 0 rgba(0,0,0,.35),0 4px 0 
 </main>
 
 <footer><div class="wrap">
-  <p class="fw rbt">Flow Studio</p>
+  <div class="ftop"><p class="fw rbt">Flow Studio</p>
+  <div class="fnd" aria-label="Founder">
+    <div class="fph"><img src="founder.webp" alt="Arsalan Ahmed Shaikh, Founder &amp; MD of Flow Studio" width="160" height="160" loading="lazy" decoding="async"></div>
+    <div class="fin"><small>THE FOUNDER</small><b>Arsalan Ahmed Shaikh</b><span class="rbt">Founder &amp; Managing Director</span>
+      <div class="fch"><i>Creative Director</i><i>Lead Video Editor</i><i>AI Film Director</i></div></div>
+  </div></div>
   <div class="fr">
     <div>Turn your dreams into visuals.<br>India · Working worldwide</div>
     <div>WhatsApp <a data-wa="Hello Flow Studio" href="#">+91 93704 17863</a><br><a href="mailto:FlowStudio91@gmail.com">FlowStudio91@gmail.com</a></div>
