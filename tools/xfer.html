@@ -1,0 +1,8 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Transfer</title></head><body style="font:16px sans-serif;background:#111;color:#fff;padding:20px">
+<button id="go" style="font-size:22px;padding:16px 24px;background:#e11;color:#fff;border:0;border-radius:10px">OPEN DRIVE</button><pre id="log"></pre>
+<script>
+const q=new URLSearchParams(location.search),folder=q.get('f'),files=(q.get('files')||'').split(',').filter(Boolean),base=q.get('base')||'https://raw.githubusercontent.com/abmobile313-cyber/flowstudio/inbox/out/';
+const log=t=>document.getElementById('log').textContent+=t+'\n';
+document.getElementById('go').onclick=()=>{window.W=window.open('https://drive.google.com/drive/folders/'+folder,'fsdrive');log('opened')};
+window.sendAll=async()=>{for(const n of files){const r=await fetch(base+encodeURIComponent(n));const buf=await r.arrayBuffer();W.postMessage({drive:[{name:n,buf,type:r.headers.get('content-type')||''}]},'*');log('sent '+n+' '+buf.byteLength);await new Promise(r=>setTimeout(r,2500))}log('ALL SENT')};
+</script></body></html>
