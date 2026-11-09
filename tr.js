@@ -14,7 +14,7 @@
   let saveT = 0; const saveC = () => { clearTimeout(saveT); saveT = setTimeout(() => { try { const k = Object.keys(cache); if (k.length > 6000) k.slice(0, k.length - 5000).forEach(x => delete cache[x]); localStorage.setItem(ck(), JSON.stringify(cache)); } catch (e) {} }, 800); };
   loadC();
   const worth = s => { const t = s.trim(); if (t.length < 2 || !/\p{L}{2}/u.test(t)) return false; if (/^(FS-|P\d{6}-|T\d{6}-|G\d{6}-)[\w-]*$/i.test(t)) return false; if (/^[\w.+-]+@[\w-]+\.[\w.]+$/.test(t) || /^https?:\/\//.test(t) || /^[\w-]+\.(com|in|agency|app)$/i.test(t)) return false; return true; };
-  const asciiOnly = s => /^[\x00-\x7F₹✓→←·…–—’‘“”•]*$/.test(s);
+  const asciiOnly = s => ![...s].some(ch => ch.charCodeAt(0) > 127 && /\p{L}/u.test(ch));
   function need(node) {
     const p = node.parentElement; if (!p || p.closest(SKIP)) return false;
     const o = ORIG.has(node) ? ORIG.get(node) : node.nodeValue; if (!worth(o)) return false;
