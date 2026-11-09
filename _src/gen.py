@@ -67,7 +67,7 @@ ABOUT = '''<section class="sec about" data-p="about"><div class="wrap"><div clas
 <div class="rv"><span class="mono rbt">The founder</span><h2>Arsalan Ahmed Shaikh</h2><p class="lead" style="margin-top:6px"><b class="rbt">Founder &amp; Managing Director</b></p>
 <p>Flow Studio was started by Arsalan Ahmed Shaikh, a video editor, content creator and AI filmmaker who also runs the Quranic Science channel on YouTube, Instagram and Facebook. Years of making his own videos every week taught him what actually makes people stop scrolling, and that is the craft Flow Studio brings to every client.</p>
 <p>Today Flow Studio is one creative team for shoots, editing, design, social media, websites, apps, software and AI films, so a business can hand everything to one studio with one contact.</p>
-<img src="sig-white.png" alt="Signature of Arsalan Ahmed Shaikh" style="height:74px;width:auto;margin:16px 0 0;opacity:.95"><div class="fch" style="margin-top:14px"><i>Creative Director</i><i>Lead Video Editor</i><i>AI Film Director</i></div></div></div></div></section>'''
+<img src="sig-white.png?v=2" alt="Signature of Arsalan Ahmed Shaikh" style="height:74px;width:auto;margin:16px 0 0;opacity:.95"><div class="fch" style="margin-top:14px"><i>Creative Director</i><i>Lead Video Editor</i><i>AI Film Director</i></div></div></div></div></section>'''
 CSS = '''
 .phero{position:relative;z-index:2;padding:150px 0 30px}.phero h1{font:800 clamp(38px,6.4vw,84px)/1.02 var(--D);letter-spacing:-.04em;margin:14px 0 16px;text-wrap:balance;max-width:16ch}
 .phero .lead{max-width:62ch}.phero .ctas{margin-top:24px}.crumb{display:block;font-size:12px;letter-spacing:.12em;color:var(--mut);margin-bottom:18px}.crumb a{color:#fff;text-decoration:none}.crumb a:hover{text-decoration:underline}

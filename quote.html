@@ -107,7 +107,7 @@ ${inv?"":`<div class="tot"><div><span>TOTAL</span><b>${inr(grand)}</b></div></di
 ${mid}
 <div class="two"><div class="card"><div class="k">Terms</div><ol>${terms.map(t=>`<li>${t}</li>`).join("")}</ol></div>
 <div class="card"><div class="k">Payment details</div><div class="kv" style="grid-template-columns:auto 1fr;gap:2.4mm 3mm"><span>UPI ID</span>${pv("upi")}<span>Bank</span>${pv("bank")}<span>A/c name</span><span>${e(pay.name||"Flow Studio")}</span><span>A/c no.</span>${pv("acno")}<span>IFSC</span>${pv("ifsc")}</div>${inv?"":'<div class="note" style="margin-top:3mm">To accept: reply <b style="color:var(--ink)">“Accepted”</b> on WhatsApp, or tap <b style="color:var(--ink)">Accept &amp; pay 40%</b> in My orders.</div>'}</div></div>
-<div class="sig"><div class="s"><div class="space" style="position:relative"><img src="sig-white.png" alt="" style="position:absolute;left:0;bottom:-1mm;height:13mm;width:auto"></div><b>Arsalan Ahmed Shaikh</b>${sigL}</div><div class="s"><div class="space"></div><b>${inv?"Received by":"Client signature"}</b>Name · Date</div></div>
+<div class="sig"><div class="s"><div class="space" style="position:relative"><img src="sig-white.png?v=2" alt="" style="position:absolute;left:0;bottom:-1mm;height:13mm;width:auto"></div><b>Arsalan Ahmed Shaikh</b>${sigL}</div><div class="s"><div class="space"></div><b>${inv?"Received by":"Client signature"}</b>Name · Date</div></div>
 <footer><span>PIXELFLOWSTUDIO.AGENCY</span><span>FLOWSTUDIO91@GMAIL.COM</span><span>WHATSAPP +91 93704 17863</span></footer></div>`;
 }
 let d=null;try{const m=/[#&]d=([\w-]+)/.exec(location.hash);d=m&&dec(m[1])}catch(x){}
