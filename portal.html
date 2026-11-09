@@ -74,7 +74,7 @@ label.f{display:grid;gap:6px;font-size:12.5px;color:var(--mut);font-weight:600}l
 .live{display:flex;align-items:center;gap:6px;font:600 12px var(--M);padding:6px 10px;border-radius:99px;background:rgba(34,211,127,.1);color:#5ff0a8;border:1px solid rgba(34,211,127,.3)}
 .live i{width:7px;height:7px;border-radius:50%;background:#22d37f;box-shadow:0 0 0 0 rgba(34,211,127,.7);animation:pulse 1.8s infinite}
 @keyframes pulse{70%{box-shadow:0 0 0 8px rgba(34,211,127,0)}100%{box-shadow:0 0 0 0 rgba(34,211,127,0)}}
-.topr{margin-left:auto;display:flex;gap:8px;align-items:center}
+.topr{margin-left:auto;display:flex;gap:8px;align-items:center;min-width:0}@media(max-width:440px){.topr .live{display:none}.topr{gap:6px}.top{gap:8px}}
 .ham{display:none}
 h2.t{font:800 26px/1.15 var(--H);letter-spacing:-.02em;margin:6px 0 4px}
 .sub{color:var(--mut);margin:0 0 18px}
@@ -526,7 +526,7 @@ VIEWS.client.docs=()=>`<h2 class="t">Quotations &amp; bills</h2><p class="sub">O
 let PV=false;
 function pvShow(inner,dl,fname){const m=modal(`<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><h3 style="margin:0;flex:1;min-width:0">👁 ${H(String(fname||"Preview").replace(/\.pdf$/i,"").replace(/[-_]/g," "))}</h3><button class="btn sm pri" type="button" data-noview id="pvDl">⬇ Download PDF</button><button class="btn sm" type="button" data-x>✕ Close</button></div>${inner}`);
  m.firstElementChild.style.width="min(900px,100%)";m.querySelector("#pvDl").onclick=()=>{m.remove();dl()}}
-const PVSEL="#repBiz,#repCl,#repTm,#lkPdf,#lgPdf,#pmPdf,#jlPdf,#slPrev,[data-rep],[data-slip]";
+const PVSEL="#repBiz,#repCl,#repTm,#lkPdf,#lgPdf,#pmPdf,#slPrev,[data-rep]";
 function addViews(root){(root.querySelectorAll?root:document).querySelectorAll(PVSEL).forEach(b=>{if(b.dataset.pv||b.closest("[data-noview]"))return;b.dataset.pv="1";const v=document.createElement("button");v.type="button";v.className="btn sm";v.textContent="👁 View";v.title="See it on screen";v.onclick=e=>{e.stopPropagation();PV=true;b.click();setTimeout(()=>PV=false,5000)};b.insertAdjacentElement("beforebegin",v)})}
 new MutationObserver(ms=>{for(const m of ms)for(const n of m.addedNodes)if(n.nodeType===1)addViews(n)}).observe(document.body,{childList:true,subtree:true});
 
@@ -935,7 +935,7 @@ function salaryModal(s){const S=s.salary||{},cm=istDay(Date.now()).slice(0,7),f=
  fill();$("slM").onchange=fill;$("slAuto").onclick=()=>{const mo=$("slM").value,d=autoSlip(Object.assign({},s,{salary:getS()}),mo);$("slE").innerHTML="";$("slD").innerHTML="";d.earn.forEach(x=>line("slE",x));d.ded.forEach(x=>line("slD",x));$("slWd").value=d.days;$("slPr").value=d.present;$("slOt").value=d.otHours;net();toast("Filled from attendance ✓")};
  $("slGo").onclick=async()=>{try{const r=await call("/fs/owner/slip",{tid:s.tid,month:$("slM").value,slip:slip()});D.slips=(D.slips||[]).filter(x=>!(x.tid===s.tid&&x.month===r.slip.month)).concat([r.slip]);toast("Slip saved ✓ "+s.name+" can download it now",4000);m.querySelector('[data-p="old"]').innerHTML=slipList(s.tid,true)}catch(x){toast(x.message)}};
  $("slPrevV")&&0;$("slPrev").onclick=()=>{const d=slip(),g=d.earn.reduce((t,x)=>t+x.v,0),dd=d.ded.reduce((t,x)=>t+x.v,0);slipPdf(Object.assign({tid:s.tid,month:$("slM").value,gross:g,deductions:dd,net:g-dd},d),Object.assign({},s,{salary:getS()}))}}
-function slipList(tid,own){const L=(D.slips||[]).filter(x=>x.tid===tid&&x.status!=="removed");return L.length?`<div class="list">${L.map(x=>`<div class="row"><span style="font-size:22px">💵</span><div class="x"><b>${MONN(x.month)}</b><span>Net ${rs(x.net)} · gross ${rs(x.gross)} · ${x.status==="paid"?"✅ paid "+H(x.paidOn||""):"issued"}</span></div><button class="btn sm" type="button" data-slipv="${x.tid}_${x.month}">👁 View</button><button class="btn sm pri" type="button" data-slip="${x.tid}_${x.month}">⬇ PDF</button></div>`).join("")}</div>`:`<div class="empty">No salary slips yet.</div>`}
+function slipList(tid,own){const L=(D.slips||[]).filter(x=>x.tid===tid&&x.status!=="removed");return L.length?`<div class="list">${L.map(x=>`<div class="row" style="flex-wrap:wrap"><span style="font-size:22px">💵</span><div class="x" style="min-width:170px;flex:1"><b>${MONN(x.month)}</b><span>Net ${rs(x.net)} · gross ${rs(x.gross)} · ${x.status==="paid"?"✅ paid "+H(x.paidOn||""):"issued"}</span></div><button class="btn sm" type="button" data-slipv="${x.tid}_${x.month}">👁 View</button><button class="btn sm pri" type="button" data-slip="${x.tid}_${x.month}">⬇ PDF</button></div>`).join("")}</div>`:`<div class="empty">No salary slips yet.</div>`}
 function slipData(sl,s){const S=s.salary||{};return {type:"slip",month:sl.month,emp:{name:s.name,tid:s.tid,role:s.role||"",dept:s.dept||"",joined:s.joined?dt(Date.parse(s.joined)):"",phone:s.phone||""},bank:{bank:S.bank,acno:S.acno,ifsc:S.ifsc,pan:S.pan,uan:S.uan},earn:sl.earn||[],ded:sl.ded||[],gross:sl.gross,deductions:sl.deductions,net:sl.net,days:sl.days,present:sl.present,otHours:sl.otHours,note:sl.note,status:sl.status,paidOn:sl.paidOn}}
 function slipPdf(sl,s){framePdf("hr.html#d="+enc(slipData(sl,s)),`Salary-slip-${s.tid}-${sl.month}.pdf`)}
 function letterModal(s){const L=s.letter||{},S=s.salary||{},g=(S.basic||0)+(S.hra||0)+(S.allow||0)+(S.travel||0)+(S.other||0);
