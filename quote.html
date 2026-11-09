@@ -1,0 +1,122 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Flow Studio · Quotation</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#06050a"><link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Inter+Tight:wght@700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+@page{size:A4;margin:0}
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#06050a;--card:#110e1a;--ink:#f4f2ff;--mut:#a7a3bd;--line:rgba(255,255,255,.12);--p:#ff3d9a;--b:#3b82ff;--v:#9b5cff;--o:#ff8a1f;--y:#ffd43b;--g:#22d37f;
+--rb:linear-gradient(90deg,#3b82ff,#9b5cff,#ff3d9a,#ff8a1f,#ffd43b,#22d37f)}
+html,body{background:var(--bg);color:var(--ink);font-family:Inter,sans-serif;font-size:9.4pt;line-height:1.45}
+.page{width:210mm;height:297mm;position:relative;overflow:hidden;padding:12mm 14mm 10mm;display:flex;flex-direction:column;gap:3.3mm}
+.glow{position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;z-index:0}
+.g1{width:110mm;height:110mm;background:#9b5cff;top:-50mm;right:-40mm}
+.g2{width:90mm;height:90mm;background:#ff3d9a;bottom:-45mm;left:-35mm;opacity:.22}
+.page>*{position:relative;z-index:1}.page>.glow{position:absolute;z-index:0}.page>.bar{position:absolute}
+.bar{position:absolute;top:0;left:0;right:0;height:2.2mm;background:var(--rb);z-index:2}
+header{display:flex;justify-content:space-between;align-items:flex-start}
+.brand{display:flex;gap:4mm;align-items:center}
+.brand img{width:17mm;height:17mm;border-radius:4mm}
+.brand h1{font-family:'Inter Tight',Inter;font-weight:800;font-size:19pt;letter-spacing:-.3pt}
+.brand p{color:var(--mut);font-size:8.6pt}
+.rbt{background:var(--rb);-webkit-background-clip:text;color:transparent}
+.qt{text-align:right}
+.qt .lbl{font-family:'JetBrains Mono',monospace;font-size:7pt;letter-spacing:2.5pt;color:var(--mut)}
+.qt h2{font-family:'Inter Tight',Inter;font-weight:800;font-size:24pt;letter-spacing:1pt;line-height:1.05}
+.qt .no{font-family:'JetBrains Mono',monospace;font-size:8.5pt;color:var(--y)}
+.meta{display:grid;grid-template-columns:1.25fr 1fr;gap:4mm}
+.card{background:linear-gradient(140deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:3.5mm;padding:3.2mm 4.5mm}
+.k{font-family:'JetBrains Mono',monospace;font-size:6.6pt;letter-spacing:1.8pt;color:var(--mut);text-transform:uppercase;margin-bottom:1.5mm}
+.card b{font-size:10.5pt}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:1mm 4mm;font-size:8.6pt}
+.kv span:nth-child(odd){color:var(--mut)}
+.kv span:nth-child(even){text-align:right}
+h3{font-family:'Inter Tight',Inter;font-weight:700;font-size:10.5pt;display:flex;align-items:center;gap:2.5mm;margin-bottom:2.5mm}
+h3 i{width:6mm;height:1.2mm;border-radius:1mm;background:var(--rb);display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:8.6pt}
+th{font-family:'JetBrains Mono',monospace;font-weight:400;font-size:6.6pt;letter-spacing:1.4pt;color:var(--mut);text-transform:uppercase;text-align:left;padding:0 2.5mm 2mm;border-bottom:1px solid var(--line)}
+td{padding:1.7mm 2.5mm;border-bottom:1px solid var(--line);vertical-align:top}
+td small{display:block;color:var(--mut);font-size:7.8pt;margin-top:.5mm}
+.r{text-align:right;white-space:nowrap}
+.dot{display:inline-block;width:2mm;height:2mm;border-radius:50%;margin-right:2mm;vertical-align:middle}
+.tot{display:flex;justify-content:flex-end;margin-top:2mm}
+.tot div{display:flex;gap:8mm;align-items:baseline;padding:2mm 5mm;border-radius:3mm;background:linear-gradient(90deg,rgba(59,130,255,.18),rgba(255,61,154,.18));border:1px solid rgba(255,61,154,.35)}
+.tot span{color:var(--mut);font-size:8pt;letter-spacing:1.5pt;font-family:'JetBrains Mono',monospace}
+.tot b{font-family:'Inter Tight',Inter;font-size:16pt;font-weight:800}
+.note{color:var(--mut);font-size:7.8pt;margin-top:2mm}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:4mm}
+.st{border-radius:3.5mm;padding:3mm 4.5mm;border:1px solid var(--line);position:relative;overflow:hidden}
+.st.a{background:linear-gradient(140deg,rgba(59,130,255,.22),rgba(155,92,255,.12))}
+.st.f{background:linear-gradient(140deg,rgba(255,61,154,.2),rgba(255,138,31,.12))}
+.st .pc{font-family:'Inter Tight',Inter;font-weight:800;font-size:18pt;line-height:1}
+.st .am{font-size:11.5pt;font-weight:700;margin-top:1mm}
+.st p{color:var(--mut);font-size:8pt;margin-top:1mm}
+.track{height:2mm;border-radius:1mm;background:linear-gradient(90deg,var(--b) 0 40%,var(--p) 40% 100%);margin-top:3mm}
+.two{display:grid;grid-template-columns:1.35fr 1fr;gap:4mm}
+ol{padding-left:4.5mm;font-size:8.2pt;display:grid;gap:.6mm}
+ol li::marker{color:var(--p);font-weight:700}
+.card ol b{color:var(--ink);font-size:inherit}
+.line{border-bottom:1px dashed rgba(255,255,255,.3);display:inline-block;min-width:38mm;height:3.5mm}
+.sig{display:grid;grid-template-columns:1fr 1fr;gap:4mm;margin-top:auto}
+.sig .s{border-top:1px solid var(--line);padding-top:2mm;font-size:8pt;color:var(--mut)}
+.sig .s b{color:var(--ink);font-size:9pt;display:block}
+.sig .space{height:7mm}
+footer{display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:6.8pt;color:var(--mut);letter-spacing:.8pt;border-top:1px solid var(--line);padding-top:2.5mm}
+.sum{display:grid;grid-template-columns:1fr auto;gap:2mm 6mm;align-content:center;background:linear-gradient(140deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:3.5mm;padding:4mm 4.5mm;font-size:8.8pt}.sum span{color:var(--mut)}.sum b{text-align:right}.sum b.ok{color:var(--g)}.st .pc{font-size:20pt}
+html,body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{min-height:100vh}
+.stage{display:flex;justify-content:center;padding:84px 12px 40px}
+.sc{transform-origin:top center}
+.page{box-shadow:0 30px 90px rgba(0,0,0,.6);border-radius:6px}
+.tb{position:fixed;top:0;left:0;right:0;z-index:9;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px max(12px,env(safe-area-inset-right)) 12px max(12px,env(safe-area-inset-left));background:rgba(6,5,10,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);font:600 14px Inter,sans-serif}
+.tb a,.tb button{font:inherit;color:#fff;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:10px 16px;cursor:pointer}
+.tb .wa{background:#22c55e;border:0;color:#04210f}.tb .pr{background:var(--rb);background-size:200%;border:0;color:#120a20}
+.err{max-width:520px;margin:20vh auto;text-align:center;color:var(--mut);font:16px Inter,sans-serif;padding:0 16px}
+@media print{.tb{display:none}.stage{padding:0;display:block}.sc{transform:none!important;height:auto!important}.page{box-shadow:none;border-radius:0}body{background:var(--bg)}}
+</style></head><body>
+<div class="tb" id="tb" hidden><button class="pr" type="button" id="pdf">⬇ Download PDF</button><a class="wa" id="acc" target="_blank" rel="noopener" href="#">Accept on WhatsApp</a><a id="pay" target="_blank" rel="noopener" href="#" hidden>Pay online</a></div>
+<div class="stage"><div class="sc" id="sc"></div></div>
+<script>
+const STUDIO_WA="919370417863";
+function dec(s){s=s.replace(/-/g,"+").replace(/_/g,"/");const b=atob(s),u=new Uint8Array(b.length);for(let i=0;i<b.length;i++)u[i]=b.charCodeAt(i);return JSON.parse(new TextDecoder().decode(u))}
+const e=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const inr=n=>(n<0?"-":"")+"₹"+Math.round(Math.abs(n)).toLocaleString("en-IN");
+const COL=["var(--b)","var(--v)","var(--p)","var(--g)","var(--o)","var(--y)"];
+function render(d){
+ const inv=d.type==="invoice",items=d.items||[],total=items.reduce((t,i)=>t+(+i.qty||0)*(+i.rate||0),0),gst=+d.gst||0,gstA=Math.round(total*gst/100),grand=total+gstA,split=d.split==null?.4:+d.split,adv=Math.round(grand*split),fin=grand-adv,c=d.client||{},pay=d.pay||{};
+ const rows=items.map((i,n)=>`<tr><td>${String(n+1).padStart(2,"0")}</td><td><span class="dot" style="background:${COL[n%6]}"></span><b>${e(i.service)}</b><small>${e(i.desc)}</small></td><td class="r">${e(i.qty)}</td><td class="r">${inr(+i.rate||0)}</td><td class="r">${inr((+i.qty||0)*(+i.rate||0))}</td></tr>`).join("");
+ let kv,mid,terms,title,lbl,sigL;
+ if(inv){const paid=d.paid||[],ps=paid.reduce((t,p)=>t+(+p.amount||0),0),bal=grand-ps;
+  kv=`<span>Invoice date</span><span>${e(d.date)}</span><span>Due date</span><span>${e(d.due_date)}</span><span>Quote ref.</span><span>${e(d.ref_quote||"—")}</span><span>Currency</span><span>INR (₹)</span>`;
+  const summ=`<div class="sum"><span>Subtotal</span><b>${inr(total)}</b>${gst?`<span>GST ${gst}%</span><b>${inr(gstA)}</b>`:""}<span>Invoice total</span><b>${inr(grand)}</b>${paid.map(p=>`<span>Paid · ${e(p.label)} · ${e(p.date)}</span><b class="ok">−${inr(+p.amount||0)}</b>`).join("")}</div>`;
+  mid=`<div><h3><i></i>Payment summary</h3><div class="two" style="grid-template-columns:1.2fr 1fr">${summ}<div class="st ${bal<=0?"a":"f"}" style="display:flex;flex-direction:column;justify-content:center"><div class="k">${bal<=0?"PAID":"BALANCE DUE"}</div><div class="pc">${inr(Math.max(bal,0))}</div><p>${bal<=0?"Thank you — this invoice is fully paid.":"Please pay by the due date. Final files are released after payment."}</p></div></div><div class="note">Pay online from <b style="color:var(--ink)">My orders</b> on pixelflowstudio.agency, or by UPI / bank transfer. Mention the invoice no. in the payment note.</div></div>`;
+  terms=["<b>Payment:</b> balance due by the due date shown above.","<b>Files:</b> final / source files are handed over after full payment.","<b>Advance:</b> the 40% advance already paid is non-refundable.","<b>Rights:</b> files belong to the client after full payment; Flow Studio may show the work in its portfolio.","<b>Queries:</b> raise any billing question within 7 days of this invoice."];
+  title="INVOICE";lbl="BILL";sigL="Authorised signatory";
+ }else{
+  kv=`<span>Quote date</span><span>${e(d.date)}</span><span>Valid until</span><span>${e(d.valid_until)}</span><span>Delivery</span><span>${e(d.delivery)}</span><span>Currency</span><span>INR (₹)</span>`;
+  const sp=Math.round(split*100);
+  mid=`<div><h3><i></i>Payment plan</h3><div class="pay"><div class="st a"><div class="k">Stage 1 · Advance</div><div class="pc">${sp}%</div><div class="am">${inr(adv)}</div><p>On accepting this quote. Work starts after the advance.</p></div><div class="st f"><div class="k">Stage 2 · Final delivery</div><div class="pc">${100-sp}%</div><div class="am">${inr(fin)}</div><p>On final delivery, before source files are handed over.</p></div></div><div class="track"></div><div class="note">Pay online from <b style="color:var(--ink)">My orders</b> on pixelflowstudio.agency, or by UPI / bank transfer.</div></div>`;
+  terms=["<b>Revisions:</b> 2 rounds per item included; extra rounds charged separately.","<b>Inputs:</b> logo, product samples &amp; content needed within 2 days of advance.","<b>Delays:</b> late inputs or approvals move the timeline by the same days.","<b>Advance:</b> non-refundable once work has started.","<b>Rights:</b> final files belong to the client after full payment; Flow Studio may show the work in its portfolio.","<b>Validity:</b> 14 days from the quote date."];
+  title="QUOTATION";lbl="PROJECT";sigL="For Flow Studio · Date";
+ }
+ const pv=k=>pay[k]?`<span>${e(pay[k])}</span>`:'<span class="line"></span>';
+ return `<div class="page"><div class="bar"></div><div class="glow g1"></div><div class="glow g2"></div>
+<header><div class="brand"><img src="logo.webp" alt=""><div><h1>Flow <span class="rbt">Studio</span></h1><p>Turn your dreams into visuals.</p></div></div><div class="qt"><div class="lbl">${lbl}</div><h2>${title}</h2><div class="no">${e(d.no)}</div></div></header>
+<div class="meta"><div class="card"><div class="k">${inv?"Billed to":"Prepared for"}</div><b>${e(c.name)}</b><div style="color:var(--mut);font-size:8.4pt;margin-top:1mm">${e(c.contact)}<br>Project: ${e(c.project)}</div></div><div class="card kv">${kv}</div></div>
+<div><h3><i></i>${inv?"Work delivered":"Scope &amp; price"}</h3><table><tr><th style="width:6mm">#</th><th>Service</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr>${rows}</table>
+${inv?"":`<div class="tot"><div><span>TOTAL</span><b>${inr(grand)}</b></div></div>`}<div class="note">${gst?`GST ${gst}% included above.`:"Prices exclude GST (added only if applicable)."} Domain, hosting and paid ads are not included.</div></div>
+${mid}
+<div class="two"><div class="card"><div class="k">Terms</div><ol>${terms.map(t=>`<li>${t}</li>`).join("")}</ol></div>
+<div class="card"><div class="k">Payment details</div><div class="kv" style="grid-template-columns:auto 1fr;gap:2.4mm 3mm"><span>UPI ID</span>${pv("upi")}<span>Bank</span>${pv("bank")}<span>A/c name</span><span>${e(pay.name||"Flow Studio")}</span><span>A/c no.</span>${pv("acno")}<span>IFSC</span>${pv("ifsc")}</div>${inv?"":'<div class="note" style="margin-top:3mm">To accept: reply <b style="color:var(--ink)">“Accepted”</b> on WhatsApp, or tap <b style="color:var(--ink)">Accept &amp; pay 40%</b> in My orders.</div>'}</div></div>
+<div class="sig"><div class="s"><div class="space"></div><b>Arsalan Ahmed Shaikh</b>${sigL}</div><div class="s"><div class="space"></div><b>${inv?"Received by":"Client signature"}</b>Name · Date</div></div>
+<footer><span>PIXELFLOWSTUDIO.AGENCY</span><span>FLOWSTUDIO91@GMAIL.COM</span><span>WHATSAPP +91 93704 17863</span></footer></div>`;
+}
+let d=null;try{const m=/[#&]d=([\w-]+)/.exec(location.hash);d=m&&dec(m[1])}catch(x){}
+const sc=document.getElementById("sc");
+if(!d){sc.innerHTML='<p class="err">This quotation link is incomplete. Please ask Flow Studio on WhatsApp (+91 93704 17863) to send it again.</p>'}
+else{document.title=`Flow Studio · ${d.type==="invoice"?"Invoice":"Quotation"} ${d.no||""}`;sc.innerHTML=render(d);document.getElementById("tb").hidden=false;
+ document.getElementById("pdf").onclick=()=>window.print();
+ document.getElementById("acc").href=`https://wa.me/${STUDIO_WA}?text=${encodeURIComponent(d.type==="invoice"?`Hello Flow Studio, about invoice ${d.no}: `:`Accepted ✅ Quotation ${d.no} for ${(d.client||{}).name||""}. Please share the advance payment details.`)}`;
+ if(d.type==="invoice")document.getElementById("acc").textContent="Message us on WhatsApp";
+ if(d.link){const p=document.getElementById("pay");p.hidden=false;p.href=d.link}
+ const fit=()=>{const pg=sc.firstElementChild,w=pg.offsetWidth,s=Math.min(1,(innerWidth-24)/w);sc.style.transform=`scale(${s})`;sc.style.height=pg.offsetHeight*s+"px"};fit();addEventListener("resize",fit);matchMedia("print").addEventListener?.("change",fit);}
+</script></body></html>
