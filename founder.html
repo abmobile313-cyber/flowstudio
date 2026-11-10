@@ -7,132 +7,145 @@
 <meta name="description" content="Arsalan Ahmed Shaikh, Founder & Managing Director of Flow Studio — video, design, websites, apps and AI content for brands.">
 <meta name="theme-color" content="#07060b">
 <link rel="icon" href="icon-192.png">
+<link rel="preload" as="image" href="fnd/fr/f00.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
-:root{--bg:#07060b;--ink:#f4efe9;--mut:#9a948c;--or:#ff7a1a;--or2:#ffb067;--line:rgba(255,255,255,.1);--A:Anton,Impact,"Arial Narrow",sans-serif;--F:Inter,system-ui,sans-serif;--M:"JetBrains Mono",ui-monospace,monospace;color-scheme:dark}
-*{box-sizing:border-box}html{background:var(--bg);scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--F);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+:root{--bg:#07060b;--ink:#f4efe9;--mut:#9d97a8;--pk:#ff3d9a;--pu:#9b5cff;--or:#ff8a1f;--cy:#22d3ee;--line:rgba(255,255,255,.1);
+--rb:linear-gradient(90deg,#ff3d9a,#ff8a1f,#ffd43b,#22d37f,#22d3ee,#9b5cff,#ff3d9a);
+--A:Anton,Impact,"Arial Narrow",sans-serif;--F:Inter,system-ui,sans-serif;--M:"JetBrains Mono",ui-monospace,monospace;color-scheme:dark}
+*{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--F);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
-/* the stage */
-.stage{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.stage:before{content:"";position:absolute;inset:0;background:radial-gradient(60% 45% at var(--sx,62%) 105%,rgba(255,122,26,.42),rgba(255,122,26,.08) 45%,transparent 70%),radial-gradient(40% 60% at var(--sx,62%) 30%,rgba(255,160,90,.10),transparent 70%),linear-gradient(180deg,#0a0910,#07060b)}
-.stage .floor{position:absolute;left:-20%;right:-20%;bottom:-6%;height:46%;background:radial-gradient(50% 60% at var(--sx,62%) 30%,rgba(255,140,50,.55),rgba(255,90,20,.12) 45%,transparent 70%);filter:blur(10px);transform:perspective(600px) rotateX(62deg);transform-origin:50% 100%}
-.stage .beam{position:absolute;top:-10%;left:calc(var(--sx,62%) - 14%);width:28%;height:120%;background:linear-gradient(180deg,rgba(255,200,150,.10),transparent 75%);clip-path:polygon(42% 0,58% 0,100% 100%,0 100%);filter:blur(8px)}
-.stage .dust{position:absolute;inset:0;background-image:radial-gradient(1px 1px at 20% 30%,rgba(255,220,180,.5),transparent),radial-gradient(1px 1px at 70% 60%,rgba(255,220,180,.4),transparent),radial-gradient(1.5px 1.5px at 40% 80%,rgba(255,220,180,.35),transparent),radial-gradient(1px 1px at 85% 20%,rgba(255,220,180,.4),transparent);background-size:300px 300px;animation:dust 30s linear infinite;opacity:.6}
-@keyframes dust{to{background-position:300px -300px}}
-.grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
+/* stage: the same neon studio light the portrait was shot in */
+.stage{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(120% 90% at 100% 0%,#120c1f,#07060b 60%)}
+.glow{position:absolute;right:-8vw;top:2vh;width:min(72vw,1100px);aspect-ratio:1.25;filter:blur(70px);opacity:.75;transition:opacity 1s;
+ background:radial-gradient(38% 42% at 40% 45%,rgba(255,61,154,.55),transparent 70%),radial-gradient(30% 36% at 58% 30%,rgba(255,170,40,.45),transparent 70%),radial-gradient(28% 40% at 80% 42%,rgba(34,211,238,.42),transparent 70%),radial-gradient(40% 40% at 70% 80%,rgba(155,92,255,.45),transparent 70%);
+ transform:translate3d(var(--gx,0),var(--gy,0),0) rotate(var(--gr,0deg))}
+.floor{position:absolute;right:0;bottom:-10vh;width:70vw;height:34vh;background:radial-gradient(50% 50% at 62% 40%,rgba(155,92,255,.32),transparent 70%);filter:blur(30px)}
+.grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
 @keyframes gr{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
-/* the figure: half-body photo behind a glass desk, moves between sections */
-.fig{position:fixed;z-index:2;left:0;bottom:0;width:min(46vw,600px);aspect-ratio:1/1.08;pointer-events:none;will-change:transform;transform:translate3d(var(--fx,52vw),0,0) scale(var(--fs,1))}
-.fig .p{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 86%,transparent 100%);position:absolute;left:8%;right:8%;bottom:20%;aspect-ratio:1;transform:rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));transform-style:preserve-3d;transition:transform .2s ease-out}
-.fig .p img{width:100%;height:100%;object-fit:contain;display:block;filter:drop-shadow(0 30px 40px rgba(0,0,0,.6)) drop-shadow(-12px 0 30px rgba(255,122,26,.18));-webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 82%,transparent 100%)}
-.fig .rim{position:absolute;left:8%;right:8%;bottom:20%;aspect-ratio:1;background:radial-gradient(60% 50% at 70% 35%,rgba(255,140,60,.25),transparent 70%);mix-blend-mode:screen}
-.desk{position:absolute;left:0;right:0;bottom:6%;height:22%}
-.desk .top{position:absolute;left:2%;right:2%;top:0;height:9%;border-radius:6px;background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(220,220,230,.75));box-shadow:0 2px 0 rgba(255,255,255,.6) inset,0 18px 40px rgba(0,0,0,.6),0 0 40px rgba(255,140,60,.25)}
-.desk .front{position:absolute;left:4%;right:4%;top:9%;height:16%;background:linear-gradient(180deg,rgba(190,190,200,.55),rgba(120,120,130,.25));border-radius:0 0 6px 6px}
-.desk .leg{position:absolute;top:9%;bottom:-40%;width:3.5%;background:linear-gradient(90deg,#d9d9e0,#9a9aa5)}.desk .leg.l{left:8%}.desk .leg.r{right:8%}
-.desk .lap{position:absolute;left:58%;bottom:100%;width:30%;aspect-ratio:1.5;transform:perspective(500px) rotateX(-8deg);transform-origin:bottom}
-.desk .lap:before{content:"";position:absolute;inset:0 0 6% 0;border-radius:6px 6px 2px 2px;background:linear-gradient(160deg,#e9e9ef,#b7b7c2);box-shadow:inset 0 0 0 2px rgba(255,255,255,.4)}
-.desk .lap:after{content:"";position:absolute;left:44%;top:40%;width:12%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff,#d0d0d8 60%);opacity:.8}
-.desk .mug{position:absolute;left:12%;bottom:100%;width:6%;aspect-ratio:.8;border-radius:2px 2px 6px 6px;background:linear-gradient(90deg,#2b1a10,#5a3518)}
-.desk .shadow{position:absolute;left:-6%;right:-6%;bottom:-48%;height:30%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.7),transparent 70%)}
+/* the character: a 60-frame sequence that plays as you scroll */
+.char{position:fixed;z-index:2;right:0;bottom:0;width:min(62vw,1080px);aspect-ratio:900/626;pointer-events:none;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform}
+.char canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 30px 50px rgba(0,0,0,.55))}
+.char:after{content:"";position:absolute;left:30%;right:6%;bottom:-2%;height:10%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.6),transparent 70%);z-index:-1}
+.ld{position:fixed;right:22px;bottom:18px;z-index:5;font:600 10.5px var(--M);letter-spacing:.16em;color:var(--mut);transition:opacity .6s}
 /* top bar */
-.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:16px max(22px,env(safe-area-inset-right,0px)) 16px max(22px,env(safe-area-inset-left,0px));background:linear-gradient(180deg,rgba(7,6,11,.85),transparent)}
-.top .nm{font:400 18px var(--A);letter-spacing:.06em;text-decoration:none}.top .nm b{color:var(--or)}
-.top nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}.top nav a{text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 12px;border-radius:99px;color:#d8d2ca}.top nav a:hover,.top nav a.on{background:rgba(255,255,255,.08);color:#fff}
-.top .lg{background:var(--or);color:#140800!important}
-/* sections */
+.top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:16px max(22px,env(safe-area-inset-right,0px)) 16px max(22px,env(safe-area-inset-left,0px));background:linear-gradient(180deg,rgba(7,6,11,.88),transparent)}
+.top .nm{font:400 18px var(--A);letter-spacing:.06em;text-decoration:none}.top .nm b{background:var(--rb);-webkit-background-clip:text;background-clip:text;color:transparent}
+.top nav{margin-left:auto;display:flex;gap:4px;flex-wrap:wrap}.top nav a{text-decoration:none;font-weight:600;font-size:13.5px;padding:8px 12px;border-radius:99px;color:#d8d2e0}.top nav a:hover{background:rgba(255,255,255,.08);color:#fff}
+.top .lg{background:#fff;color:#0b0812!important}
+.prog{position:fixed;left:0;top:0;height:2px;z-index:21;background:var(--rb);width:calc(var(--p,0)*100%)}
+/* sections: text always on the left, character on the right */
 main{position:relative;z-index:3}
-section{min-height:100vh;display:flex;align-items:center;padding:110px max(22px,env(safe-area-inset-right,0px)) 80px max(22px,env(safe-area-inset-left,0px))}
-.col{width:min(560px,100%)}.right .col{margin-left:auto}.center{justify-content:center;text-align:center}.center .col{width:min(760px,100%)}
-.kick{display:inline-flex;gap:10px;align-items:center;font:700 11.5px var(--M);letter-spacing:.24em;color:var(--or2);text-transform:uppercase}.kick:before{content:"";width:28px;height:1px;background:var(--or)}
-h1,h2{font:400 clamp(54px,8.4vw,128px)/.9 var(--A);letter-spacing:.005em;margin:18px 0 22px;text-transform:uppercase;text-wrap:balance}
-h2{font-size:clamp(46px,7vw,104px)}
-h1 em,h2 em{font-style:normal;color:var(--or);text-shadow:0 0 40px rgba(255,122,26,.35)}
-.lead{color:#cfc8bf;font-size:17px;max-width:520px}.center .lead{margin:0 auto}
+section{min-height:100vh;display:flex;align-items:center;padding:110px max(22px,env(safe-area-inset-right,0px)) 80px max(40px,env(safe-area-inset-left,0px))}
+.col{width:min(520px,40vw)}
+.kick{display:inline-flex;gap:10px;align-items:center;font:700 11.5px var(--M);letter-spacing:.24em;color:#ffb3d6;text-transform:uppercase}.kick:before{content:"";width:28px;height:2px;background:var(--rb)}
+h1,h2{font:400 clamp(52px,6.6vw,118px)/.92 var(--A);margin:18px 0 22px;text-transform:uppercase;text-wrap:balance}
+h2{font-size:clamp(44px,5.6vw,96px)}
+h1 em,h2 em{font-style:normal;background:linear-gradient(90deg,#ff3d9a,#ff8a1f 45%,#ffd43b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:#d2cbdb;font-size:17px;max-width:500px}
 .stats{display:flex;gap:30px;margin-top:28px;flex-wrap:wrap}.stats b{display:block;font:400 42px/1 var(--A);color:#fff}.stats span{font:600 11px var(--M);letter-spacing:.14em;color:var(--mut);text-transform:uppercase}
-.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}.center .btns{justify-content:center}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:99px;font-weight:700;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.05);transition:.25s}.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
-.btn.o{background:var(--or);border-color:transparent;color:#140800;box-shadow:0 14px 40px rgba(255,122,26,.35)}
-.built{display:grid;gap:14px;margin-top:8px}
-.bi{display:flex;gap:16px;align-items:center;padding:16px 18px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));border:1px solid var(--line);text-decoration:none;transition:.3s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
-.bi:hover{border-color:rgba(255,122,26,.5);transform:translateX(6px)}.bi i{font-style:normal;font:400 30px var(--A);color:var(--or);width:46px;flex:none}.bi b{display:block;font-size:16px}.bi span{color:var(--mut);font-size:13.5px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 20px;border-radius:99px;font-weight:700;text-decoration:none;border:1px solid var(--line);background:rgba(255,255,255,.05);transition:.25s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.btn:hover{transform:translateY(-2px);background:rgba(255,255,255,.1)}
+.btn.o{background:linear-gradient(135deg,#ff3d9a,#9b5cff);border-color:transparent;color:#fff;box-shadow:0 14px 40px rgba(255,61,154,.35)}
+.built{display:grid;gap:12px;margin-top:8px}
+.bi{display:flex;gap:16px;align-items:center;padding:15px 18px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border:1px solid var(--line);text-decoration:none;transition:.3s;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+a.bi:hover{border-color:rgba(255,61,154,.55);transform:translateX(6px)}.bi i{font-style:normal;font:400 28px var(--A);width:44px;flex:none;background:var(--rb);-webkit-background-clip:text;background-clip:text;color:transparent}.bi b{display:block;font-size:16px}.bi span{color:var(--mut);font-size:13.5px}
 .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
-.chip{padding:10px 16px;border-radius:99px;border:1px solid rgba(255,122,26,.35);background:rgba(255,122,26,.07);font-weight:600;font-size:14px;transition:.25s}.chip:hover{background:var(--or);color:#140800}
+.chip{padding:10px 16px;border-radius:99px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.05);font-weight:600;font-size:14px;transition:.25s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.chip:hover{border-color:var(--pk);background:rgba(255,61,154,.14)}
 .sig{margin-top:30px}.sig img{height:70px;opacity:.95}.sig small{display:block;font:600 11px var(--M);letter-spacing:.18em;color:var(--mut);text-transform:uppercase}
-.mail{display:inline-block;margin-top:14px;font:700 clamp(18px,2.6vw,26px) var(--M);color:var(--or2);text-decoration:none;border-bottom:1px dashed rgba(255,176,103,.5)}
+.mail{display:inline-block;margin-top:14px;font:700 clamp(17px,2vw,24px) var(--M);color:#ffd0e6;border-bottom:1px dashed rgba(255,61,154,.5);user-select:all}
 .rv{opacity:0;transform:translateY(30px);transition:opacity .9s,transform .9s cubic-bezier(.2,.7,.2,1)}.rv.in{opacity:1;transform:none}
-.mph{display:none;position:relative;width:min(340px,86vw);margin:0 auto 6px}.mph img{width:100%;display:block;-webkit-mask-image:linear-gradient(180deg,#000 75%,transparent);mask-image:linear-gradient(180deg,#000 75%,transparent);filter:drop-shadow(0 20px 40px rgba(255,122,26,.25))}.mph:after{content:"";position:absolute;left:-10%;right:-10%;bottom:-6%;height:30%;background:radial-gradient(50% 50% at 50% 50%,rgba(255,122,26,.45),transparent 70%);z-index:-1}
-.dots{position:fixed;right:max(18px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}.dots a{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.25);display:block;transition:.3s}.dots a.on{background:var(--or);height:26px;border-radius:6px}
-foot{display:block;position:relative;z-index:3;text-align:center;padding:30px 16px 40px;color:var(--mut);font-size:13px}
+.dots{position:fixed;left:max(14px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}.dots a{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);display:block;transition:.3s}.dots a.on{background:#ff3d9a;height:24px;border-radius:6px}
+.foot{position:relative;z-index:3;text-align:center;padding:30px 16px 40px;color:var(--mut);font-size:13px}
 @media(max-width:900px){
- .fig{display:none}.mph{display:block!important}.top .nm span{display:none}
- .right .col,.col{margin:0 auto}section{text-align:left}.top nav a:not(.lg):not(.bk){display:none}.dots{display:none}
+ .char{width:122vw;left:-24vw;right:auto;top:52px;bottom:auto}.char:after{display:none}.glow{width:130vw;right:-20vw;top:0}.floor{display:none}
+ .char canvas{-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 98%);mask-image:linear-gradient(180deg,#000 70%,transparent 98%)}
+ section{align-items:flex-start;padding:calc(52px + 74vw) max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));min-height:100svh}
+ .col{width:100%;padding:18px;border-radius:22px;background:linear-gradient(180deg,rgba(10,8,18,.9),rgba(10,8,18,.82));-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
+ h1{font-size:clamp(42px,12.5vw,72px)}h2{font-size:clamp(36px,10.5vw,64px)}.lead{font-size:15.5px}
+ .top .nm span{display:none}.top nav a:not(.lg):not(.bk){display:none}.dots{display:none}.ld{bottom:auto;top:62px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
-<div class="stage" id="stage"><div class="beam"></div><div class="floor"></div><div class="dust"></div></div>
+<div class="prog" id="prog"></div>
+<div class="stage"><div class="glow" id="glow"></div><div class="floor"></div></div>
 <div class="grain"></div>
-<div class="fig" id="fig" aria-hidden="true"><div class="p" id="fp"><img src="founder-hd.webp" alt=""></div><div class="rim"></div>
- <div class="desk"><div class="lap"></div><div class="mug"></div><div class="leg l"></div><div class="leg r"></div><div class="top"></div><div class="front"></div><div class="shadow"></div></div></div>
+<div class="char" id="char" aria-hidden="true"><canvas id="cv" width="900" height="626"></canvas></div>
+<div class="ld mono" id="ld">LOADING 0%</div>
 
 <header class="top"><a class="nm" href="./">ARSALAN<span> <b>·</b> FLOW STUDIO</span></a><nav><a class="bk" href="./">← Website</a><a href="#about">About</a><a href="#built">Built</a><a href="#skills">Skills</a><a href="#contact">Contact</a><a class="lg" href="portal.html">Login</a></nav></header>
 <div class="dots" id="dots"><a href="#hello" aria-label="Intro"></a><a href="#about" aria-label="About"></a><a href="#built" aria-label="Built"></a><a href="#skills" aria-label="Skills"></a><a href="#contact" aria-label="Contact"></a></div>
 
 <main>
-<section id="hello" data-x=".7" data-s="1.08"><div class="col"><div class="mph"><img src="founder-hd.webp" alt="Arsalan Ahmed Shaikh"></div>
+<section id="hello" data-f="0,14"><div class="col">
  <span class="kick rv">Founder &amp; Managing Director</span>
- <h1 class="rv">I turn <em>dreams</em> into visuals.</h1>
- <p class="lead rv">I'm <b>Arsalan Ahmed Shaikh</b>. I run Flow Studio — a creative studio for video, design, websites, apps and AI content — from Nashik, India, for brands across India and the Gulf.</p>
- <div class="stats rv"><div><b>29</b><span>Services</span></div><div><b>7</b><span>Languages</span></div><div><b>5</b><span>Brands built</span></div></div>
+ <h1 class="rv">I turn <em>ideas</em> into visuals.</h1>
+ <p class="lead rv">I'm <b>Arsalan Ahmed Shaikh</b>. I run Flow Studio — a creative studio for video, design, websites, apps and AI content — working with brands in India, the Gulf and worldwide.</p>
+ <div class="stats rv"><div><b>29</b><span>Services</span></div><div><b>7</b><span>Languages</span></div><div><b>4</b><span>Brands built</span></div></div>
  <div class="btns rv"><a class="btn o" href="contact">Start a project →</a><a class="btn" href="work">See the work</a></div></div></section>
 
-<section id="about" class="right" data-x=".02" data-s="1"><div class="col">
+<section id="about" data-f="17,30"><div class="col">
  <span class="kick rv">01 — About</span>
  <h2 class="rv">Story first, <em>pixels</em> second.</h2>
  <p class="lead rv">Every reel, poster, website and app starts with one question: what should your customer feel? From there my team shoots, edits, designs and builds — and AI helps us move fast without looking like AI.</p>
  <p class="lead rv">We work in Urdu, Hindi, Marathi, English, Arabic, Persian, Chinese and Spanish, so your brand speaks to your people in their own language.</p></div></section>
 
-<section id="built" data-x=".7" data-s=".95"><div class="col">
+<section id="built" data-f="33,40"><div class="col">
  <span class="kick rv">02 — Things I've built</span>
  <h2 class="rv">Things I've <em>built.</em></h2>
  <div class="built">
   <a class="bi rv" href="./"><i>01</i><div><b>Flow Studio</b><span>Video, design, websites, apps and AI content for brands.</span></div></a>
-  <a class="bi rv" href="https://quranicscience.info" target="_blank" rel="noopener"><i>02</i><div><b>Quranic Science</b><span>Islamic science education on Instagram, Facebook and YouTube.</span></div></a>
-  <a class="bi rv" href="https://quranicscience.info/alaswad" target="_blank" rel="noopener"><i>03</i><div><b>Al Aswad Dubai</b><span>Premium perfumes, sold internationally.</span></div></a>
-  <a class="bi rv" href="https://scentkart.store" target="_blank" rel="noopener"><i>04</i><div><b>ScentKart</b><span>Everyday perfumes at friendly prices.</span></div></a>
-  <a class="bi rv" href="https://quranicscience.info/bareerah" target="_blank" rel="noopener"><i>05</i><div><b>Bareerah Naturals</b><span>Natural care brand.</span></div></a>
+  <div class="bi rv"><i>02</i><div><b>Al Aswad Dubai</b><span>Ultra-premium perfumes, sold internationally.</span></div></div>
+  <a class="bi rv" href="https://scentkart.store" target="_blank" rel="noopener"><i>03</i><div><b>ScentKart</b><span>Everyday perfumes, shipped worldwide.</span></div></a>
+  <div class="bi rv"><i>04</i><div><b>Bareerah Naturals</b><span>Premium natural care products.</span></div></div>
  </div></div></section>
 
-<section id="skills" class="right" data-x=".04" data-s="1"><div class="col">
+<section id="skills" data-f="41,46"><div class="col">
  <span class="kick rv">03 — Skills I bring</span>
  <h2 class="rv">Skills I <em>bring.</em></h2>
  <div class="chips rv"><span class="chip">Brand strategy</span><span class="chip">Video direction</span><span class="chip">Commercial editing</span><span class="chip">Graphic design</span><span class="chip">Social media growth</span><span class="chip">Websites</span><span class="chip">Mobile &amp; PC apps</span><span class="chip">AI video &amp; photoshoots</span><span class="chip">AI automation</span><span class="chip">Podcast production</span><span class="chip">Personal branding</span><span class="chip">Team leadership</span></div>
  <p class="lead rv" style="margin-top:22px">One team, every skill — so your reels, posts, website and app all look like one brand.</p></div></section>
 
-<section id="contact" class="center" data-x=".5" data-s=".8"><div class="col">
+<section id="contact" data-f="49,59"><div class="col">
  <span class="kick rv">04 — Contact</span>
  <h2 class="rv">Let's build something <em>together.</em></h2>
  <p class="lead rv">Tell me about your brand. I reply personally on WhatsApp.</p>
- <a class="mail rv" href="mailto:flowstudio91@gmail.com">flowstudio91@gmail.com</a>
- <div class="btns rv"><a class="btn o" href="https://wa.me/919370417863?text=Assalamu%20alaikum%20Arsalan%2C%20I%20want%20to%20work%20with%20Flow%20Studio." target="_blank" rel="noopener">WhatsApp +91 93704 17863</a><a class="btn" href="contact">Send a brief</a><a class="btn" href="portal.html">Client login</a></div>
+ <span class="mail rv">flowstudio91@gmail.com</span>
+ <div class="btns rv"><a class="btn o" href="https://wa.me/919370417863?text=Hello%20Arsalan%2C%20I%20want%20to%20work%20with%20Flow%20Studio." target="_blank" rel="noopener">WhatsApp +91 93704 17863</a><a class="btn" href="contact">Send a brief</a><a class="btn" href="portal.html">Client login</a></div>
  <div class="sig rv"><img src="sig-white.png?v=2" alt="Signature of Arsalan Ahmed Shaikh"><small>Arsalan Ahmed Shaikh · Founder &amp; MD</small></div></div></section>
 </main>
-<foot>© <span id="yr"></span> Flow Studio · <a href="./">pixelflowstudio.agency</a></foot>
+<div class="foot">© <span id="yr"></span> Flow Studio · <a href="./">pixelflowstudio.agency</a></div>
 <script>
+(()=>{
 document.getElementById("yr").textContent=new Date().getFullYear();
-const S=[...document.querySelectorAll("main section")],fig=document.getElementById("fig"),st=document.getElementById("stage"),dots=[...document.querySelectorAll("#dots a")];
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.2});document.querySelectorAll(".rv").forEach((el,i)=>{el.style.transitionDelay=(i%5)*.08+"s";io.observe(el)});
-let cx=null,cs=null;
-function frame(){const vh=innerHeight,y=scrollY,c=y+vh/2;let i=0;S.forEach((s,k)=>{if(s.offsetTop<=c)i=k});
- const a=S[i],b=S[Math.min(S.length-1,i+1)],t=b===a?0:Math.min(1,Math.max(0,(c-a.offsetTop-a.offsetHeight*.5)/(a.offsetHeight))),e=t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;
- const fw=fig.offsetWidth,X=k=>(+S[k].dataset.x)*(innerWidth-fw)+0,x=X(i)+(X(S.indexOf(b))-X(i))*e,s=(+a.dataset.s)+((+b.dataset.s)-(+a.dataset.s))*e;
- cx=cx==null?x:cx+(x-cx)*.12;cs=cs==null?s:cs+(s-cs)*.12;fig.style.setProperty("--fx",cx+"px");fig.style.setProperty("--fs",cs);
- st.style.setProperty("--sx",((cx+fw/2)/innerWidth*100).toFixed(1)+"%");dots.forEach((d,k)=>d.classList.toggle("on",k===i));requestAnimationFrame(frame)}
-requestAnimationFrame(frame);
-addEventListener("pointermove",e=>{const fp=document.getElementById("fp"),mx=e.clientX/innerWidth-.5,my=e.clientY/innerHeight-.5;fp.style.setProperty("--ry",(mx*10)+"deg");fp.style.setProperty("--rx",(-my*6)+"deg")},{passive:true});
+const N=60,BLUR=new Set([15,16,31,32,47,48]),imgs=new Array(N),ok=new Array(N).fill(false);let loaded=0;
+const cv=document.getElementById("cv"),cx=cv.getContext("2d"),ch=document.getElementById("char"),ld=document.getElementById("ld"),glow=document.getElementById("glow"),prog=document.getElementById("prog");
+const S=[...document.querySelectorAll("main section")],dots=[...document.querySelectorAll("#dots a")];
+/* load the opening pose first, then the rest */
+const order=[0,14,17,30,33,46,49,59];for(let i=0;i<N;i++)if(!order.includes(i))order.push(i);
+order.forEach(i=>{const im=new Image();im.decoding="async";im.onload=()=>{ok[i]=true;loaded++;ld.textContent="LOADING "+Math.round(loaded/N*100)+"%";if(loaded===N)ld.style.opacity=0;need=true};im.src="fnd/fr/f"+String(i).padStart(2,"0")+".webp";imgs[i]=im});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.15});document.querySelectorAll(".rv").forEach((el,i)=>{el.style.transitionDelay=(i%5)*.08+"s";io.observe(el)});
+/* scroll position -> frame: each section plays its own range; the 2-frame light cut happens right at the border */
+let keys=[];
+function build(){keys=[];const vh=innerHeight;S.forEach((s,k)=>{const [a,b]=s.dataset.f.split(",").map(Number),t=s.offsetTop,h=s.offsetHeight;
+ keys.push([t-vh*.5+(k?vh*.06:0),a]);keys.push([t+h-vh*.5-vh*.06,b])});keys[0][0]=0;const L=keys[keys.length-1];L[0]=Math.min(L[0],document.documentElement.scrollHeight-vh)}
+function target(y){if(y<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++)if(y<=keys[i][0]){const [y0,f0]=keys[i-1],[y1,f1]=keys[i];return f0+(f1-f0)*(y1>y0?(y-y0)/(y1-y0):1)}return keys[keys.length-1][1]}
+let cur=0,drawn=-1,need=true,last=performance.now();
+function draw(i){let j=i;if(!ok[j]){for(let d=1;d<N;d++){if(ok[j-d]){j=j-d;break}if(ok[j+d]){j=j+d;break}}}if(!ok[j]||(j===drawn&&!need))return;cx.clearRect(0,0,900,626);cx.drawImage(imgs[j],0,0,900,626);drawn=j;need=false}
+function tick(now){const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;
+ let t=target(y);cur+=(t-cur)*.16;let f=Math.round(cur);if(Math.abs(t-cur)<.35&&BLUR.has(f))f=Math.round(t);/* never rest on a blur frame */
+ f=Math.max(0,Math.min(N-1,f));draw(f);
+ /* a gentle walk: small step bob + drift while the poses change, settled at the desk */
+ const walk=f<49?1:Math.max(0,1-(f-49)/4),ph=y/140;
+ ch.style.setProperty("--cy",(Math.abs(Math.sin(ph))*-6*walk).toFixed(2)+"px");ch.style.setProperty("--cx",(Math.sin(ph*.5)*10*walk).toFixed(2)+"px");
+ glow.style.setProperty("--gr",(y/40%360).toFixed(1)+"deg");prog.style.setProperty("--p",max>0?(y/max).toFixed(4):0);
+ const c=y+innerHeight/2;let k=0;S.forEach((s,i)=>{if(s.offsetTop<=c)k=i});dots.forEach((d,i)=>d.classList.toggle("on",i===k));
+ requestAnimationFrame(tick)}
+build();addEventListener("resize",()=>{build();need=true});addEventListener("load",build);requestAnimationFrame(tick);
+})();
 </script>
 </body>
 </html>
