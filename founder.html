@@ -7,7 +7,7 @@
 <meta name="description" content="Arsalan Ahmed Shaikh, Founder & Managing Director of Flow Studio — video, design, websites, apps and AI content for brands.">
 <meta name="theme-color" content="#07060b">
 <link rel="icon" href="icon-192.png">
-<link rel="preload" as="image" href="fnd/fr/f00.webp">
+<link rel="preload" as="image" href="fnd/v/f00.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
 <style>
@@ -17,17 +17,17 @@
 *{box-sizing:border-box}html{background:var(--bg)}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 var(--F);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 a{color:inherit}
 /* stage: the same neon studio light the portrait was shot in */
-.stage{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(120% 90% at 100% 0%,#120c1f,#07060b 60%)}
+.stage-unused{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;background:radial-gradient(120% 90% at 100% 0%,#120c1f,#07060b 60%)}
 .glow{position:absolute;right:-8vw;top:2vh;width:min(72vw,1100px);aspect-ratio:1.25;filter:blur(70px);opacity:.75;transition:opacity 1s;
  background:radial-gradient(38% 42% at 40% 45%,rgba(255,61,154,.55),transparent 70%),radial-gradient(30% 36% at 58% 30%,rgba(255,170,40,.45),transparent 70%),radial-gradient(28% 40% at 80% 42%,rgba(34,211,238,.42),transparent 70%),radial-gradient(40% 40% at 70% 80%,rgba(155,92,255,.45),transparent 70%);
  transform:translate3d(var(--gx,0),var(--gy,0),0) rotate(var(--gr,0deg))}
 .floor{position:absolute;right:0;bottom:-10vh;width:70vw;height:34vh;background:radial-gradient(50% 50% at 62% 40%,rgba(155,92,255,.32),transparent 70%);filter:blur(30px)}
 .grain{position:fixed;inset:-50%;z-index:1;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");animation:gr 1s steps(4) infinite}
 @keyframes gr{25%{transform:translate(-3%,2%)}50%{transform:translate(2%,-3%)}75%{transform:translate(-2%,-1%)}}
-/* the character: a 60-frame sequence that plays as you scroll */
-.char{position:fixed;z-index:2;right:0;bottom:0;width:min(62vw,1080px);aspect-ratio:900/626;pointer-events:none;transform:translate3d(var(--cx,0),var(--cy,0),0);will-change:transform}
-.char canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 30px 50px rgba(0,0,0,.55))}
-.char:after{content:"";position:absolute;left:30%;right:6%;bottom:-2%;height:10%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.6),transparent 70%);z-index:-1}
+/* the founder film: 85 frames from the original ChatGPT photos, played by scroll */
+.film{position:fixed;inset:0;z-index:1;pointer-events:none;background:#0b0812}
+.film canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.film:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,#0b0812 0,rgba(11,8,18,.6) 7%,transparent 16%),linear-gradient(90deg,rgba(7,6,11,.92) 0,rgba(7,6,11,.72) 30%,rgba(7,6,11,.15) 52%,transparent 64%),linear-gradient(0deg,rgba(7,6,11,.55),transparent 22%)}
 .ld{position:fixed;right:22px;bottom:18px;z-index:5;font:600 10.5px var(--M);letter-spacing:.16em;color:var(--mut);transition:opacity .6s}
 /* top bar */
 .top{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:16px;padding:16px max(22px,env(safe-area-inset-right,0px)) 16px max(22px,env(safe-area-inset-left,0px));background:linear-gradient(180deg,rgba(7,6,11,.88),transparent)}
@@ -59,21 +59,22 @@ a.bi:hover{border-color:rgba(255,61,154,.55);transform:translateX(6px)}.bi i{fon
 .dots{position:fixed;left:max(14px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);z-index:20;display:grid;gap:10px}.dots a{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.25);display:block;transition:.3s}.dots a.on{background:#ff3d9a;height:24px;border-radius:6px}
 .foot{position:relative;z-index:3;text-align:center;padding:30px 16px 40px;color:var(--mut);font-size:13px}
 @media(max-width:900px){
- .char{width:122vw;left:-24vw;right:auto;top:52px;bottom:auto}.char:after{display:none}.glow{width:130vw;right:-20vw;top:0}.floor{display:none}
- .char canvas{-webkit-mask-image:linear-gradient(180deg,#000 70%,transparent 98%);mask-image:linear-gradient(180deg,#000 70%,transparent 98%)}
- section{align-items:flex-start;padding:calc(52px + 74vw) max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));min-height:100svh}
- .col{width:100%;padding:18px;border-radius:22px;background:linear-gradient(180deg,rgba(10,8,18,.9),rgba(10,8,18,.82));-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.08)}
+ .film{inset:auto;top:0;left:0;right:0;height:calc(56.25vw + 58px);padding-top:58px;z-index:6;background:#07060b}
+ .film canvas{position:static;width:100%;height:56.25vw}
+ .film:after{background:linear-gradient(0deg,#07060b 0,transparent 16%)}
+ .top{z-index:30;background:#07060b}
+ section{align-items:flex-start;padding:calc(56.25vw + 82px) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));min-height:100svh}
+ .col{width:100%}
  h1{font-size:clamp(42px,12.5vw,72px)}h2{font-size:clamp(36px,10.5vw,64px)}.lead{font-size:15.5px}
- .top .nm span{display:none}.top nav a:not(.lg):not(.bk){display:none}.dots{display:none}.ld{bottom:auto;top:62px}
+ .top .nm span{display:none}.top nav a:not(.lg):not(.bk){display:none}.dots{display:none}.ld{bottom:auto;top:66px;z-index:31}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
 <div class="prog" id="prog"></div>
-<div class="stage"><div class="glow" id="glow"></div><div class="floor"></div></div>
 <div class="grain"></div>
-<div class="char" id="char" aria-hidden="true"><canvas id="cv" width="900" height="626"></canvas></div>
+<div class="film" id="film" aria-hidden="true"><canvas id="cv"></canvas></div>
 <div class="ld mono" id="ld">LOADING 0%</div>
 
 <header class="top"><a class="nm" href="./">ARSALAN<span> <b>·</b> FLOW STUDIO</span></a><nav><a class="bk" href="./">← Website</a><a href="#about">About</a><a href="#built">Built</a><a href="#skills">Skills</a><a href="#contact">Contact</a><a class="lg" href="portal.html">Login</a></nav></header>
@@ -121,30 +122,34 @@ a.bi:hover{border-color:rgba(255,61,154,.55);transform:translateX(6px)}.bi i{fon
 <script>
 (()=>{
 document.getElementById("yr").textContent=new Date().getFullYear();
-const N=60,BLUR=new Set([15,16,31,32,47,48]),imgs=new Array(N),ok=new Array(N).fill(false);let loaded=0;
-const cv=document.getElementById("cv"),cx=cv.getContext("2d"),ch=document.getElementById("char"),ld=document.getElementById("ld"),glow=document.getElementById("glow"),prog=document.getElementById("prog");
-const S=[...document.querySelectorAll("main section")],dots=[...document.querySelectorAll("#dots a")];
-/* load the opening pose first, then the rest */
-const order=[0,14,17,30,33,46,49,59];for(let i=0;i<N;i++)if(!order.includes(i))order.push(i);
-order.forEach(i=>{const im=new Image();im.decoding="async";im.onload=()=>{ok[i]=true;loaded++;ld.textContent="LOADING "+Math.round(loaded/N*100)+"%";if(loaded===N)ld.style.opacity=0;need=true};im.src="fnd/fr/f"+String(i).padStart(2,"0")+".webp";imgs[i]=im});
+const N=85,HOLDS=[0,3,16,29,42,55,68,81,84],F=[0,16,42,55,68,84];
+const imgs=new Array(N),ok=new Array(N).fill(false);let loaded=0;
+const cv=document.getElementById("cv"),cx=cv.getContext("2d"),ld=document.getElementById("ld"),prog=document.getElementById("prog");
+const S=[...document.querySelectorAll("main section")],dots=[...document.querySelectorAll("#dots a")],mob=matchMedia("(max-width:900px)");
+const order=[0,16,29,42,55,68,84];for(let i=0;i<N;i++)if(!order.includes(i))order.push(i);
+order.forEach(i=>{const im=new Image();im.decoding="async";im.onload=()=>{ok[i]=true;loaded++;ld.textContent="LOADING "+Math.round(loaded/N*100)+"%";if(loaded===N)ld.style.opacity=0;need=true};im.src="fnd/v/f"+String(i).padStart(2,"0")+".webp";imgs[i]=im});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("in")}),{threshold:.15});document.querySelectorAll(".rv").forEach((el,i)=>{el.style.transitionDelay=(i%5)*.08+"s";io.observe(el)});
-/* scroll position -> frame: each section plays its own range; the 2-frame light cut happens right at the border */
+let W=0,H=0,dpr=1;
+function size(){dpr=Math.min(2,devicePixelRatio||1);const r=cv.getBoundingClientRect();W=Math.round(r.width*dpr);H=Math.round(r.height*dpr);cv.width=W;cv.height=H;need=true}
+/* scroll -> frame: each section plays its own part of the film */
 let keys=[];
-function build(){keys=[];const vh=innerHeight;S.forEach((s,k)=>{const [a,b]=s.dataset.f.split(",").map(Number),t=s.offsetTop,h=s.offsetHeight;
- keys.push([t-vh*.5+(k?vh*.06:0),a]);keys.push([t+h-vh*.5-vh*.06,b])});keys[0][0]=0;const L=keys[keys.length-1];L[0]=Math.min(L[0],document.documentElement.scrollHeight-vh)}
-function target(y){if(y<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++)if(y<=keys[i][0]){const [y0,f0]=keys[i-1],[y1,f1]=keys[i];return f0+(f1-f0)*(y1>y0?(y-y0)/(y1-y0):1)}return keys[keys.length-1][1]}
-let cur=0,drawn=-1,need=true,last=performance.now();
-function draw(i){let j=i;if(!ok[j]){for(let d=1;d<N;d++){if(ok[j-d]){j=j-d;break}if(ok[j+d]){j=j+d;break}}}if(!ok[j]||(j===drawn&&!need))return;cx.clearRect(0,0,900,626);cx.drawImage(imgs[j],0,0,900,626);drawn=j;need=false}
+function build(){keys=[];const vh=innerHeight,max=document.documentElement.scrollHeight-vh;S.forEach((s,k)=>{keys.push([Math.max(0,Math.min(max,s.offsetTop-vh*.35)),F[k]])});keys[0][0]=0;keys.push([max,F[F.length-1]]);
+ for(let i=1;i<keys.length;i++)if(keys[i][0]<=keys[i-1][0])keys[i][0]=keys[i-1][0]+1}
+function target(y){if(y<=keys[0][0])return keys[0][1];for(let i=1;i<keys.length;i++)if(y<=keys[i][0]){const [y0,f0]=keys[i-1],[y1,f1]=keys[i];return f0+(f1-f0)*(y-y0)/(y1-y0)}return N-1}
+let cur=0,drawn=-1,need=true,lastY=-1,idle=0;
+function draw(i){let j=i;if(!ok[j]){for(let d=1;d<N;d++){if(ok[j-d]){j=j-d;break}if(ok[j+d]){j=j+d;break}}}if(!ok[j]||(j===drawn&&!need))return;
+ const im=imgs[j],m=mob.matches,s=m?Math.max(W/1280,H/720):Math.max(W/1280,(H-64*dpr)/720),w=1280*s,h=720*s,x=m?(W-w)/2:W-w,y=m?(H-h)/2:H-h;
+ cx.fillStyle="#0b0812";cx.fillRect(0,0,W,H);cx.drawImage(im,x,y,w,h);drawn=j;need=false}
 function tick(now){const y=scrollY,max=document.documentElement.scrollHeight-innerHeight;
- let t=target(y);cur+=(t-cur)*.16;let f=Math.round(cur);if(Math.abs(t-cur)<.35&&BLUR.has(f))f=Math.round(t);/* never rest on a blur frame */
- f=Math.max(0,Math.min(N-1,f));draw(f);
- /* a gentle walk: small step bob + drift while the poses change, settled at the desk */
- const walk=f<49?1:Math.max(0,1-(f-49)/4),ph=y/140;
- ch.style.setProperty("--cy",(Math.abs(Math.sin(ph))*-6*walk).toFixed(2)+"px");ch.style.setProperty("--cx",(Math.sin(ph*.5)*10*walk).toFixed(2)+"px");
- glow.style.setProperty("--gr",(y/40%360).toFixed(1)+"deg");prog.style.setProperty("--p",max>0?(y/max).toFixed(4):0);
+ if(y!==lastY){lastY=y;idle=now}
+ let t=target(y);
+ /* when scrolling stops, the film settles on the nearest clean frame (never mid-dissolve) */
+ if(now-idle>160){let best=HOLDS[0];HOLDS.forEach(h=>{if(Math.abs(h-t)<Math.abs(best-t))best=h});if(Math.abs(best-t)<=7)t=best}
+ cur+=(t-cur)*.14;const f=Math.max(0,Math.min(N-1,Math.round(cur)));draw(f);
+ prog.style.setProperty("--p",max>0?(y/max).toFixed(4):0);
  const c=y+innerHeight/2;let k=0;S.forEach((s,i)=>{if(s.offsetTop<=c)k=i});dots.forEach((d,i)=>d.classList.toggle("on",i===k));
  requestAnimationFrame(tick)}
-build();addEventListener("resize",()=>{build();need=true});addEventListener("load",build);requestAnimationFrame(tick);
+size();build();addEventListener("resize",()=>{size();build()});addEventListener("load",build);requestAnimationFrame(tick);
 })();
 </script>
 </body>
