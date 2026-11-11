@@ -136,7 +136,7 @@ for i, (slug, name, fold, d, bullets, ideal, dl) in enumerate(SV):
     hero = phero("Service " + str(i+1).zfill(2) +  " / " + str(len(SV)), E(name).replace(" ", " ", 1), E(d), [("index","Home"),("services","Services"),(None,name)], extra)
     build(slug, "samples process contact faq", f"{name} · Flow Studio", f"{name} by Flow Studio: {d}", hero, body_attr=f' data-fold="{fold}" data-svc="{i}"')
 # sitemap
-urls = [SITE] + [SITE + k for k in PAGES if k != "index"] + [SITE + s[0] for s in SV]
+urls = [SITE] + [SITE + k for k in PAGES if k != "index"] + [SITE + s[0] for s in SV] + [SITE + "founder", SITE + "policies"]
 open(os.path.join(R, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n")
 open(os.path.join(R, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\nSitemap: {SITE}sitemap.xml\n")
 json.dump([s[0] for s in SV], open(os.path.join(R, "_src/slugs.json"), "w"))
