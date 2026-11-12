@@ -7,6 +7,7 @@ B = open(os.path.join(R, '_src/base.html')).read()
 E = html.escape
 SITE = "https://pixelflowstudio.agency/"
 WA = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Z"/></svg>'
+DASHI = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>'
 # --- services (same order as SERVICES in base.html) ---
 SV = [
  ("shoot-and-edit","Shoot + Edit","shoot","We shoot on iPhone or a cinema camera — whatever fits your budget — with lights and sound, and edit it end to end.",
@@ -57,13 +58,13 @@ SV = [
  ('business-dashboards', 'Business Dashboards & Reports', 'dash', 'Live dashboards and reports for your business: sales, staff attendance, stock, clients and payments, with role-based logins and PDF downloads.', ['Owner, staff and client logins', 'Live charts for sales, stock and staff', 'Attendance, salary slips and documents', 'PDF and Excel reports', 'Works on phone and PC'], 'Shops, offices, schools, clinics and agencies.', '2–4 weeks'),
 ]
 PAGES = {
- "index": dict(show="hero next services samples clients ai why", title="Flow Studio · Video, Design, Social Media & Websites"),
+ "index": dict(show="hero next services samples clients ai why", title="Flow Studio · AI Video, Ads, Design, Social Media, Websites & Apps"),
  "services": dict(show="services ai process why", title="Services · Flow Studio", h=("What we make","29 services. <span class=\"rbt\">One creative studio.</span>","Video, design, social media, websites, apps, software and AI. Pick one service or hand us everything.")),
  "work": dict(show="samples work reels", title="Our Work & Samples · Flow Studio", h=("Portfolio","See the work <span class=\"rbt\">before you book</span>","Hundreds of samples across every service, plus concept reels for every industry. Tap any folder to open it.")),
  "reels": dict(show="reels", title="Sample Reels · Flow Studio", h=("Reels","A reel for <span class=\"rbt\">every industry</span>","Concept reels made by our team to show the style we bring to each kind of business. Tap to watch with sound.")),
  "packages": dict(show="pricing faq", title="Packages & Pricing · Flow Studio", h=("Packages","Ready packages. <span class=\"rbt\">Pay online.</span>","Fixed-price packages you can order today, or a custom quote with 40% advance and 60% on delivery.")),
  "about": dict(show="about clients process why", title="About Flow Studio · Founder Arsalan Ahmed Shaikh", h=None),
- "contact": dict(show="contact faq", title="Contact & Free Quote · Flow Studio", h=("Start a project","Tell us your idea. <span class=\"rbt\">Get a free quote.</span>","WhatsApp us, call, email or fill the short brief. We reply fast.")),
+ "contact": dict(show="contact faq", title="Contact & Free Quote · Flow Studio", h=("Start a project","Tell us your idea. <span class=\"rbt\">Get a free quote.</span>","Fill the short brief and your own dashboard opens. Track your quote, payments and files there.")),
 }
 NAV = [("index","Home"),("services","Services"),("work","Work"),("reels","Reels"),("packages","Packages"),("about","About"),("contact","Contact")]
 def href(k): return "./" if k == "index" else f"{k}"
@@ -73,7 +74,7 @@ def phero(kicker, h1, lead, crumbs, extra=""):
     bc = " / ".join(f'<a href="{href(k)}">{E(n)}</a>' if k else E(n) for k,n in crumbs)
     return f'''<section class="phero" data-p="ALL"><div class="wrap"><nav class="crumb mono" aria-label="Breadcrumb">{bc}</nav>
 <span class="mono rbt">{kicker}</span><h1>{h1}</h1><p class="lead">{lead}</p>
-<div class="ctas"><a class="btn wa" data-wa="Hello Flow Studio, I want a quote." href="#"><span class="shine"></span>{WA}WhatsApp for a quote</a><a class="btn gls" href="contact">Send a brief</a></div>{extra}</div></section>'''
+<div class="ctas"><a class="btn wa" href="portal.html#book"><span class="shine"></span>{DASHI}Get a free quote</a><a class="btn gls" href="contact">Send a brief</a></div>{extra}</div></section>'''
 ABOUT = '''<section class="sec about" data-p="about"><div class="wrap"><div class="abgrid">
 <div class="abph rv"><div class="zr"><img src="founder.webp" alt="Arsalan Ahmed Shaikh, Founder &amp; MD of Flow Studio" loading="lazy"></div></div>
 <div class="rv"><span class="mono rbt">The founder</span><h2>Arsalan Ahmed Shaikh</h2><p class="lead" style="margin-top:6px"><b class="rbt">Founder &amp; Managing Director</b></p>
@@ -99,8 +100,23 @@ NEXT = '''<section class="sec" data-p="next" style="padding-top:10px"><div class
 <a class="gl glare rv" href="services"><small class="mono rbt">29 SERVICES</small><b>Explore every service →</b><small>Video, design, social, web, apps, AI</small></a>
 <a class="gl glare rv" href="work"><small class="mono rbt">PORTFOLIO</small><b>See all our work →</b><small>Samples in every category</small></a>
 <a class="gl glare rv" href="packages"><small class="mono rbt">PACKAGES</small><b>Ready packages →</b><small>Order and pay online</small></a>
-<a class="gl glare rv" href="contact"><small class="mono rbt">FREE QUOTE</small><b>Start a project →</b><small>We reply on WhatsApp fast</small></a>
+<a class="gl glare rv" href="contact"><small class="mono rbt">FREE QUOTE</small><b>Start a project →</b><small>Book &amp; track in your dashboard</small></a>
 </div></div></section>'''
+ORG = {"@type": ["Organization", "ProfessionalService"], "@id": SITE + "#org", "name": "Flow Studio", "alternateName": ["Pixel Flow Studio", "Flow Studio Agency", "pixelflowstudio"], "url": SITE,
+       "logo": {"@type": "ImageObject", "url": SITE + "icon-512.png", "width": 512, "height": 512}, "image": SITE + "logo.webp", "email": "FlowStudio91@gmail.com", "telephone": "+91-9370417863",
+       "slogan": "Turn your dreams into visuals.", "founder": {"@type": "Person", "name": "Arsalan Ahmed Shaikh", "url": SITE + "founder"}, "areaServed": "Worldwide",
+       "address": {"@type": "PostalAddress", "addressLocality": "Nashik", "addressRegion": "Maharashtra", "addressCountry": "IN"}, "priceRange": "₹₹",
+       "sameAs": ["https://www.instagram.com/flowstudioofficial"],
+       "knowsAbout": ["AI video ads", "AI films", "AI product photoshoot", "AI chatbot", "AI voiceover and dubbing", "AI content automation", "video editing", "graphic design", "social media management", "website development", "mobile app development"]}
+def ldjson(key, title, desc, url):
+    g = [dict(ORG, hasOfferCatalog={"@type": "OfferCatalog", "name": "Flow Studio services", "itemListElement": [{"@type": "Offer", "itemOffered": {"@type": "Service", "name": s[1], "url": SITE + s[0]}} for s in SV]}) if key == "index" else ORG,
+         {"@type": "WebSite", "@id": SITE + "#site", "name": "Flow Studio", "alternateName": "Pixel Flow Studio", "url": SITE, "publisher": {"@id": SITE + "#org"}}]
+    sv = next((s for s in SV if s[0] == key), None)
+    if sv:
+        g.append({"@type": "Service", "name": sv[1], "serviceType": sv[1], "description": sv[3], "url": url, "provider": {"@id": SITE + "#org"}, "areaServed": "Worldwide",
+                  "offers": {"@type": "Offer", "priceCurrency": "INR", "availability": "https://schema.org/InStock", "description": "40% advance · 60% on final delivery"}})
+        g.append({"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": SITE}, {"@type": "ListItem", "position": 2, "name": "Services", "item": SITE + "services"}, {"@type": "ListItem", "position": 3, "name": sv[1], "item": url}]})
+    return {"@context": "https://schema.org", "@graph": g}
 def build(key, show, title, desc, hero, body_attr="", extra_sections=""):
     h = B
     keep = set(show.split()) | {"ALL"}
@@ -117,6 +133,7 @@ def build(key, show, title, desc, hero, body_attr="", extra_sections=""):
     h = re.sub(r'<meta property="og:url" content="[^"]*">', f'<meta property="og:url" content="{url}">', h, count=1)
     h = re.sub(r'<meta property="og:title" content="[^"]*">', f'<meta property="og:title" content="{E(title)}">', h, count=1)
     h = h.replace('<nav class="links" id="links">' + re.search(r'<nav class="links" id="links">(.*?)</nav>', h).group(1) + '</nav>', f'<nav class="links" id="links">{nav(key if key in PAGES else "services")}</nav>', 1)
+    h = h.replace("<!--LDJSON-->", '<script type="application/ld+json">' + json.dumps(ldjson(key, title, desc, url), ensure_ascii=False).replace("</", "<\\/") + "</script>", 1)
     h = h.replace("<body>", f"<body data-pg=\"{key}\"{body_attr}>", 1)
     if key != "index" and hero:  # one <h1> per page: the hidden home-hero headline becomes a plain block on sub-pages
         i = h.find('<h1><span class="ln">'); j = h.find('</h1>', i)
@@ -137,7 +154,7 @@ for i, (slug, name, fold, d, bullets, ideal, dl) in enumerate(SV):
 <div class="gl rv"><dl><div><dt>Ideal for</dt><dd>{E(ideal)}</dd></div><div><dt>Typical delivery</dt><dd>{E(dl)}</dd></div><div><dt>Payment</dt><dd>40% advance · 60% on final delivery</dd></div></dl>
 <p style="margin-top:20px"><a class="btn rb" href="#" data-quote="{i}"><span class="shine"></span>Get quotation</a></p></div></div>{svnav(slug)}'''
     hero = phero("Service " + str(i+1).zfill(2) +  " / " + str(len(SV)), E(name).replace(" ", " ", 1), E(d), [("index","Home"),("services","Services"),(None,name)], extra)
-    build(slug, "samples process contact faq", f"{name} · Flow Studio", f"{name} by Flow Studio: {d}", hero, body_attr=f' data-fold="{fold}" data-svc="{i}"')
+    build(slug, "samples process contact faq", f"{name}{' Agency' if name.startswith('AI') else ''} in India & Worldwide · Flow Studio", f"{name} by Flow Studio (Pixel Flow Studio): {d} Free quote, 40% advance, delivery worldwide.", hero, body_attr=f' data-fold="{fold}" data-svc="{i}"')
 # sitemap
 urls = [SITE] + [SITE + k for k in PAGES if k != "index"] + [SITE + s[0] for s in SV] + [SITE + "founder", SITE + "policies"]
 open(os.path.join(R, "sitemap.xml"), "w").write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "".join(f"  <url><loc>{u}</loc></url>\n" for u in urls) + "</urlset>\n")

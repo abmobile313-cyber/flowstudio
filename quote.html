@@ -73,7 +73,7 @@ body{min-height:100vh}
 .err{max-width:520px;margin:20vh auto;text-align:center;color:var(--mut);font:16px Inter,sans-serif;padding:0 16px}
 @media print{.tb{display:none}.stage{padding:0;display:block}.sc{transform:none!important;height:auto!important}.page{box-shadow:none;border-radius:0}body{background:var(--bg)}}
 </style></head><body>
-<div class="tb" id="tb" hidden><button class="pr" type="button" id="pdf">⬇ Download PDF</button><a class="wa" id="acc" target="_blank" rel="noopener" href="#">Accept on WhatsApp</a><a id="pay" target="_blank" rel="noopener" href="#" hidden>Pay online</a></div>
+<div class="tb" id="tb" hidden><button class="pr" type="button" id="pdf">⬇ Download PDF</button><a class="wa" id="acc" href="portal.html">Accept &amp; pay in dashboard</a><a id="pay" target="_blank" rel="noopener" href="#" hidden>Pay online</a></div>
 <div class="stage"><div class="sc" id="sc"></div></div>
 <script>
 const STUDIO_WA="919370417863";
@@ -111,18 +111,17 @@ function render(d){CUR=d.cur==="USD"?"USD":"INR";
 ${inv?"":`<div class="tot"><div><span>TOTAL</span><b>${inr(grand)}</b></div></div>`}<div class="note">${gst?`GST ${gst}% included above.`:"Prices exclude GST (added only if applicable)."} Domain, hosting and paid ads are not included.</div></div>
 ${mid}
 <div class="two"><div class="card"><div class="k">Terms</div><ol>${terms.map(t=>`<li>${t}</li>`).join("")}</ol></div>
-<div class="card"><div class="k">Payment details</div>${payQR(d,inv?Math.max(0,grand-(d.paid||[]).reduce((t,p)=>t+(+p.amount||0),0)):adv,inv?"balance":"40% advance")}<div class="kv" style="grid-template-columns:auto 1fr;gap:2.4mm 3mm"><span>UPI ID</span>${pv("upi")}<span>Bank</span>${pv("bank")}<span>A/c name</span><span>${e(pay.name||"Flow Studio")}</span><span>A/c no.</span>${pv("acno")}<span>IFSC</span>${pv("ifsc")}</div>${inv?"":'<div class="note" style="margin-top:3mm">To accept: reply <b style="color:var(--ink)">“Accepted”</b> on WhatsApp, or tap <b style="color:var(--ink)">Accept &amp; pay 40%</b> in My orders.</div>'}</div></div>
+<div class="card"><div class="k">Payment details</div>${payQR(d,inv?Math.max(0,grand-(d.paid||[]).reduce((t,p)=>t+(+p.amount||0),0)):adv,inv?"balance":"40% advance")}<div class="kv" style="grid-template-columns:auto 1fr;gap:2.4mm 3mm"><span>UPI ID</span>${pv("upi")}<span>Bank</span>${pv("bank")}<span>A/c name</span><span>${e(pay.name||"Flow Studio")}</span><span>A/c no.</span>${pv("acno")}<span>IFSC</span>${pv("ifsc")}</div>${inv?"":'<div class="note" style="margin-top:3mm">To accept: tap <b style="color:var(--ink)">Accept &amp; pay 40%</b> in your Flow Studio dashboard.</div>'}</div></div>
 <div class="sig"><div class="s"><div class="space" style="position:relative"><img src="sig-white.png?v=2" alt="" style="position:absolute;left:0;bottom:-1mm;height:13mm;width:auto"></div><b>Arsalan Ahmed Shaikh</b>${sigL}</div><div class="s"><div class="space"></div><b>${inv?"Received by":"Client signature"}</b>Name · Date</div></div>
 <footer><span>PIXELFLOWSTUDIO.AGENCY</span><span>FLOWSTUDIO91@GMAIL.COM</span><span>WHATSAPP +91 93704 17863</span></footer></div>`;
 }
 let d=null;try{const m=/[#&]d=([\w-]+)/.exec(location.hash);d=m&&dec(m[1])}catch(x){}
 const sc=document.getElementById("sc");
-if(!d){sc.innerHTML='<p class="err">This quotation link is incomplete. Please ask Flow Studio on WhatsApp (+91 93704 17863) to send it again.</p>'}
+if(!d){sc.innerHTML='<p class="err">This quotation link is incomplete. Please open it again from your Flow Studio dashboard (pixelflowstudio.agency/portal.html).</p>'}
 else{document.title=`Flow Studio · ${d.type==="invoice"?"Invoice":"Quotation"} ${d.no||""}`;sc.innerHTML=render(d);document.getElementById("tb").hidden=false;
  document.getElementById("pdf").onclick=()=>window.print();
  const qs=[...document.querySelectorAll(".qr[data-upi]")];if(qs.length){const s=document.createElement("script");s.src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js";s.onload=()=>qs.forEach(el=>{new QRCode(el,{text:el.dataset.upi,width:256,height:256,correctLevel:QRCode.CorrectLevel.M});const im=el.querySelector("img"),cv=el.querySelector("canvas");[im,cv].forEach(x=>{if(x){x.style.width="100%";x.style.height="100%"}})});document.head.appendChild(s)}
- document.getElementById("acc").href=`https://wa.me/${STUDIO_WA}?text=${encodeURIComponent(d.type==="invoice"?`Hello Flow Studio, about invoice ${d.no}: `:`Accepted ✅ Quotation ${d.no} for ${(d.client||{}).name||""}. Please share the advance payment details.`)}`;
- if(d.type==="invoice")document.getElementById("acc").textContent="Message us on WhatsApp";
+  if(d.type==="invoice")document.getElementById("acc").textContent="Pay in my dashboard";
  if(d.link){const p=document.getElementById("pay");p.hidden=false;p.href=d.link}
  const fit=()=>{const pg=sc.firstElementChild,w=pg.offsetWidth,s=Math.min(1,(innerWidth-24)/w);sc.style.transform=`scale(${s})`;sc.style.height=pg.offsetHeight*s+"px"};fit();addEventListener("resize",fit);matchMedia("print").addEventListener?.("change",fit);}
 </script></body></html>
