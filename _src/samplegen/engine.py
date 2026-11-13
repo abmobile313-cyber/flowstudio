@@ -355,7 +355,7 @@ def web(v):
     hero = lambda: f'<div class="hero"><img src="{img(v["hero"])}"><div class="tx"><span class="tag">{e(v["badge"])}</span><h1 style="margin-top:8px">{e(v["h1"])}</h1><p>{e(v["p"])}</p><span class="b">{e(v["cta"])}</span></div></div>'
     nav = f'<div class="nv"><b>{e(v["brand"])}</b>{"".join(f"<span>{e(x)}</span>" for x in v["menu"])}<a>{e(v["cta"])}</a></div>'
     body = f"""<div class="lap" style="margin-left:-150px"><div class="bez"><div class="scr"><div class="bar"><i></i><i></i><i></i><span class="url">{e(v['dom'])}</span></div>
-<div class="st" style="--nfg:#fff;position:relative;height:470px;overflow:hidden"><div class="scroll" style="--sy:-140px">{nav}{hero()}<div class="feat">{feats}</div><div class="gal">{gal}</div></div></div></div></div><div class="base"></div></div>
+<div class="st" style="--nfg:#fff;position:relative;height:470px;overflow:hidden"><div class="scroll" style="--sy:-70px">{nav}{hero()}<div class="feat">{feats}</div><div class="gal">{gal}</div></div></div></div></div><div class="base"></div></div>
 <div class="ph mob" style="right:-96px;top:40px;transform:translateZ(110px) scale(.86)"><div class="scr"><div class="st" style="--nfg:#fff;position:relative">{nav}{hero()}<div class="feat" style="grid-template-columns:1fr;padding:12px">{feats}</div></div></div></div>"""
     return page(css, body, v['acc'], v['acc'] + '44', '#1a1f33aa')
 
