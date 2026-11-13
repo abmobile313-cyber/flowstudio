@@ -2045,5 +2045,18 @@ addEventListener("keydown",e=>{if((e.key==="k"&&(e.ctrlKey||e.metaKey))||(e.key=
 const q=new URLSearchParams(location.search).get("q"),sq=document.getElementById("sq");if(q&&sq){setTimeout(()=>{sq.value=q;sq.dispatchEvent(new Event("input"));setTimeout(()=>{const t=document.getElementById("fopen");const el=t&&!t.hidden?t:sq;scrollTo({top:el.getBoundingClientRect().top+scrollY-110,behavior:"smooth"})},500)},300)}
 })();</script>
 
+<script>/* phone back button closes the open popup instead of leaving the site */(()=>{const D=document,H=D.documentElement;
+const OV=[[".sbox",e=>!e.hidden],["#rbox",e=>e.classList.contains("on")],["#qm",e=>e.classList.contains("on")],[".svm",e=>e.classList.contains("on")],[".fzoom",e=>e.classList.contains("on")],[".nsp",e=>e.classList.contains("on")],["#links",e=>e.classList.contains("open")],["#fopen",e=>!e.hidden&&!D.body.dataset.fold]];
+const isOpen=k=>{const o=OV[k],e=D.querySelector(o[0]);return !!(e&&o[1](e))};
+const shut=k=>{const sel=OV[k][0],e=D.querySelector(sel);if(!e)return;if(sel==="#fopen"){const x=D.getElementById("fox");if(x)x.click();return}
+ const x=e.querySelector(".x");if(x){x.click();if(!isOpen(k))return}
+ if(sel===".sbox"){e.hidden=true;e.innerHTML=""}else if(sel==="#links")e.classList.remove("open");else e.classList.remove("on");
+ const v=e.querySelector("video");if(v)v.pause();H.classList.remove("qm-lock");if(sel===".nsp")H.style.overflow=""};
+let st=OV.map((_,k)=>isOpen(k)),stack=[],byPop=0,skip=0;
+const sync=()=>{OV.forEach((_,k)=>{const now=isOpen(k);if(now===st[k])return;st[k]=now;
+ if(now){stack.push(k);history.pushState({fsov:stack.length},"")}
+ else{const i=stack.lastIndexOf(k);if(i>-1)stack.splice(i,1);if(byPop)byPop--;else if(history.state&&history.state.fsov){skip++;history.back()}}})};
+new MutationObserver(sync).observe(D.body,{subtree:true,attributes:true,attributeFilter:["class","hidden"],childList:true});
+addEventListener("popstate",()=>{if(skip){skip--;return}const k=stack[stack.length-1];if(k===undefined)return;byPop++;shut(k);setTimeout(()=>{if(isOpen(k)){/* could not close: keep it in the stack */byPop=0;history.pushState({fsov:stack.length},"")}},60)});})();</script>
 </body>
 </html>
