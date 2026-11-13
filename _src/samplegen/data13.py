@@ -6,6 +6,7 @@ def add(kind, **k):
     ctr[kind] += 1; D.append(dict(id=f'{kind}-u{ctr[kind]:02d}', kind=kind, **k))
 for n, b in enumerate(B):
     P = f'aiphoto-c{18+n}'; U = f'ugc-c{24+n}'; a = b['acc']
+    if n in (3, 7): P = U
     add('shop', acc=a, brand=b['up'], dom=b['dom'], soft=b['soft'], menu=b['menu'], badge="Best sellers", h=b['h1'], sub=b['sub'], hero=P, prods=[[P if i % 2 == 0 else U] + p for i, p in enumerate(b['prods'])])
     add('web', acc=a, brand=b['up'], dom=b['dom'], menu=b['menu'][:3], hero=P, badge=b['tag'].split(',')[0][:28], h1=b['h1'], p=b['sub'], cta=b['cta'], feats=b['feats'], gal=[P, U, P])
     add('seo', acc=a, q=b['q'], site=f"{b['dom']} › guides", title=b['st'], desc=b['sd'], brand=b['n'], img=P, traffic=["14.6k", "22.8k", "17.3k", "26.4k", "19.9k", "13.7k", "21.2k", "11.8k"][n], leads=["720", "1,060", "640", "910", "480", "700", "1,340", "820"][n], serp=b['serp'])
